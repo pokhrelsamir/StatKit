@@ -250,3 +250,25 @@ dataInput.addEventListener("keydown", event => {
  * Load history on startup
  */
 renderHistory();
+
+
+const analysisSection =
+    document.getElementById("analysisSection");
+
+const sortedData =
+    document.getElementById("sortedData");
+
+const uniqueValues =
+    document.getElementById("uniqueValues");
+
+const q1 =
+    document.getElementById("q1");
+
+const q3 =
+    document.getElementById("q3");
+
+const iqr =
+    document.getElementById("iqr");
+
+const frequencyTable =
+    document.getElementById("frequencyTable");
