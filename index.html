@@ -2,22 +2,40 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <meta
         name="description"
-        content="StatKit is a simple statistical analysis toolkit for calculating mean, median, mode, variance, standard deviation, quartiles, and more."
+        content="StatKit is a simple statistical analysis toolkit for calculating mean, median, mode, variance, standard deviation, quartiles, frequency distributions, and more."
     >
 
-    <title>StatKit — Statistical Analysis Toolkit</title>
+    <meta
+        name="theme-color"
+        content="#4f46e5"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title>
+        StatKit — Statistical Analysis Toolkit
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
+
 
 <body>
 
     <main class="app">
+
 
         <!-- =========================
              Header
@@ -27,13 +45,23 @@
 
             <div class="brand">
 
-                <div class="brand-icon">
+                <div
+                    class="brand-icon"
+                    aria-hidden="true"
+                >
                     📊
                 </div>
 
                 <div>
-                    <h1>StatKit</h1>
-                    <p>Statistical Analysis Toolkit</p>
+
+                    <h1>
+                        StatKit
+                    </h1>
+
+                    <p>
+                        Statistical Analysis Toolkit
+                    </p>
+
                 </div>
 
             </div>
@@ -50,11 +78,16 @@
             <div class="section-header">
 
                 <div>
-                    <h2>Dataset</h2>
+
+                    <h2>
+                        Dataset
+                    </h2>
 
                     <p>
-                        Enter numbers separated by commas, spaces, or new lines.
+                        Enter numbers separated by commas,
+                        spaces, or new lines.
                     </p>
+
                 </div>
 
             </div>
@@ -69,6 +102,7 @@
 
             <div class="controls">
 
+
                 <!-- Variance Type -->
 
                 <div class="variance-control">
@@ -77,7 +111,9 @@
                         Variance Type
                     </label>
 
-                    <select id="varianceType">
+                    <select
+                        id="varianceType"
+                    >
 
                         <option value="population">
                             Population
@@ -104,6 +140,7 @@
                         Calculate
                     </button>
 
+
                     <button
                         id="clearBtn"
                         class="btn secondary"
@@ -117,19 +154,20 @@
             </div>
 
 
-            <!-- Error Message -->
+            <!-- Error -->
 
             <p
                 id="errorMessage"
                 class="error"
                 role="alert"
+                aria-live="polite"
             ></p>
 
         </section>
 
 
         <!-- =========================
-             Results
+             Main Results
         ========================== -->
 
         <section
@@ -140,93 +178,170 @@
             <div class="section-title">
 
                 <div>
-                    <h2>Results</h2>
+
+                    <h2>
+                        Results
+                    </h2>
+
                 </div>
 
-                <span id="datasetCount"></span>
+                <span
+                    id="datasetCount"
+                ></span>
 
             </div>
 
 
             <div class="results-grid">
 
+
                 <!-- Count -->
 
                 <div class="stat-card">
-                    <span>Count</span>
-                    <strong id="count">—</strong>
+
+                    <span>
+                        Count
+                    </span>
+
+                    <strong id="count">
+                        —
+                    </strong>
+
                 </div>
 
 
                 <!-- Sum -->
 
                 <div class="stat-card">
-                    <span>Sum</span>
-                    <strong id="sum">—</strong>
+
+                    <span>
+                        Sum
+                    </span>
+
+                    <strong id="sum">
+                        —
+                    </strong>
+
                 </div>
 
 
                 <!-- Mean -->
 
                 <div class="stat-card">
-                    <span>Mean</span>
-                    <strong id="mean">—</strong>
+
+                    <span>
+                        Mean
+                    </span>
+
+                    <strong id="mean">
+                        —
+                    </strong>
+
                 </div>
 
 
                 <!-- Median -->
 
                 <div class="stat-card">
-                    <span>Median</span>
-                    <strong id="median">—</strong>
+
+                    <span>
+                        Median
+                    </span>
+
+                    <strong id="median">
+                        —
+                    </strong>
+
                 </div>
 
 
                 <!-- Mode -->
 
                 <div class="stat-card">
-                    <span>Mode</span>
-                    <strong id="mode">—</strong>
+
+                    <span>
+                        Mode
+                    </span>
+
+                    <strong id="mode">
+                        —
+                    </strong>
+
                 </div>
 
 
                 <!-- Minimum -->
 
                 <div class="stat-card">
-                    <span>Minimum</span>
-                    <strong id="minimum">—</strong>
+
+                    <span>
+                        Minimum
+                    </span>
+
+                    <strong id="minimum">
+                        —
+                    </strong>
+
                 </div>
 
 
                 <!-- Maximum -->
 
                 <div class="stat-card">
-                    <span>Maximum</span>
-                    <strong id="maximum">—</strong>
+
+                    <span>
+                        Maximum
+                    </span>
+
+                    <strong id="maximum">
+                        —
+                    </strong>
+
                 </div>
 
 
                 <!-- Range -->
 
                 <div class="stat-card">
-                    <span>Range</span>
-                    <strong id="range">—</strong>
+
+                    <span>
+                        Range
+                    </span>
+
+                    <strong id="range">
+                        —
+                    </strong>
+
                 </div>
 
 
                 <!-- Variance -->
 
                 <div class="stat-card">
-                    <span>Variance</span>
-                    <strong id="variance">—</strong>
+
+                    <span>
+                        Variance
+                    </span>
+
+                    <strong id="variance">
+                        —
+                    </strong>
+
                 </div>
 
 
                 <!-- Standard Deviation -->
 
                 <div class="stat-card">
-                    <span>Standard Deviation</span>
-                    <strong id="standardDeviation">—</strong>
+
+                    <span>
+                        Standard Deviation
+                    </span>
+
+                    <strong id="standardDeviation">
+                        —
+                    </strong>
+
                 </div>
 
             </div>
@@ -246,11 +361,15 @@
             <div class="section-title">
 
                 <div>
-                    <h2>Dataset Analysis</h2>
+
+                    <h2>
+                        Dataset Analysis
+                    </h2>
 
                     <p>
                         Additional information about your dataset.
                     </p>
+
                 </div>
 
             </div>
@@ -259,6 +378,7 @@
             <!-- Analysis Cards -->
 
             <div class="analysis-grid">
+
 
                 <!-- Sorted Data -->
 
@@ -355,6 +475,7 @@
                         <thead>
 
                             <tr>
+
                                 <th scope="col">
                                     Value
                                 </th>
@@ -362,14 +483,15 @@
                                 <th scope="col">
                                     Frequency
                                 </th>
+
                             </tr>
 
                         </thead>
 
 
-                        <tbody id="frequencyTable">
-
-                        </tbody>
+                        <tbody
+                            id="frequencyTable"
+                        ></tbody>
 
                     </table>
 
@@ -404,7 +526,212 @@
                 <div
                     id="frequencyChart"
                     class="frequency-chart"
+                    aria-label="Frequency chart"
                 ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             Five-Number Summary
+        ========================== -->
+
+        <section
+            id="summarySection"
+            class="card hidden"
+        >
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Five-Number Summary
+                    </h2>
+
+                    <p>
+                        A statistical overview of your dataset distribution.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Summary Cards -->
+
+            <div class="summary-grid">
+
+
+                <!-- Minimum -->
+
+                <div class="summary-card">
+
+                    <span>
+                        Minimum
+                    </span>
+
+                    <strong id="summaryMinimum">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <!-- Q1 -->
+
+                <div class="summary-card">
+
+                    <span>
+                        Q1
+                    </span>
+
+                    <strong id="summaryQ1">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <!-- Median -->
+
+                <div class="summary-card">
+
+                    <span>
+                        Median
+                    </span>
+
+                    <strong id="summaryMedian">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <!-- Q3 -->
+
+                <div class="summary-card">
+
+                    <span>
+                        Q3
+                    </span>
+
+                    <strong id="summaryQ3">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <!-- Maximum -->
+
+                <div class="summary-card">
+
+                    <span>
+                        Maximum
+                    </span>
+
+                    <strong id="summaryMaximum">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 Distribution Scale
+            ========================== -->
+
+            <div class="summary-scale">
+
+                <div
+                    class="scale-line"
+                    aria-hidden="true"
+                ></div>
+
+
+                <div class="scale-points">
+
+
+                    <!-- Minimum -->
+
+                    <div class="scale-point">
+
+                        <span id="scaleMinimum">
+                            —
+                        </span>
+
+                        <small>
+                            Minimum
+                        </small>
+
+                    </div>
+
+
+                    <!-- Q1 -->
+
+                    <div class="scale-point">
+
+                        <span id="scaleQ1">
+                            —
+                        </span>
+
+                        <small>
+                            Q1
+                        </small>
+
+                    </div>
+
+
+                    <!-- Median -->
+
+                    <div class="scale-point">
+
+                        <span id="scaleMedian">
+                            —
+                        </span>
+
+                        <small>
+                            Median
+                        </small>
+
+                    </div>
+
+
+                    <!-- Q3 -->
+
+                    <div class="scale-point">
+
+                        <span id="scaleQ3">
+                            —
+                        </span>
+
+                        <small>
+                            Q3
+                        </small>
+
+                    </div>
+
+
+                    <!-- Maximum -->
+
+                    <div class="scale-point">
+
+                        <span id="scaleMaximum">
+                            —
+                        </span>
+
+                        <small>
+                            Maximum
+                        </small>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -415,7 +742,9 @@
              Calculation History
         ========================== -->
 
-        <section class="card history-section">
+        <section
+            class="card history-section"
+        >
 
             <div class="section-title">
 
@@ -461,10 +790,11 @@
         <footer>
 
             <p>
-                StatKit • Built with HTML, CSS & JavaScript
+                StatKit • Built with HTML, CSS &amp; JavaScript
             </p>
 
         </footer>
+
 
     </main>
 
@@ -474,130 +804,11 @@
     ========================== -->
 
     <script src="js/statistics.js"></script>
+
     <script src="js/storage.js"></script>
+
     <script src="js/app.js"></script>
 
 </body>
 
 </html>
-
-
-<!-- =========================
-     Five-Number Summary
-========================== -->
-
-<section
-    id="summarySection"
-    class="card hidden"
->
-
-    <div class="section-title">
-
-        <div>
-            <h2>Five-Number Summary</h2>
-
-            <p>
-                A statistical overview of your dataset distribution.
-            </p>
-        </div>
-
-    </div>
-
-
-    <div class="summary-grid">
-
-        <div class="summary-card">
-
-            <span>Minimum</span>
-
-            <strong id="summaryMinimum">
-                —
-            </strong>
-
-        </div>
-
-
-        <div class="summary-card">
-
-            <span>Q1</span>
-
-            <strong id="summaryQ1">
-                —
-            </strong>
-
-        </div>
-
-
-        <div class="summary-card">
-
-            <span>Median</span>
-
-            <strong id="summaryMedian">
-                —
-            </strong>
-
-        </div>
-
-
-        <div class="summary-card">
-
-            <span>Q3</span>
-
-            <strong id="summaryQ3">
-                —
-            </strong>
-
-        </div>
-
-
-        <div class="summary-card">
-
-            <span>Maximum</span>
-
-            <strong id="summaryMaximum">
-                —
-            </strong>
-
-        </div>
-
-    </div>
-
-
-    <!-- Distribution Line -->
-
-    <div class="summary-scale">
-
-        <div class="scale-line"></div>
-
-        <div class="scale-points">
-
-            <div class="scale-point">
-                <span id="scaleMinimum">10</span>
-                <small>Minimum</small>
-            </div>
-
-            <div class="scale-point">
-                <span id="scaleQ1">18</span>
-                <small>Q1</small>
-            </div>
-
-            <div class="scale-point">
-                <span id="scaleMedian">24</span>
-                <small>Median</small>
-            </div>
-
-            <div class="scale-point">
-                <span id="scaleQ3">32</span>
-                <small>Q3</small>
-            </div>
-
-            <div class="scale-point">
-                <span id="scaleMaximum">45</span>
-                <small>Maximum</small>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
