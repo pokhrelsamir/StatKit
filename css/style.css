@@ -37,7 +37,9 @@ body {
 }
 
 
-/* Header */
+/* =========================
+   Header
+========================= */
 
 .header {
     margin-bottom: 28px;
@@ -73,7 +75,9 @@ body {
 }
 
 
-/* Cards */
+/* =========================
+   Cards
+========================= */
 
 .card {
     background: var(--card);
@@ -106,7 +110,9 @@ body {
 }
 
 
-/* Input */
+/* =========================
+   Input
+========================= */
 
 textarea {
     width: 100%;
@@ -123,15 +129,21 @@ textarea {
     font-size: 15px;
 
     outline: none;
-    transition: border 0.2s;
+
+    transition: border 0.2s, box-shadow 0.2s;
 }
 
 textarea:focus {
     border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 
-/* Controls */
+/* =========================
+   Controls
+========================= */
 
 .controls {
     display: flex;
@@ -164,10 +176,18 @@ select {
     background: white;
 
     font: inherit;
+
+    outline: none;
+}
+
+select:focus {
+    border-color: var(--primary);
 }
 
 
-/* Buttons */
+/* =========================
+   Buttons
+========================= */
 
 .actions {
     display: flex;
@@ -187,7 +207,8 @@ select {
 
     transition:
         transform 0.2s,
-        background 0.2s;
+        background 0.2s,
+        box-shadow 0.2s;
 }
 
 .btn:hover {
@@ -201,6 +222,9 @@ select {
 
 .primary:hover {
     background: var(--primary-dark);
+
+    box-shadow:
+        0 5px 15px rgba(79, 70, 229, 0.2);
 }
 
 .secondary {
@@ -208,8 +232,14 @@ select {
     color: var(--text);
 }
 
+.secondary:hover {
+    background: #e4e7ec;
+}
 
-/* Error */
+
+/* =========================
+   Error
+========================= */
 
 .error {
     color: var(--danger);
@@ -218,14 +248,21 @@ select {
 }
 
 
-/* Results */
+/* =========================
+   Visibility
+========================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   Results
+========================= */
 
 .results-section {
     margin-bottom: 24px;
-}
-
-.hidden {
-    display: none;
 }
 
 .results-grid {
@@ -250,220 +287,36 @@ select {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(23, 32, 51, 0.06);
 }
 
 .stat-card span {
     color: var(--muted);
+
     font-size: 13px;
     font-weight: 600;
 }
 
 .stat-card strong {
     font-size: 24px;
+
     overflow-wrap: anywhere;
 }
 
 
-/* History */
-
-.text-button {
-    border: none;
-    background: transparent;
-
-    color: var(--danger);
-
-    font: inherit;
-    font-size: 13px;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.history-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    gap: 20px;
-
-    padding: 16px 0;
-
-    border-bottom: 1px solid var(--border);
-}
-
-.history-item:last-child {
-    border-bottom: none;
-}
-
-.history-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-
-    min-width: 0;
-}
-
-.history-info strong {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.history-info span {
-    color: var(--muted);
-    font-size: 12px;
-}
-
-.delete-history {
-    border: none;
-    background: transparent;
-
-    color: var(--danger);
-
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.empty-history {
-    color: var(--muted);
-    text-align: center;
-
-    padding: 30px 10px;
-}
-
-
-/* Footer */
-
-footer {
-    text-align: center;
-
-    color: var(--muted);
-    font-size: 13px;
-
-    padding: 10px 0 20px;
-}
-
-
-/* Responsive */
-
-@media (max-width: 850px) {
-
-    .results-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-    .controls {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .actions {
-        width: 100%;
-    }
-
-    .btn {
-        flex: 1;
-    }
-}
-
-
-@media (max-width: 500px) {
-
-    .app {
-        width: 94%;
-        padding: 24px 0;
-    }
-
-    .card {
-        padding: 18px;
-    }
-
-    .brand h1 {
-        font-size: 27px;
-    }
-
-    .results-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .section-title {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .actions {
-        flex-direction: column;
-    }
-}
-
-
-<!-- Dataset Analysis -->
-<section id="analysisSection" class="card hidden">
-
-    <div class="section-title">
-        <div>
-            <h2>Dataset Analysis</h2>
-            <p>Additional information about your dataset.</p>
-        </div>
-    </div>
-
-    <div class="analysis-grid">
-
-        <div class="analysis-card">
-            <span>Sorted Data</span>
-            <strong id="sortedData">—</strong>
-        </div>
-
-        <div class="analysis-card">
-            <span>Unique Values</span>
-            <strong id="uniqueValues">—</strong>
-        </div>
-
-        <div class="analysis-card">
-            <span>Q1</span>
-            <strong id="q1">—</strong>
-        </div>
-
-        <div class="analysis-card">
-            <span>Q3</span>
-            <strong id="q3">—</strong>
-        </div>
-
-        <div class="analysis-card">
-            <span>IQR</span>
-            <strong id="iqr">—</strong>
-        </div>
-
-    </div>
-
-
-    <div class="frequency-wrapper">
-
-        <h3>Frequency Distribution</h3>
-
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>Value</th>
-                        <th>Frequency</th>
-                    </tr>
-                </thead>
-
-                <tbody id="frequencyTable"></tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-/* Dataset Analysis */
+/* =========================
+   Dataset Analysis
+========================= */
 
 .analysis-grid {
     display: grid;
@@ -505,7 +358,9 @@ footer {
 }
 
 
-/* Frequency Table */
+/* =========================
+   Frequency Distribution
+========================= */
 
 .frequency-wrapper {
     margin-top: 28px;
@@ -553,21 +408,207 @@ tr:last-child td {
     border-bottom: none;
 }
 
+tbody tr:hover {
+    background: #fafafa;
+}
+
+
+/* =========================
+   History
+========================= */
+
+.text-button {
+    border: none;
+    background: transparent;
+
+    color: var(--danger);
+
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.text-button:hover {
+    text-decoration: underline;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.history-item:last-child {
+    border-bottom: none;
+}
+
+.history-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    min-width: 0;
+}
+
+.history-info strong {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history-info span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.delete-history {
+    border: none;
+    background: transparent;
+
+    color: var(--danger);
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+.delete-history:hover {
+    text-decoration: underline;
+}
+
+.empty-history {
+    color: var(--muted);
+
+    text-align: center;
+
+    padding: 30px 10px;
+}
+
+
+/* =========================
+   Footer
+========================= */
+
+footer {
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    padding: 10px 0 20px;
+}
+
+
+/* =========================
+   Responsive — Tablet
+========================= */
 
 @media (max-width: 900px) {
+
+    .results-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
 
     .analysis-grid {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
-
 }
 
 
+/* =========================
+   Responsive — Small Tablet
+========================= */
+
+@media (max-width: 700px) {
+
+    .results-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .controls {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+    .actions {
+        width: 100%;
+    }
+
+    .btn {
+        flex: 1;
+    }
+}
+
+
+/* =========================
+   Responsive — Mobile
+========================= */
+
 @media (max-width: 500px) {
+
+    .app {
+        width: 94%;
+
+        padding: 24px 0;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .brand h1 {
+        font-size: 27px;
+    }
+
+    .brand-icon {
+        width: 48px;
+        height: 48px;
+
+        font-size: 21px;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
 
     .analysis-grid {
         grid-template-columns: 1fr;
     }
 
+    .section-title {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    select {
+        width: 100%;
+    }
+
+    .variance-control {
+        width: 100%;
+    }
 }
