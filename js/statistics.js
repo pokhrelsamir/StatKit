@@ -173,5 +173,89 @@ function calculateStatistics(values, type = "population") {
     };
 }
 
+/**
+ * Return sorted dataset
+ */
+function getSortedValues(values) {
+    return [...values].sort((a, b) => a - b);
+}
 
+
+/**
+ * Return unique values
+ */
+function getUniqueValues(values) {
+    return [...new Set(values)].sort((a, b) => a - b);
+}
+
+
+/**
+ * Calculate percentile
+ */
+function getPercentile(values, percentile) {
+
+    if (values.length === 0) return 0;
+
+    const sorted = getSortedValues(values);
+
+    const index = (sorted.length - 1) * percentile;
+
+    const lower = Math.floor(index);
+    const upper = Math.ceil(index);
+
+    if (lower === upper) {
+        return sorted[lower];
+    }
+
+    const weight = index - lower;
+
+    return (
+        sorted[lower] +
+        (sorted[upper] - sorted[lower]) * weight
+    );
+}
+
+
+/**
+ * First quartile
+ */
+function getQ1(values) {
+    return getPercentile(values, 0.25);
+}
+
+
+/**
+ * Third quartile
+ */
+function getQ3(values) {
+    return getPercentile(values, 0.75);
+}
+
+
+/**
+ * Interquartile range
+ */
+function getIQR(values) {
+    return getQ3(values) - getQ1(values);
+}
+
+
+/**
+ * Frequency distribution
+ */
+function getFrequencyDistribution(values) {
+
+    const frequency = {};
+
+    values.forEach(value => {
+        frequency[value] = (frequency[value] || 0) + 1;
+    });
+
+    return Object.entries(frequency)
+        .map(([value, count]) => ({
+            value: Number(value),
+            frequency: count
+        }))
+        .sort((a, b) => a.value - b.value);
+}
 
