@@ -66,7 +66,7 @@ function formatNumber(value) {
 /**
  * Display results
  */
-function displayResults(results) {
+function displayResults(results, values) {
 
     document.getElementById("count").textContent =
         formatNumber(results.count);
@@ -100,7 +100,52 @@ function displayResults(results) {
     document.getElementById("standardDeviation").textContent =
         formatNumber(results.standardDeviation);
 
+
+    /*
+     * Dataset Analysis
+     */
+
+    const sorted = getSortedValues(values);
+    const unique = getUniqueValues(values);
+
+    const firstQuartile = getQ1(values);
+    const thirdQuartile = getQ3(values);
+    const interquartileRange = getIQR(values);
+
+    sortedData.textContent =
+        sorted.map(formatNumber).join(", ");
+
+    uniqueValues.textContent =
+        unique.length;
+
+    q1.textContent =
+        formatNumber(firstQuartile);
+
+    q3.textContent =
+        formatNumber(thirdQuartile);
+
+    iqr.textContent =
+        formatNumber(interquartileRange);
+
+
+    /*
+     * Frequency Table
+     */
+
+    const frequencies =
+        getFrequencyDistribution(values);
+
+    frequencyTable.innerHTML =
+        frequencies.map(item => `
+            <tr>
+                <td>${formatNumber(item.value)}</td>
+                <td>${item.frequency}</td>
+            </tr>
+        `).join("");
+
+
     resultsSection.classList.remove("hidden");
+    analysisSection.classList.remove("hidden");
 }
 
 
