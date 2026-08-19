@@ -9,6 +9,7 @@
  * - Dataset analysis
  * - Frequency distribution
  * - Frequency chart
+ * - Five-number summary
  * - Calculation history
  * - UI interactions
  */
@@ -41,6 +42,9 @@ const resultsSection =
 
 const analysisSection =
     document.getElementById("analysisSection");
+
+const summarySection =
+    document.getElementById("summarySection");
 
 const historyList =
     document.getElementById("historyList");
@@ -111,6 +115,46 @@ const frequencyChart =
 
 
 /* =========================
+   Five-Number Summary
+========================= */
+
+const summaryMinimum =
+    document.getElementById("summaryMinimum");
+
+const summaryQ1 =
+    document.getElementById("summaryQ1");
+
+const summaryMedian =
+    document.getElementById("summaryMedian");
+
+const summaryQ3 =
+    document.getElementById("summaryQ3");
+
+const summaryMaximum =
+    document.getElementById("summaryMaximum");
+
+
+/* =========================
+   Summary Scale
+========================= */
+
+const scaleMinimum =
+    document.getElementById("scaleMinimum");
+
+const scaleQ1 =
+    document.getElementById("scaleQ1");
+
+const scaleMedian =
+    document.getElementById("scaleMedian");
+
+const scaleQ3 =
+    document.getElementById("scaleQ3");
+
+const scaleMaximum =
+    document.getElementById("scaleMaximum");
+
+
+/* =========================
    Parse Dataset
 ========================= */
 
@@ -121,6 +165,14 @@ const frequencyChart =
  * - Commas
  * - Spaces
  * - New lines
+ *
+ * Example:
+ *
+ * 10, 20, 30
+ *
+ * becomes:
+ *
+ * [10, 20, 30]
  */
 function parseInput(input) {
 
@@ -142,16 +194,20 @@ function parseInput(input) {
 function validateValues(values) {
 
     if (!values.length) {
+
         return "Please enter at least one number.";
     }
+
 
     if (
         values.some(
             value => !Number.isFinite(value)
         )
     ) {
+
         return "Please enter valid numbers only.";
     }
+
 
     return null;
 }
@@ -169,12 +225,16 @@ function validateValues(values) {
 function formatNumber(value) {
 
     if (typeof value !== "number") {
+
         return value;
     }
 
+
     if (!Number.isFinite(value)) {
+
         return "—";
     }
+
 
     return Number.isInteger(value)
         ? value.toString()
@@ -197,14 +257,18 @@ function displayResults(results) {
     countElement.textContent =
         formatNumber(results.count);
 
+
     sumElement.textContent =
         formatNumber(results.sum);
+
 
     meanElement.textContent =
         formatNumber(results.mean);
 
+
     medianElement.textContent =
         formatNumber(results.median);
+
 
     modeElement.textContent =
         results.mode.length
@@ -213,17 +277,22 @@ function displayResults(results) {
                 .join(", ")
             : "No mode";
 
+
     minimumElement.textContent =
         formatNumber(results.minimum);
+
 
     maximumElement.textContent =
         formatNumber(results.maximum);
 
+
     rangeElement.textContent =
         formatNumber(results.range);
 
+
     varianceElement.textContent =
         formatNumber(results.variance);
+
 
     standardDeviationElement.textContent =
         formatNumber(
@@ -290,8 +359,10 @@ function displayAnalysis(values) {
     q1Element.textContent =
         formatNumber(firstQuartile);
 
+
     q3Element.textContent =
         formatNumber(thirdQuartile);
+
 
     iqrElement.textContent =
         formatNumber(
@@ -386,6 +457,7 @@ function renderFrequencyChart(values) {
                             ${formatNumber(item.value)}
                         </div>
 
+
                         <div class="chart-track">
 
                             <div
@@ -394,6 +466,7 @@ function renderFrequencyChart(values) {
                             ></div>
 
                         </div>
+
 
                         <div class="chart-value">
                             ${item.frequency}
@@ -408,11 +481,133 @@ function renderFrequencyChart(values) {
 
 
 /* =========================
+   Five-Number Summary
+========================= */
+
+/**
+ * Display the five-number summary:
+ *
+ * Minimum
+ * Q1
+ * Median
+ * Q3
+ * Maximum
+ *
+ * The median is taken directly
+ * from the calculated results.
+ */
+function displaySummary(values, results) {
+
+    const sorted =
+        getSortedValues(values);
+
+
+    const minimum =
+        sorted[0];
+
+
+    const maximum =
+        sorted[sorted.length - 1];
+
+
+    const q1 =
+        getQ1(values);
+
+
+    const median =
+        results.median;
+
+
+    const q3 =
+        getQ3(values);
+
+
+    /* =========================
+       Summary Cards
+    ========================== */
+
+    summaryMinimum.textContent =
+        formatNumber(minimum);
+
+
+    summaryQ1.textContent =
+        formatNumber(q1);
+
+
+    summaryMedian.textContent =
+        formatNumber(median);
+
+
+    summaryQ3.textContent =
+        formatNumber(q3);
+
+
+    summaryMaximum.textContent =
+        formatNumber(maximum);
+
+
+    /* =========================
+       Scale Values
+    ========================== */
+
+    scaleMinimum.textContent =
+        formatNumber(minimum);
+
+
+    scaleQ1.textContent =
+        formatNumber(q1);
+
+
+    scaleMedian.textContent =
+        formatNumber(median);
+
+
+    scaleQ3.textContent =
+        formatNumber(q3);
+
+
+    scaleMaximum.textContent =
+        formatNumber(maximum);
+
+
+    /* =========================
+       Scale Data Attributes
+    ========================== */
+
+    const points = [
+
+        [scaleMinimum, minimum],
+
+        [scaleQ1, q1],
+
+        [scaleMedian, median],
+
+        [scaleQ3, q3],
+
+        [scaleMaximum, maximum]
+
+    ];
+
+
+    points.forEach(
+        ([element, value]) => {
+
+            element.setAttribute(
+                "data-value",
+                formatNumber(value)
+            );
+
+        }
+    );
+}
+
+
+/* =========================
    Show Results
 ========================= */
 
 /**
- * Display result and analysis sections.
+ * Display all calculation sections.
  */
 function showResults() {
 
@@ -420,7 +615,13 @@ function showResults() {
         "hidden"
     );
 
+
     analysisSection.classList.remove(
+        "hidden"
+    );
+
+
+    summarySection.classList.remove(
         "hidden"
     );
 }
@@ -431,7 +632,7 @@ function showResults() {
 ========================= */
 
 /**
- * Hide result and analysis sections.
+ * Hide all calculation sections.
  */
 function hideResults() {
 
@@ -439,7 +640,13 @@ function hideResults() {
         "hidden"
     );
 
+
     analysisSection.classList.add(
+        "hidden"
+    );
+
+
+    summarySection.classList.add(
         "hidden"
     );
 }
@@ -459,13 +666,13 @@ function calculateDataset() {
     errorMessage.textContent = "";
 
 
-    /* Parse input */
+    /* Parse dataset */
 
     const values =
         parseInput(dataInput.value);
 
 
-    /* Validate */
+    /* Validate dataset */
 
     const error =
         validateValues(values);
@@ -497,22 +704,40 @@ function calculateDataset() {
         );
 
 
-    /* Display results */
+    /* =========================
+       Display Everything
+    ========================== */
 
     displayResults(results);
 
     displayAnalysis(values);
 
+    displaySummary(
+        values,
+        results
+    );
+
+
+    /* Show sections */
+
     showResults();
 
 
-    /* Dataset count */
+    /* =========================
+       Dataset Count
+    ========================== */
 
     datasetCount.textContent =
-        `${values.length} value${values.length !== 1 ? "s" : ""}`;
+        `${values.length} value${
+            values.length !== 1
+                ? "s"
+                : ""
+        }`;
 
 
-    /* Save calculation */
+    /* =========================
+       Save History
+    ========================== */
 
     saveHistory(
         values,
@@ -532,7 +757,7 @@ function calculateDataset() {
 ========================= */
 
 /**
- * Clear current dataset.
+ * Clear current dataset and results.
  */
 function clearDataset() {
 
@@ -608,6 +833,7 @@ function renderHistory() {
                                 }
                             </strong>
 
+
                             <span>
                                 ${item.type} •
                                 ${date.toLocaleString()}
@@ -631,7 +857,9 @@ function renderHistory() {
             .join("");
 
 
-    /* Attach delete handlers */
+    /* =========================
+       Delete Buttons
+    ========================== */
 
     document
         .querySelectorAll(
@@ -648,7 +876,9 @@ function renderHistory() {
                             button.dataset.id
                         );
 
+
                     deleteHistory(id);
+
 
                     renderHistory();
                 }
@@ -672,6 +902,7 @@ function handleClearHistory() {
 
 
     if (!history.length) {
+
         return;
     }
 
@@ -695,7 +926,7 @@ calculateBtn.addEventListener(
 );
 
 
-/* Clear current dataset */
+/* Clear Dataset */
 
 clearBtn.addEventListener(
     "click",
@@ -703,7 +934,7 @@ clearBtn.addEventListener(
 );
 
 
-/* Clear calculation history */
+/* Clear History */
 
 clearHistoryBtn.addEventListener(
     "click",
@@ -711,7 +942,9 @@ clearHistoryBtn.addEventListener(
 );
 
 
-/* Ctrl + Enter */
+/* =========================
+   Ctrl + Enter
+========================= */
 
 dataInput.addEventListener(
     "keydown",
@@ -721,6 +954,7 @@ dataInput.addEventListener(
             event.ctrlKey &&
             event.key === "Enter"
         ) {
+
             calculateDataset();
         }
 
