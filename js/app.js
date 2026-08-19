@@ -170,7 +170,7 @@ calculateBtn.addEventListener("click", () => {
 
     const results = calculateStatistics(values, type);
 
-    displayResults(results);
+    displayResults(results, values);
 
     datasetCount.textContent =
         `${values.length} value${values.length !== 1 ? "s" : ""}`;
@@ -317,3 +317,17 @@ const iqr =
 
 const frequencyTable =
     document.getElementById("frequencyTable");
+
+
+    clearBtn.addEventListener("click", () => {
+
+    dataInput.value = "";
+
+    errorMessage.textContent = "";
+
+    resultsSection.classList.add("hidden");
+
+    analysisSection.classList.add("hidden");
+
+    dataInput.focus();
+});
