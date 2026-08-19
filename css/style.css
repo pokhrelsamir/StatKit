@@ -396,3 +396,69 @@ footer {
         flex-direction: column;
     }
 }
+
+
+<!-- Dataset Analysis -->
+<section id="analysisSection" class="card hidden">
+
+    <div class="section-title">
+        <div>
+            <h2>Dataset Analysis</h2>
+            <p>Additional information about your dataset.</p>
+        </div>
+    </div>
+
+    <div class="analysis-grid">
+
+        <div class="analysis-card">
+            <span>Sorted Data</span>
+            <strong id="sortedData">—</strong>
+        </div>
+
+        <div class="analysis-card">
+            <span>Unique Values</span>
+            <strong id="uniqueValues">—</strong>
+        </div>
+
+        <div class="analysis-card">
+            <span>Q1</span>
+            <strong id="q1">—</strong>
+        </div>
+
+        <div class="analysis-card">
+            <span>Q3</span>
+            <strong id="q3">—</strong>
+        </div>
+
+        <div class="analysis-card">
+            <span>IQR</span>
+            <strong id="iqr">—</strong>
+        </div>
+
+    </div>
+
+
+    <div class="frequency-wrapper">
+
+        <h3>Frequency Distribution</h3>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Value</th>
+                        <th>Frequency</th>
+                    </tr>
+                </thead>
+
+                <tbody id="frequencyTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
