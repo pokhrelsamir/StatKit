@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta
+        name="description"
+        content="StatKit is a simple statistical analysis toolkit for calculating mean, median, mode, variance, standard deviation, quartiles, and more."
+    >
+
     <title>StatKit — Statistical Analysis Toolkit</title>
 
     <link rel="stylesheet" href="css/style.css">
@@ -14,38 +19,57 @@
 
     <main class="app">
 
-        <!-- Header -->
+        <!-- =========================
+             Header
+        ========================== -->
+
         <header class="header">
 
             <div class="brand">
-                <div class="brand-icon">📊</div>
+
+                <div class="brand-icon">
+                    📊
+                </div>
 
                 <div>
                     <h1>StatKit</h1>
                     <p>Statistical Analysis Toolkit</p>
                 </div>
+
             </div>
 
         </header>
 
 
-        <!-- Input Section -->
+        <!-- =========================
+             Dataset Input
+        ========================== -->
+
         <section class="card">
 
             <div class="section-header">
+
                 <div>
                     <h2>Dataset</h2>
-                    <p>Enter numbers separated by commas, spaces, or new lines.</p>
+
+                    <p>
+                        Enter numbers separated by commas, spaces, or new lines.
+                    </p>
                 </div>
+
             </div>
+
 
             <textarea
                 id="dataInput"
                 placeholder="Example: 12, 18, 24, 18, 30, 42, 18"
+                aria-label="Dataset input"
             ></textarea>
 
 
             <div class="controls">
+
+                <!-- Variance Type -->
 
                 <div class="variance-control">
 
@@ -54,6 +78,7 @@
                     </label>
 
                     <select id="varianceType">
+
                         <option value="population">
                             Population
                         </option>
@@ -61,16 +86,20 @@
                         <option value="sample">
                             Sample
                         </option>
+
                     </select>
 
                 </div>
 
+
+                <!-- Actions -->
 
                 <div class="actions">
 
                     <button
                         id="calculateBtn"
                         class="btn primary"
+                        type="button"
                     >
                         Calculate
                     </button>
@@ -78,6 +107,7 @@
                     <button
                         id="clearBtn"
                         class="btn secondary"
+                        type="button"
                     >
                         Clear
                     </button>
@@ -86,69 +116,113 @@
 
             </div>
 
-            <p id="errorMessage" class="error"></p>
+
+            <!-- Error Message -->
+
+            <p
+                id="errorMessage"
+                class="error"
+                role="alert"
+            ></p>
 
         </section>
 
 
-        <!-- Results -->
+        <!-- =========================
+             Results
+        ========================== -->
+
         <section
             id="resultsSection"
             class="results-section hidden"
         >
 
             <div class="section-title">
-                <h2>Results</h2>
+
+                <div>
+                    <h2>Results</h2>
+                </div>
+
                 <span id="datasetCount"></span>
+
             </div>
 
 
             <div class="results-grid">
+
+                <!-- Count -->
 
                 <div class="stat-card">
                     <span>Count</span>
                     <strong id="count">—</strong>
                 </div>
 
+
+                <!-- Sum -->
+
                 <div class="stat-card">
                     <span>Sum</span>
                     <strong id="sum">—</strong>
                 </div>
+
+
+                <!-- Mean -->
 
                 <div class="stat-card">
                     <span>Mean</span>
                     <strong id="mean">—</strong>
                 </div>
 
+
+                <!-- Median -->
+
                 <div class="stat-card">
                     <span>Median</span>
                     <strong id="median">—</strong>
                 </div>
+
+
+                <!-- Mode -->
 
                 <div class="stat-card">
                     <span>Mode</span>
                     <strong id="mode">—</strong>
                 </div>
 
+
+                <!-- Minimum -->
+
                 <div class="stat-card">
                     <span>Minimum</span>
                     <strong id="minimum">—</strong>
                 </div>
+
+
+                <!-- Maximum -->
 
                 <div class="stat-card">
                     <span>Maximum</span>
                     <strong id="maximum">—</strong>
                 </div>
 
+
+                <!-- Range -->
+
                 <div class="stat-card">
                     <span>Range</span>
                     <strong id="range">—</strong>
                 </div>
 
+
+                <!-- Variance -->
+
                 <div class="stat-card">
                     <span>Variance</span>
                     <strong id="variance">—</strong>
                 </div>
+
+
+                <!-- Standard Deviation -->
 
                 <div class="stat-card">
                     <span>Standard Deviation</span>
@@ -160,24 +234,214 @@
         </section>
 
 
-        <!-- History -->
+        <!-- =========================
+             Dataset Analysis
+        ========================== -->
+
+        <section
+            id="analysisSection"
+            class="card hidden"
+        >
+
+            <div class="section-title">
+
+                <div>
+                    <h2>Dataset Analysis</h2>
+
+                    <p>
+                        Additional information about your dataset.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- Analysis Cards -->
+
+            <div class="analysis-grid">
+
+                <!-- Sorted Data -->
+
+                <div class="analysis-card">
+
+                    <span>
+                        Sorted Data
+                    </span>
+
+                    <strong id="sortedData">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <!-- Unique Values -->
+
+                <div class="analysis-card">
+
+                    <span>
+                        Unique Values
+                    </span>
+
+                    <strong id="uniqueValues">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <!-- Q1 -->
+
+                <div class="analysis-card">
+
+                    <span>
+                        Q1
+                    </span>
+
+                    <strong id="q1">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <!-- Q3 -->
+
+                <div class="analysis-card">
+
+                    <span>
+                        Q3
+                    </span>
+
+                    <strong id="q3">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <!-- IQR -->
+
+                <div class="analysis-card">
+
+                    <span>
+                        IQR
+                    </span>
+
+                    <strong id="iqr">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 Frequency Distribution
+            ========================== -->
+
+            <div class="frequency-wrapper">
+
+                <h3>
+                    Frequency Distribution
+                </h3>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th scope="col">
+                                    Value
+                                </th>
+
+                                <th scope="col">
+                                    Frequency
+                                </th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="frequencyTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 Frequency Chart
+            ========================== -->
+
+            <div class="chart-wrapper">
+
+                <div class="chart-header">
+
+                    <div>
+
+                        <h3>
+                            Frequency Chart
+                        </h3>
+
+                        <p>
+                            Visual representation of value frequency.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="frequencyChart"
+                    class="frequency-chart"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             Calculation History
+        ========================== -->
+
         <section class="card history-section">
 
             <div class="section-title">
 
                 <div>
-                    <h2>Calculation History</h2>
-                    <p>Your recent datasets are stored locally.</p>
+
+                    <h2>
+                        Calculation History
+                    </h2>
+
+                    <p>
+                        Your recent datasets are stored locally.
+                    </p>
+
                 </div>
+
 
                 <button
                     id="clearHistoryBtn"
                     class="text-button"
+                    type="button"
                 >
                     Clear History
                 </button>
 
             </div>
+
 
             <div id="historyList">
 
@@ -190,15 +454,24 @@
         </section>
 
 
-        <!-- Footer -->
+        <!-- =========================
+             Footer
+        ========================== -->
+
         <footer>
+
             <p>
                 StatKit • Built with HTML, CSS & JavaScript
             </p>
+
         </footer>
 
     </main>
 
+
+    <!-- =========================
+         JavaScript
+    ========================== -->
 
     <script src="js/statistics.js"></script>
     <script src="js/storage.js"></script>
@@ -207,22 +480,3 @@
 </body>
 
 </html>
-
-
-<!-- Frequency Chart -->
-
-<div class="chart-wrapper">
-
-    <div class="chart-header">
-        <div>
-            <h3>Frequency Chart</h3>
-            <p>Visual representation of value frequency.</p>
-        </div>
-    </div>
-
-    <div
-        id="frequencyChart"
-        class="frequency-chart"
-    ></div>
-
-</div>
