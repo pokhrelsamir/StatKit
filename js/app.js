@@ -575,3 +575,59 @@ dataInput.addEventListener(
 ========================= */
 
 renderHistory();
+
+
+/**
+ * Render frequency chart
+ */
+function renderFrequencyChart(values) {
+
+    const frequencies =
+        getFrequencyDistribution(values);
+
+    if (!frequencies.length) {
+
+        frequencyChart.innerHTML = "";
+
+        return;
+    }
+
+    const maxFrequency =
+        Math.max(
+            ...frequencies.map(item => item.frequency)
+        );
+
+
+    frequencyChart.innerHTML =
+        frequencies
+            .map(item => {
+
+                const width =
+                    (item.frequency / maxFrequency) * 100;
+
+                return `
+                    <div class="chart-row">
+
+                        <div class="chart-label">
+                            ${formatNumber(item.value)}
+                        </div>
+
+                        <div class="chart-track">
+
+                            <div
+                                class="chart-bar"
+                                style="width: ${width}%"
+                            ></div>
+
+                        </div>
+
+                        <div class="chart-value">
+                            ${item.frequency}
+                        </div>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+}
