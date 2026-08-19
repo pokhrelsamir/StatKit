@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StatKit — Statistical Analysis Toolkit</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- Header -->
+        <header class="header">
+
+            <div class="brand">
+                <div class="brand-icon">📊</div>
+
+                <div>
+                    <h1>StatKit</h1>
+                    <p>Statistical Analysis Toolkit</p>
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- Input Section -->
+        <section class="card">
+
+            <div class="section-header">
+                <div>
+                    <h2>Dataset</h2>
+                    <p>Enter numbers separated by commas, spaces, or new lines.</p>
+                </div>
+            </div>
+
+            <textarea
+                id="dataInput"
+                placeholder="Example: 12, 18, 24, 18, 30, 42, 18"
+            ></textarea>
+
+
+            <div class="controls">
+
+                <div class="variance-control">
+
+                    <label for="varianceType">
+                        Variance Type
+                    </label>
+
+                    <select id="varianceType">
+                        <option value="population">
+                            Population
+                        </option>
+
+                        <option value="sample">
+                            Sample
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        id="calculateBtn"
+                        class="btn primary"
+                    >
+                        Calculate
+                    </button>
+
+                    <button
+                        id="clearBtn"
+                        class="btn secondary"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+            </div>
+
+            <p id="errorMessage" class="error"></p>
+
+        </section>
+
+
+        <!-- Results -->
+        <section
+            id="resultsSection"
+            class="results-section hidden"
+        >
+
+            <div class="section-title">
+                <h2>Results</h2>
+                <span id="datasetCount"></span>
+            </div>
+
+
+            <div class="results-grid">
+
+                <div class="stat-card">
+                    <span>Count</span>
+                    <strong id="count">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Sum</span>
+                    <strong id="sum">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Mean</span>
+                    <strong id="mean">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Median</span>
+                    <strong id="median">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Mode</span>
+                    <strong id="mode">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Minimum</span>
+                    <strong id="minimum">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Maximum</span>
+                    <strong id="maximum">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Range</span>
+                    <strong id="range">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Variance</span>
+                    <strong id="variance">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Standard Deviation</span>
+                    <strong id="standardDeviation">—</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- History -->
+        <section class="card history-section">
+
+            <div class="section-title">
+
+                <div>
+                    <h2>Calculation History</h2>
+                    <p>Your recent datasets are stored locally.</p>
+                </div>
+
+                <button
+                    id="clearHistoryBtn"
+                    class="text-button"
+                >
+                    Clear History
+                </button>
+
+            </div>
+
+            <div id="historyList">
+
+                <div class="empty-history">
+                    No calculations yet.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Footer -->
+        <footer>
+            <p>
+                StatKit • Built with HTML, CSS & JavaScript
+            </p>
+        </footer>
+
+    </main>
+
+
+    <script src="js/statistics.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
