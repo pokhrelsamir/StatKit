@@ -1,7 +1,21 @@
 /**
  * StatKit
  * Main Application
+ *
+ * Handles:
+ * - Dataset input
+ * - Validation
+ * - Statistical calculations
+ * - Dataset analysis
+ * - Frequency distribution
+ * - Calculation history
+ * - UI interactions
  */
+
+
+/* =========================
+   DOM Elements
+========================= */
 
 const dataInput = document.getElementById("dataInput");
 const varianceType = document.getElementById("varianceType");
@@ -12,14 +26,94 @@ const clearHistoryBtn = document.getElementById("clearHistoryBtn");
 
 const errorMessage = document.getElementById("errorMessage");
 
-const resultsSection = document.getElementById("resultsSection");
-const historyList = document.getElementById("historyList");
+const resultsSection =
+    document.getElementById("resultsSection");
 
-const datasetCount = document.getElementById("datasetCount");
+const analysisSection =
+    document.getElementById("analysisSection");
 
+const historyList =
+    document.getElementById("historyList");
+
+const datasetCount =
+    document.getElementById("datasetCount");
+
+
+/* =========================
+   Result Elements
+========================= */
+
+const countElement =
+    document.getElementById("count");
+
+const sumElement =
+    document.getElementById("sum");
+
+const meanElement =
+    document.getElementById("mean");
+
+const medianElement =
+    document.getElementById("median");
+
+const modeElement =
+    document.getElementById("mode");
+
+const minimumElement =
+    document.getElementById("minimum");
+
+const maximumElement =
+    document.getElementById("maximum");
+
+const rangeElement =
+    document.getElementById("range");
+
+const varianceElement =
+    document.getElementById("variance");
+
+const standardDeviationElement =
+    document.getElementById("standardDeviation");
+
+
+/* =========================
+   Analysis Elements
+========================= */
+
+const sortedDataElement =
+    document.getElementById("sortedData");
+
+const uniqueValuesElement =
+    document.getElementById("uniqueValues");
+
+const q1Element =
+    document.getElementById("q1");
+
+const q3Element =
+    document.getElementById("q3");
+
+const iqrElement =
+    document.getElementById("iqr");
+
+const frequencyTable =
+    document.getElementById("frequencyTable");
+
+
+/* =========================
+   Parse Dataset
+========================= */
 
 /**
- * Parse dataset input
+ * Convert user input into an array of numbers.
+ *
+ * Supports:
+ * - Commas
+ * - Spaces
+ * - New lines
+ *
+ * Example:
+ * 10, 20, 30
+ *
+ * becomes:
+ * [10, 20, 30]
  */
 function parseInput(input) {
 
@@ -31,8 +125,12 @@ function parseInput(input) {
 }
 
 
+/* =========================
+   Validate Dataset
+========================= */
+
 /**
- * Validate dataset
+ * Validate dataset values.
  */
 function validateValues(values) {
 
@@ -48,8 +146,14 @@ function validateValues(values) {
 }
 
 
+/* =========================
+   Format Numbers
+========================= */
+
 /**
- * Format numbers for display
+ * Format numbers for clean display.
+ *
+ * Maximum of 4 decimal places.
  */
 function formatNumber(value) {
 
@@ -57,151 +161,267 @@ function formatNumber(value) {
         return value;
     }
 
+    if (!Number.isFinite(value)) {
+        return "—";
+    }
+
     return Number.isInteger(value)
         ? value.toString()
-        : value.toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
+        : value
+            .toFixed(4)
+            .replace(/0+$/, "")
+            .replace(/\.$/, "");
 }
 
 
-/**
- * Display results
- */
-function displayResults(results, values) {
+/* =========================
+   Display Results
+========================= */
 
-    document.getElementById("count").textContent =
+/**
+ * Display main statistical results.
+ */
+function displayResults(results) {
+
+    countElement.textContent =
         formatNumber(results.count);
 
-    document.getElementById("sum").textContent =
+    sumElement.textContent =
         formatNumber(results.sum);
 
-    document.getElementById("mean").textContent =
+    meanElement.textContent =
         formatNumber(results.mean);
 
-    document.getElementById("median").textContent =
+    medianElement.textContent =
         formatNumber(results.median);
 
-    document.getElementById("mode").textContent =
+    modeElement.textContent =
         results.mode.length
             ? results.mode.map(formatNumber).join(", ")
             : "No mode";
 
-    document.getElementById("minimum").textContent =
+    minimumElement.textContent =
         formatNumber(results.minimum);
 
-    document.getElementById("maximum").textContent =
+    maximumElement.textContent =
         formatNumber(results.maximum);
 
-    document.getElementById("range").textContent =
+    rangeElement.textContent =
         formatNumber(results.range);
 
-    document.getElementById("variance").textContent =
+    varianceElement.textContent =
         formatNumber(results.variance);
 
-    document.getElementById("standardDeviation").textContent =
+    standardDeviationElement.textContent =
         formatNumber(results.standardDeviation);
+}
 
 
-    /*
-     * Dataset Analysis
-     */
+/* =========================
+   Display Dataset Analysis
+========================= */
 
-    const sorted = getSortedValues(values);
-    const unique = getUniqueValues(values);
+/**
+ * Display additional dataset information.
+ */
+function displayAnalysis(values) {
 
-    const firstQuartile = getQ1(values);
-    const thirdQuartile = getQ3(values);
-    const interquartileRange = getIQR(values);
+    const sorted =
+        getSortedValues(values);
 
-    sortedData.textContent =
-        sorted.map(formatNumber).join(", ");
+    const unique =
+        getUniqueValues(values);
 
-    uniqueValues.textContent =
+    const firstQuartile =
+        getQ1(values);
+
+    const thirdQuartile =
+        getQ3(values);
+
+    const interquartileRange =
+        getIQR(values);
+
+
+    /* Sorted Dataset */
+
+    sortedDataElement.textContent =
+        sorted
+            .map(formatNumber)
+            .join(", ");
+
+
+    /* Unique Values */
+
+    uniqueValuesElement.textContent =
         unique.length;
 
-    q1.textContent =
+
+    /* Quartiles */
+
+    q1Element.textContent =
         formatNumber(firstQuartile);
 
-    q3.textContent =
+    q3Element.textContent =
         formatNumber(thirdQuartile);
 
-    iqr.textContent =
+    iqrElement.textContent =
         formatNumber(interquartileRange);
 
 
-    /*
-     * Frequency Table
-     */
+    /* Frequency Distribution */
 
     const frequencies =
         getFrequencyDistribution(values);
 
     frequencyTable.innerHTML =
-        frequencies.map(item => `
-            <tr>
-                <td>${formatNumber(item.value)}</td>
-                <td>${item.frequency}</td>
-            </tr>
-        `).join("");
+        frequencies
+            .map(item => `
+                <tr>
+                    <td>${formatNumber(item.value)}</td>
+                    <td>${item.frequency}</td>
+                </tr>
+            `)
+            .join("");
+}
 
+
+/* =========================
+   Show Results
+========================= */
+
+/**
+ * Display all calculation sections.
+ */
+function showResults() {
 
     resultsSection.classList.remove("hidden");
+
     analysisSection.classList.remove("hidden");
 }
 
 
+/* =========================
+   Hide Results
+========================= */
+
 /**
- * Calculate button
+ * Hide all calculation sections.
  */
-calculateBtn.addEventListener("click", () => {
+function hideResults() {
+
+    resultsSection.classList.add("hidden");
+
+    analysisSection.classList.add("hidden");
+}
+
+
+/* =========================
+   Calculate
+========================= */
+
+/**
+ * Perform statistical calculation.
+ */
+function calculateDataset() {
 
     errorMessage.textContent = "";
 
-    const values = parseInput(dataInput.value);
+    const values =
+        parseInput(dataInput.value);
 
-    const error = validateValues(values);
+
+    /* Validate */
+
+    const error =
+        validateValues(values);
 
     if (error) {
+
         errorMessage.textContent = error;
-        resultsSection.classList.add("hidden");
+
+        hideResults();
+
         return;
     }
 
-    const type = varianceType.value;
 
-    const results = calculateStatistics(values, type);
+    /* Get variance type */
 
-    displayResults(results, values);
+    const type =
+        varianceType.value;
+
+
+    /* Calculate */
+
+    const results =
+        calculateStatistics(values, type);
+
+
+    /* Display */
+
+    displayResults(results);
+
+    displayAnalysis(values);
+
+    showResults();
+
+
+    /* Dataset count */
 
     datasetCount.textContent =
         `${values.length} value${values.length !== 1 ? "s" : ""}`;
 
-    saveHistory(values, results, type);
+
+    /* Save history */
+
+    saveHistory(
+        values,
+        results,
+        type
+    );
+
+
+    /* Refresh history */
 
     renderHistory();
-});
+}
 
+
+/* =========================
+   Clear Dataset
+========================= */
 
 /**
- * Clear current dataset
+ * Clear current dataset and results.
  */
-clearBtn.addEventListener("click", () => {
+function clearDataset() {
 
     dataInput.value = "";
 
     errorMessage.textContent = "";
 
-    resultsSection.classList.add("hidden");
+    datasetCount.textContent = "";
+
+    hideResults();
 
     dataInput.focus();
-});
+}
 
+
+/* =========================
+   Render History
+========================= */
 
 /**
- * Render history
+ * Render saved calculations.
  */
 function renderHistory() {
 
-    const history = getHistory();
+    const history =
+        getHistory();
+
+
+    /* Empty state */
 
     if (!history.length) {
 
@@ -214,120 +434,144 @@ function renderHistory() {
         return;
     }
 
-    historyList.innerHTML = history.map(item => {
 
-        const date = new Date(item.createdAt);
+    /* History items */
 
-        return `
-            <div class="history-item">
+    historyList.innerHTML =
+        history
+            .map(item => {
 
-                <div class="history-info">
+                const date =
+                    new Date(item.createdAt);
 
-                    <strong>
-                        ${item.values.slice(0, 8).join(", ")}
-                        ${item.values.length > 8 ? "..." : ""}
-                    </strong>
-
-                    <span>
-                        ${item.type} •
-                        ${date.toLocaleString()}
-                    </span>
-
-                </div>
-
-                <button
-                    class="delete-history"
-                    data-id="${item.id}"
-                >
-                    Delete
-                </button>
-
-            </div>
-        `;
-
-    }).join("");
+                const preview =
+                    item.values
+                        .slice(0, 8)
+                        .map(formatNumber)
+                        .join(", ");
 
 
-    document.querySelectorAll(".delete-history")
+                return `
+                    <div class="history-item">
+
+                        <div class="history-info">
+
+                            <strong>
+                                ${preview}
+                                ${item.values.length > 8 ? "..." : ""}
+                            </strong>
+
+                            <span>
+                                ${item.type} •
+                                ${date.toLocaleString()}
+                            </span>
+
+                        </div>
+
+                        <button
+                            class="delete-history"
+                            data-id="${item.id}"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+
+
+    /* Delete buttons */
+
+    document
+        .querySelectorAll(".delete-history")
         .forEach(button => {
 
-            button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                const id = Number(button.dataset.id);
+                    const id =
+                        Number(button.dataset.id);
 
-                deleteHistory(id);
+                    deleteHistory(id);
 
-                renderHistory();
-            });
+                    renderHistory();
+                }
+            );
 
         });
 }
 
 
-/**
- * Clear history
- */
-clearHistoryBtn.addEventListener("click", () => {
+/* =========================
+   Clear History
+========================= */
 
-    if (!getHistory().length) return;
+function handleClearHistory() {
+
+    const history =
+        getHistory();
+
+    if (!history.length) {
+        return;
+    }
 
     clearHistory();
 
     renderHistory();
-});
+}
 
 
-/**
- * Allow Ctrl + Enter to calculate
- */
-dataInput.addEventListener("keydown", event => {
+/* =========================
+   Event Listeners
+========================= */
 
-    if (event.ctrlKey && event.key === "Enter") {
 
-        calculateBtn.click();
+/* Calculate */
+
+calculateBtn.addEventListener(
+    "click",
+    calculateDataset
+);
+
+
+/* Clear Dataset */
+
+clearBtn.addEventListener(
+    "click",
+    clearDataset
+);
+
+
+/* Clear History */
+
+clearHistoryBtn.addEventListener(
+    "click",
+    handleClearHistory
+);
+
+
+/* Ctrl + Enter */
+
+dataInput.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.ctrlKey &&
+            event.key === "Enter"
+        ) {
+            calculateDataset();
+        }
 
     }
+);
 
-});
 
+/* =========================
+   Initialize Application
+========================= */
 
-/**
- * Load history on startup
- */
 renderHistory();
-
-
-const analysisSection =
-    document.getElementById("analysisSection");
-
-const sortedData =
-    document.getElementById("sortedData");
-
-const uniqueValues =
-    document.getElementById("uniqueValues");
-
-const q1 =
-    document.getElementById("q1");
-
-const q3 =
-    document.getElementById("q3");
-
-const iqr =
-    document.getElementById("iqr");
-
-const frequencyTable =
-    document.getElementById("frequencyTable");
-
-
-    clearBtn.addEventListener("click", () => {
-
-    dataInput.value = "";
-
-    errorMessage.textContent = "";
-
-    resultsSection.classList.add("hidden");
-
-    analysisSection.classList.add("hidden");
-
-    dataInput.focus();
-});
