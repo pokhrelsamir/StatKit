@@ -8,6 +8,7 @@
  * - Statistical calculations
  * - Dataset analysis
  * - Frequency distribution
+ * - Frequency chart
  * - Calculation history
  * - UI interactions
  */
@@ -17,14 +18,23 @@
    DOM Elements
 ========================= */
 
-const dataInput = document.getElementById("dataInput");
-const varianceType = document.getElementById("varianceType");
+const dataInput =
+    document.getElementById("dataInput");
 
-const calculateBtn = document.getElementById("calculateBtn");
-const clearBtn = document.getElementById("clearBtn");
-const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+const varianceType =
+    document.getElementById("varianceType");
 
-const errorMessage = document.getElementById("errorMessage");
+const calculateBtn =
+    document.getElementById("calculateBtn");
+
+const clearBtn =
+    document.getElementById("clearBtn");
+
+const clearHistoryBtn =
+    document.getElementById("clearHistoryBtn");
+
+const errorMessage =
+    document.getElementById("errorMessage");
 
 const resultsSection =
     document.getElementById("resultsSection");
@@ -96,6 +106,9 @@ const iqrElement =
 const frequencyTable =
     document.getElementById("frequencyTable");
 
+const frequencyChart =
+    document.getElementById("frequencyChart");
+
 
 /* =========================
    Parse Dataset
@@ -108,12 +121,6 @@ const frequencyTable =
  * - Commas
  * - Spaces
  * - New lines
- *
- * Example:
- * 10, 20, 30
- *
- * becomes:
- * [10, 20, 30]
  */
 function parseInput(input) {
 
@@ -138,7 +145,11 @@ function validateValues(values) {
         return "Please enter at least one number.";
     }
 
-    if (values.some(value => !Number.isFinite(value))) {
+    if (
+        values.some(
+            value => !Number.isFinite(value)
+        )
+    ) {
         return "Please enter valid numbers only.";
     }
 
@@ -197,7 +208,9 @@ function displayResults(results) {
 
     modeElement.textContent =
         results.mode.length
-            ? results.mode.map(formatNumber).join(", ")
+            ? results.mode
+                .map(formatNumber)
+                .join(", ")
             : "No mode";
 
     minimumElement.textContent =
@@ -213,7 +226,9 @@ function displayResults(results) {
         formatNumber(results.variance);
 
     standardDeviationElement.textContent =
-        formatNumber(results.standardDeviation);
+        formatNumber(
+            results.standardDeviation
+        );
 }
 
 
@@ -226,11 +241,19 @@ function displayResults(results) {
  */
 function displayAnalysis(values) {
 
+    /* Sorted values */
+
     const sorted =
         getSortedValues(values);
 
+
+    /* Unique values */
+
     const unique =
         getUniqueValues(values);
+
+
+    /* Quartiles */
 
     const firstQuartile =
         getQ1(values);
@@ -242,7 +265,9 @@ function displayAnalysis(values) {
         getIQR(values);
 
 
-    /* Sorted Dataset */
+    /* =========================
+       Sorted Data
+    ========================== */
 
     sortedDataElement.textContent =
         sorted
@@ -250,13 +275,17 @@ function displayAnalysis(values) {
             .join(", ");
 
 
-    /* Unique Values */
+    /* =========================
+       Unique Values
+    ========================== */
 
     uniqueValuesElement.textContent =
         unique.length;
 
 
-    /* Quartiles */
+    /* =========================
+       Quartiles
+    ========================== */
 
     q1Element.textContent =
         formatNumber(firstQuartile);
@@ -265,22 +294,115 @@ function displayAnalysis(values) {
         formatNumber(thirdQuartile);
 
     iqrElement.textContent =
-        formatNumber(interquartileRange);
+        formatNumber(
+            interquartileRange
+        );
 
 
-    /* Frequency Distribution */
+    /* =========================
+       Frequency Distribution
+    ========================== */
 
     const frequencies =
         getFrequencyDistribution(values);
+
 
     frequencyTable.innerHTML =
         frequencies
             .map(item => `
                 <tr>
-                    <td>${formatNumber(item.value)}</td>
-                    <td>${item.frequency}</td>
+                    <td>
+                        ${formatNumber(item.value)}
+                    </td>
+
+                    <td>
+                        ${item.frequency}
+                    </td>
                 </tr>
             `)
+            .join("");
+
+
+    /* =========================
+       Frequency Chart
+    ========================== */
+
+    renderFrequencyChart(values);
+}
+
+
+/* =========================
+   Frequency Chart
+========================= */
+
+/**
+ * Render visual frequency distribution.
+ */
+function renderFrequencyChart(values) {
+
+    const frequencies =
+        getFrequencyDistribution(values);
+
+
+    /* Empty dataset */
+
+    if (!frequencies.length) {
+
+        frequencyChart.innerHTML = "";
+
+        return;
+    }
+
+
+    /* Find highest frequency */
+
+    const maxFrequency =
+        Math.max(
+            ...frequencies.map(
+                item => item.frequency
+            )
+        );
+
+
+    /* Generate chart */
+
+    frequencyChart.innerHTML =
+        frequencies
+            .map(item => {
+
+                const width =
+                    maxFrequency > 0
+                        ? (
+                            item.frequency /
+                            maxFrequency
+                        ) * 100
+                        : 0;
+
+
+                return `
+                    <div class="chart-row">
+
+                        <div class="chart-label">
+                            ${formatNumber(item.value)}
+                        </div>
+
+                        <div class="chart-track">
+
+                            <div
+                                class="chart-bar"
+                                style="width: ${width}%"
+                            ></div>
+
+                        </div>
+
+                        <div class="chart-value">
+                            ${item.frequency}
+                        </div>
+
+                    </div>
+                `;
+
+            })
             .join("");
 }
 
@@ -290,13 +412,17 @@ function displayAnalysis(values) {
 ========================= */
 
 /**
- * Display all calculation sections.
+ * Display result and analysis sections.
  */
 function showResults() {
 
-    resultsSection.classList.remove("hidden");
+    resultsSection.classList.remove(
+        "hidden"
+    );
 
-    analysisSection.classList.remove("hidden");
+    analysisSection.classList.remove(
+        "hidden"
+    );
 }
 
 
@@ -305,26 +431,35 @@ function showResults() {
 ========================= */
 
 /**
- * Hide all calculation sections.
+ * Hide result and analysis sections.
  */
 function hideResults() {
 
-    resultsSection.classList.add("hidden");
+    resultsSection.classList.add(
+        "hidden"
+    );
 
-    analysisSection.classList.add("hidden");
+    analysisSection.classList.add(
+        "hidden"
+    );
 }
 
 
 /* =========================
-   Calculate
+   Calculate Dataset
 ========================= */
 
 /**
- * Perform statistical calculation.
+ * Perform complete statistical calculation.
  */
 function calculateDataset() {
 
+    /* Clear previous error */
+
     errorMessage.textContent = "";
+
+
+    /* Parse input */
 
     const values =
         parseInput(dataInput.value);
@@ -335,9 +470,11 @@ function calculateDataset() {
     const error =
         validateValues(values);
 
+
     if (error) {
 
-        errorMessage.textContent = error;
+        errorMessage.textContent =
+            error;
 
         hideResults();
 
@@ -351,13 +488,16 @@ function calculateDataset() {
         varianceType.value;
 
 
-    /* Calculate */
+    /* Calculate statistics */
 
     const results =
-        calculateStatistics(values, type);
+        calculateStatistics(
+            values,
+            type
+        );
 
 
-    /* Display */
+    /* Display results */
 
     displayResults(results);
 
@@ -372,7 +512,7 @@ function calculateDataset() {
         `${values.length} value${values.length !== 1 ? "s" : ""}`;
 
 
-    /* Save history */
+    /* Save calculation */
 
     saveHistory(
         values,
@@ -392,7 +532,7 @@ function calculateDataset() {
 ========================= */
 
 /**
- * Clear current dataset and results.
+ * Clear current dataset.
  */
 function clearDataset() {
 
@@ -435,14 +575,17 @@ function renderHistory() {
     }
 
 
-    /* History items */
+    /* Generate history */
 
     historyList.innerHTML =
         history
             .map(item => {
 
                 const date =
-                    new Date(item.createdAt);
+                    new Date(
+                        item.createdAt
+                    );
+
 
                 const preview =
                     item.values
@@ -458,7 +601,11 @@ function renderHistory() {
 
                             <strong>
                                 ${preview}
-                                ${item.values.length > 8 ? "..." : ""}
+                                ${
+                                    item.values.length > 8
+                                        ? "..."
+                                        : ""
+                                }
                             </strong>
 
                             <span>
@@ -468,9 +615,11 @@ function renderHistory() {
 
                         </div>
 
+
                         <button
                             class="delete-history"
                             data-id="${item.id}"
+                            type="button"
                         >
                             Delete
                         </button>
@@ -482,10 +631,12 @@ function renderHistory() {
             .join("");
 
 
-    /* Delete buttons */
+    /* Attach delete handlers */
 
     document
-        .querySelectorAll(".delete-history")
+        .querySelectorAll(
+            ".delete-history"
+        )
         .forEach(button => {
 
             button.addEventListener(
@@ -493,7 +644,9 @@ function renderHistory() {
                 () => {
 
                     const id =
-                        Number(button.dataset.id);
+                        Number(
+                            button.dataset.id
+                        );
 
                     deleteHistory(id);
 
@@ -509,14 +662,19 @@ function renderHistory() {
    Clear History
 ========================= */
 
+/**
+ * Delete all saved calculations.
+ */
 function handleClearHistory() {
 
     const history =
         getHistory();
 
+
     if (!history.length) {
         return;
     }
+
 
     clearHistory();
 
@@ -537,7 +695,7 @@ calculateBtn.addEventListener(
 );
 
 
-/* Clear Dataset */
+/* Clear current dataset */
 
 clearBtn.addEventListener(
     "click",
@@ -545,7 +703,7 @@ clearBtn.addEventListener(
 );
 
 
-/* Clear History */
+/* Clear calculation history */
 
 clearHistoryBtn.addEventListener(
     "click",
@@ -575,59 +733,3 @@ dataInput.addEventListener(
 ========================= */
 
 renderHistory();
-
-
-/**
- * Render frequency chart
- */
-function renderFrequencyChart(values) {
-
-    const frequencies =
-        getFrequencyDistribution(values);
-
-    if (!frequencies.length) {
-
-        frequencyChart.innerHTML = "";
-
-        return;
-    }
-
-    const maxFrequency =
-        Math.max(
-            ...frequencies.map(item => item.frequency)
-        );
-
-
-    frequencyChart.innerHTML =
-        frequencies
-            .map(item => {
-
-                const width =
-                    (item.frequency / maxFrequency) * 100;
-
-                return `
-                    <div class="chart-row">
-
-                        <div class="chart-label">
-                            ${formatNumber(item.value)}
-                        </div>
-
-                        <div class="chart-track">
-
-                            <div
-                                class="chart-bar"
-                                style="width: ${width}%"
-                            ></div>
-
-                        </div>
-
-                        <div class="chart-value">
-                            ${item.frequency}
-                        </div>
-
-                    </div>
-                `;
-
-            })
-            .join("");
-}
