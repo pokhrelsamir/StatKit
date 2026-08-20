@@ -615,13 +615,15 @@ function showResults() {
         "hidden"
     );
 
-
     analysisSection.classList.remove(
         "hidden"
     );
 
-
     summarySection.classList.remove(
+        "hidden"
+    );
+
+    outlierSection.classList.remove(
         "hidden"
     );
 }
