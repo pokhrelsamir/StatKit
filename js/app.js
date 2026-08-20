@@ -1111,3 +1111,17 @@ function displayOutliers(values) {
         "hidden"
     );
 }
+
+
+displayResults(results);
+
+displayAnalysis(values);
+
+displaySummary(
+    values,
+    results
+);
+
+displayOutliers(values);
+
+showResults();
