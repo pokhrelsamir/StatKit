@@ -10,6 +10,8 @@
  * - Frequency distribution
  * - Frequency chart
  * - Five-number summary
+ * - Percentile analysis
+ * - Z-score analysis
  * - Outlier detection
  * - Box Plot
  * - Calculation history
@@ -47,6 +49,12 @@ const analysisSection =
 
 const summarySection =
     document.getElementById("summarySection");
+
+const percentileSection =
+    document.getElementById("percentileSection");
+
+const zScoreSection =
+    document.getElementById("zScoreSection");
 
 const outlierSection =
     document.getElementById("outlierSection");
@@ -137,6 +145,46 @@ const summaryQ3 =
 
 const summaryMaximum =
     document.getElementById("summaryMaximum");
+
+
+/* =========================
+   Percentile Elements
+========================= */
+
+const p10Element =
+    document.getElementById("p10");
+
+const p25Element =
+    document.getElementById("p25");
+
+const p50Element =
+    document.getElementById("p50");
+
+const p75Element =
+    document.getElementById("p75");
+
+const p90Element =
+    document.getElementById("p90");
+
+const p95Element =
+    document.getElementById("p95");
+
+
+/* =========================
+   Z-Score Elements
+========================= */
+
+const lowestZScoreElement =
+    document.getElementById("lowestZScore");
+
+const highestZScoreElement =
+    document.getElementById("highestZScore");
+
+const meanZScoreElement =
+    document.getElementById("meanZScore");
+
+const zScoreTable =
+    document.getElementById("zScoreTable");
 
 
 /* =========================
@@ -505,18 +553,14 @@ function displaySummary(values, results) {
     const minimum =
         sorted[0];
 
-
     const maximum =
         sorted[sorted.length - 1];
-
 
     const q1 =
         getQ1(values);
 
-
     const median =
         results.median;
-
 
     const q3 =
         getQ3(values);
@@ -595,6 +639,305 @@ function displaySummary(values, results) {
 
         }
     );
+}
+
+
+/* =========================
+   Percentile Analysis
+========================= */
+
+/**
+ * Display selected percentiles.
+ *
+ * Uses the percentile interpolation
+ * already implemented in statistics.js.
+ */
+function displayPercentiles(values) {
+
+    if (
+        !p10Element &&
+        !p25Element &&
+        !p50Element &&
+        !p75Element &&
+        !p90Element &&
+        !p95Element
+    ) {
+        return;
+    }
+
+
+    const percentiles = {
+
+        p10: getPercentile(values, 0.10),
+
+        p25: getPercentile(values, 0.25),
+
+        p50: getPercentile(values, 0.50),
+
+        p75: getPercentile(values, 0.75),
+
+        p90: getPercentile(values, 0.90),
+
+        p95: getPercentile(values, 0.95)
+
+    };
+
+
+    if (p10Element) {
+        p10Element.textContent =
+            formatNumber(percentiles.p10);
+    }
+
+    if (p25Element) {
+        p25Element.textContent =
+            formatNumber(percentiles.p25);
+    }
+
+    if (p50Element) {
+        p50Element.textContent =
+            formatNumber(percentiles.p50);
+    }
+
+    if (p75Element) {
+        p75Element.textContent =
+            formatNumber(percentiles.p75);
+    }
+
+    if (p90Element) {
+        p90Element.textContent =
+            formatNumber(percentiles.p90);
+    }
+
+    if (p95Element) {
+        p95Element.textContent =
+            formatNumber(percentiles.p95);
+    }
+}
+
+
+/* =========================
+   Z-Score Calculation
+========================= */
+
+/**
+ * Calculate individual Z-scores.
+ *
+ * Z = (X - Mean) / Standard Deviation
+ *
+ * Uses the selected population/sample
+ * standard deviation.
+ */
+function calculateZScores(values, type) {
+
+    if (!values.length) {
+        return [];
+    }
+
+
+    const mean =
+        getMean(values);
+
+
+    const standardDeviation =
+        type === "sample"
+            ? getSampleStandardDeviation(values)
+            : getPopulationStandardDeviation(values);
+
+
+    /*
+     * If every value is identical,
+     * standard deviation is zero.
+     */
+    if (standardDeviation === 0) {
+
+        return values.map(
+            (value, index) => ({
+
+                index: index + 1,
+
+                value,
+
+                zScore: 0
+
+            })
+        );
+    }
+
+
+    return values.map(
+        (value, index) => ({
+
+            index: index + 1,
+
+            value,
+
+            zScore:
+                (value - mean) /
+                standardDeviation
+
+        })
+    );
+}
+
+
+/* =========================
+   Z-Score Interpretation
+========================= */
+
+/**
+ * Provide a simple interpretation
+ * for each Z-score.
+ */
+function interpretZScore(zScore) {
+
+    const absoluteZScore =
+        Math.abs(zScore);
+
+
+    if (absoluteZScore < 1) {
+
+        return "Within 1 standard deviation";
+    }
+
+
+    if (absoluteZScore < 2) {
+
+        return "Within 2 standard deviations";
+    }
+
+
+    if (absoluteZScore < 3) {
+
+        return "Within 3 standard deviations";
+    }
+
+
+    return "Extreme value (3+ standard deviations)";
+}
+
+
+/* =========================
+   Display Z-Score Analysis
+========================= */
+
+function displayZScores(values, type) {
+
+    if (
+        !lowestZScoreElement &&
+        !highestZScoreElement &&
+        !meanZScoreElement &&
+        !zScoreTable
+    ) {
+        return;
+    }
+
+
+    const zScores =
+        calculateZScores(
+            values,
+            type
+        );
+
+
+    if (!zScores.length) {
+        return;
+    }
+
+
+    const numericZScores =
+        zScores.map(
+            item => item.zScore
+        );
+
+
+    const lowestZScore =
+        Math.min(...numericZScores);
+
+
+    const highestZScore =
+        Math.max(...numericZScores);
+
+
+    const meanZScore =
+        getMean(numericZScores);
+
+
+    /* =========================
+       Summary
+    ========================== */
+
+    if (lowestZScoreElement) {
+
+        lowestZScoreElement.textContent =
+            formatNumber(
+                lowestZScore
+            );
+    }
+
+
+    if (highestZScoreElement) {
+
+        highestZScoreElement.textContent =
+            formatNumber(
+                highestZScore
+            );
+    }
+
+
+    if (meanZScoreElement) {
+
+        meanZScoreElement.textContent =
+            formatNumber(
+                meanZScore
+            );
+    }
+
+
+    /* =========================
+       Individual Z-Scores
+    ========================== */
+
+    if (zScoreTable) {
+
+        zScoreTable.innerHTML =
+            zScores
+                .map(item => {
+
+                    const interpretation =
+                        interpretZScore(
+                            item.zScore
+                        );
+
+
+                    return `
+                        <tr>
+
+                            <td>
+                                ${item.index}
+                            </td>
+
+                            <td>
+                                ${formatNumber(
+                                    item.value
+                                )}
+                            </td>
+
+                            <td>
+                                ${formatNumber(
+                                    item.zScore
+                                )}
+                            </td>
+
+                            <td>
+                                ${interpretation}
+                            </td>
+
+                        </tr>
+                    `;
+
+                })
+                .join("");
+    }
 }
 
 
@@ -743,15 +1086,6 @@ function getMedianForBoxPlot(values) {
 
 /**
  * Render a visual box plot.
- *
- * Uses:
- * - Minimum
- * - Q1
- * - Median
- * - Q3
- * - Maximum
- *
- * Outliers are displayed separately.
  */
 function renderBoxPlot(values) {
 
@@ -933,12 +1267,6 @@ function renderBoxPlot(values) {
         q3Position - q1Position;
 
 
-    /*
-     * If Q1 and Q3 are identical,
-     * prevent the box from becoming
-     * visually invisible.
-     */
-
     const safeBoxWidth =
         Math.max(boxWidth, 0.8);
 
@@ -1005,8 +1333,6 @@ function renderBoxPlot(values) {
 
         <div class="box-plot-axis">
 
-            <!-- Whisker -->
-
             <div
                 class="box-whisker"
                 style="
@@ -1019,8 +1345,6 @@ function renderBoxPlot(values) {
             ></div>
 
 
-            <!-- Minimum Cap -->
-
             <div
                 class="box-whisker-cap"
                 style="
@@ -1028,8 +1352,6 @@ function renderBoxPlot(values) {
                 "
             ></div>
 
-
-            <!-- Maximum Cap -->
 
             <div
                 class="box-whisker-cap"
@@ -1039,8 +1361,6 @@ function renderBoxPlot(values) {
             ></div>
 
 
-            <!-- Box -->
-
             <div
                 class="box-plot-box"
                 style="
@@ -1048,8 +1368,6 @@ function renderBoxPlot(values) {
                     width: ${safeBoxWidth}%;
                 "
             >
-
-                <!-- Median -->
 
                 <div
                     class="box-median"
@@ -1061,14 +1379,10 @@ function renderBoxPlot(values) {
             </div>
 
 
-            <!-- Outliers -->
-
             ${outlierMarkup}
 
         </div>
 
-
-        <!-- Axis Labels -->
 
         <div class="box-plot-labels">
 
@@ -1121,10 +1435,6 @@ function renderBoxPlot(values) {
     `;
 
 
-    /* =========================
-       Show Box Plot
-    ========================== */
-
     boxPlotSection.classList.remove(
         "hidden"
     );
@@ -1149,9 +1459,27 @@ function showResults() {
         "hidden"
     );
 
+
+    if (percentileSection) {
+
+        percentileSection.classList.remove(
+            "hidden"
+        );
+    }
+
+
+    if (zScoreSection) {
+
+        zScoreSection.classList.remove(
+            "hidden"
+        );
+    }
+
+
     outlierSection.classList.remove(
         "hidden"
     );
+
 
     if (boxPlotSection) {
 
@@ -1180,9 +1508,27 @@ function hideResults() {
         "hidden"
     );
 
+
+    if (percentileSection) {
+
+        percentileSection.classList.add(
+            "hidden"
+        );
+    }
+
+
+    if (zScoreSection) {
+
+        zScoreSection.classList.add(
+            "hidden"
+        );
+    }
+
+
     outlierSection.classList.add(
         "hidden"
     );
+
 
     if (boxPlotSection) {
 
@@ -1243,7 +1589,7 @@ function calculateDataset() {
 
 
     /* =========================
-       Display
+       Display Existing Features
     ========================== */
 
     displayResults(results);
@@ -1258,6 +1604,18 @@ function calculateDataset() {
     displayOutliers(values);
 
     renderBoxPlot(values);
+
+
+    /* =========================
+       New Features
+    ========================== */
+
+    displayPercentiles(values);
+
+    displayZScores(
+        values,
+        type
+    );
 
 
     /* =========================
@@ -1290,7 +1648,9 @@ function calculateDataset() {
     );
 
 
-    /* Refresh History */
+    /* =========================
+       Refresh History
+    ========================== */
 
     renderHistory();
 }
