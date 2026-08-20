@@ -11,6 +11,7 @@
  * - Frequency chart
  * - Five-number summary
  * - Outlier detection
+ * - Box Plot
  * - Calculation history
  * - UI interactions
  */
@@ -179,6 +180,35 @@ const outlierStatusElement =
 
 
 /* =========================
+   Box Plot Elements
+========================= */
+
+const boxPlotSection =
+    document.getElementById("boxPlotSection");
+
+const boxPlot =
+    document.getElementById("boxPlot");
+
+const boxMinimum =
+    document.getElementById("boxMinimum");
+
+const boxQ1 =
+    document.getElementById("boxQ1");
+
+const boxMedian =
+    document.getElementById("boxMedian");
+
+const boxQ3 =
+    document.getElementById("boxQ3");
+
+const boxMaximum =
+    document.getElementById("boxMaximum");
+
+const boxIQR =
+    document.getElementById("boxIQR");
+
+
+/* =========================
    Parse Dataset
 ========================= */
 
@@ -189,14 +219,6 @@ const outlierStatusElement =
  * - Commas
  * - Spaces
  * - New lines
- *
- * Example:
- *
- * 10, 20, 30
- *
- * becomes:
- *
- * [10, 20, 30]
  */
 function parseInput(input) {
 
@@ -273,26 +295,19 @@ function formatNumber(value) {
    Display Results
 ========================= */
 
-/**
- * Display main statistical results.
- */
 function displayResults(results) {
 
     countElement.textContent =
         formatNumber(results.count);
 
-
     sumElement.textContent =
         formatNumber(results.sum);
-
 
     meanElement.textContent =
         formatNumber(results.mean);
 
-
     medianElement.textContent =
         formatNumber(results.median);
-
 
     modeElement.textContent =
         results.mode.length
@@ -301,22 +316,17 @@ function displayResults(results) {
                 .join(", ")
             : "No mode";
 
-
     minimumElement.textContent =
         formatNumber(results.minimum);
-
 
     maximumElement.textContent =
         formatNumber(results.maximum);
 
-
     rangeElement.textContent =
         formatNumber(results.range);
 
-
     varianceElement.textContent =
         formatNumber(results.variance);
-
 
     standardDeviationElement.textContent =
         formatNumber(
@@ -329,24 +339,13 @@ function displayResults(results) {
    Display Dataset Analysis
 ========================= */
 
-/**
- * Display additional dataset information.
- */
 function displayAnalysis(values) {
-
-    /* Sorted values */
 
     const sorted =
         getSortedValues(values);
 
-
-    /* Unique values */
-
     const unique =
         getUniqueValues(values);
-
-
-    /* Quartiles */
 
     const firstQuartile =
         getQ1(values);
@@ -383,10 +382,8 @@ function displayAnalysis(values) {
     q1Element.textContent =
         formatNumber(firstQuartile);
 
-
     q3Element.textContent =
         formatNumber(thirdQuartile);
-
 
     iqrElement.textContent =
         formatNumber(
@@ -406,6 +403,7 @@ function displayAnalysis(values) {
         frequencies
             .map(item => `
                 <tr>
+
                     <td>
                         ${formatNumber(item.value)}
                     </td>
@@ -413,6 +411,7 @@ function displayAnalysis(values) {
                     <td>
                         ${item.frequency}
                     </td>
+
                 </tr>
             `)
             .join("");
@@ -430,16 +429,11 @@ function displayAnalysis(values) {
    Frequency Chart
 ========================= */
 
-/**
- * Render visual frequency distribution.
- */
 function renderFrequencyChart(values) {
 
     const frequencies =
         getFrequencyDistribution(values);
 
-
-    /* Empty dataset */
 
     if (!frequencies.length) {
 
@@ -449,8 +443,6 @@ function renderFrequencyChart(values) {
     }
 
 
-    /* Find highest frequency */
-
     const maxFrequency =
         Math.max(
             ...frequencies.map(
@@ -458,8 +450,6 @@ function renderFrequencyChart(values) {
             )
         );
 
-
-    /* Generate chart */
 
     frequencyChart.innerHTML =
         frequencies
@@ -481,7 +471,6 @@ function renderFrequencyChart(values) {
                             ${formatNumber(item.value)}
                         </div>
 
-
                         <div class="chart-track">
 
                             <div
@@ -490,7 +479,6 @@ function renderFrequencyChart(values) {
                             ></div>
 
                         </div>
-
 
                         <div class="chart-value">
                             ${item.frequency}
@@ -508,15 +496,6 @@ function renderFrequencyChart(values) {
    Five-Number Summary
 ========================= */
 
-/**
- * Display the five-number summary:
- *
- * Minimum
- * Q1
- * Median
- * Q3
- * Maximum
- */
 function displaySummary(values, results) {
 
     const sorted =
@@ -550,18 +529,14 @@ function displaySummary(values, results) {
     summaryMinimum.textContent =
         formatNumber(minimum);
 
-
     summaryQ1.textContent =
         formatNumber(q1);
-
 
     summaryMedian.textContent =
         formatNumber(median);
 
-
     summaryQ3.textContent =
         formatNumber(q3);
-
 
     summaryMaximum.textContent =
         formatNumber(maximum);
@@ -574,18 +549,14 @@ function displaySummary(values, results) {
     scaleMinimum.textContent =
         formatNumber(minimum);
 
-
     scaleQ1.textContent =
         formatNumber(q1);
-
 
     scaleMedian.textContent =
         formatNumber(median);
 
-
     scaleQ3.textContent =
         formatNumber(q3);
-
 
     scaleMaximum.textContent =
         formatNumber(maximum);
@@ -612,6 +583,10 @@ function displaySummary(values, results) {
 
     points.forEach(
         ([element, value]) => {
+
+            if (!element) {
+                return;
+            }
 
             element.setAttribute(
                 "data-value",
@@ -641,10 +616,8 @@ function displayOutliers(values) {
     const q1 =
         getQ1(values);
 
-
     const q3 =
         getQ3(values);
-
 
     const iqr =
         q3 - q1;
@@ -653,14 +626,9 @@ function displayOutliers(values) {
     const lowerBound =
         q1 - (1.5 * iqr);
 
-
     const upperBound =
         q3 + (1.5 * iqr);
 
-
-    /* =========================
-       Find Outliers
-    ========================== */
 
     const outliers =
         values.filter(
@@ -676,7 +644,6 @@ function displayOutliers(values) {
 
     lowerBoundElement.textContent =
         formatNumber(lowerBound);
-
 
     upperBoundElement.textContent =
         formatNumber(upperBound);
@@ -738,422 +705,40 @@ function displayOutliers(values) {
 
 
 /* =========================
-   Show Results
+   Box Plot Median
 ========================= */
 
 /**
- * Display all calculation sections.
+ * Calculate median specifically
+ * for the Box Plot.
  */
-function showResults() {
+function getMedianForBoxPlot(values) {
 
-    resultsSection.classList.remove(
-        "hidden"
-    );
+    const sorted =
+        getSortedValues(values);
 
-    analysisSection.classList.remove(
-        "hidden"
-    );
+    const length =
+        sorted.length;
 
-    summarySection.classList.remove(
-        "hidden"
-    );
-
-    outlierSection.classList.remove(
-        "hidden"
-    );
-}
+    const middle =
+        Math.floor(length / 2);
 
 
-/* =========================
-   Hide Results
-========================= */
+    if (length % 2 === 0) {
 
-/**
- * Hide all calculation sections.
- */
-function hideResults() {
-
-    resultsSection.classList.add(
-        "hidden"
-    );
-
-    analysisSection.classList.add(
-        "hidden"
-    );
-
-    summarySection.classList.add(
-        "hidden"
-    );
-
-    outlierSection.classList.add(
-        "hidden"
-    );
-
-    boxPlotSection.classList.add(
-        "hidden"
-    );
-}
-
-
-/* =========================
-   Calculate Dataset
-========================= */
-
-/**
- * Perform complete statistical calculation.
- */
-function calculateDataset() {
-
-    /* Clear previous error */
-
-    errorMessage.textContent = "";
-
-
-    /* Parse dataset */
-
-    const values =
-        parseInput(dataInput.value);
-
-
-    /* Validate dataset */
-
-    const error =
-        validateValues(values);
-
-
-    if (error) {
-
-        errorMessage.textContent =
-            error;
-
-        hideResults();
-
-        return;
+        return (
+            sorted[middle - 1] +
+            sorted[middle]
+        ) / 2;
     }
 
 
-    /* Get variance type */
-
-    const type =
-        varianceType.value;
-
-
-    /* Calculate statistics */
-
-    const results =
-        calculateStatistics(
-            values,
-            type
-        );
-
-
-    /* =========================
-       Display Results
-    ========================== */
-
-    displayResults(results);
-
-
-    displayAnalysis(values);
-
-
-    displaySummary(
-        values,
-        results
-    );
-
-
-    displayOutliers(values);
-    renderBoxPlot(values);
-
-
-    /* =========================
-       Show Sections
-    ========================== */
-
-    showResults();
-
-
-    /* =========================
-       Dataset Count
-    ========================== */
-
-    datasetCount.textContent =
-        `${values.length} value${
-            values.length !== 1
-                ? "s"
-                : ""
-        }`;
-
-
-    /* =========================
-       Save History
-    ========================== */
-
-    saveHistory(
-        values,
-        results,
-        type
-    );
-
-
-    /* =========================
-       Refresh History
-    ========================== */
-
-    renderHistory();
+    return sorted[middle];
 }
 
 
 /* =========================
-   Clear Dataset
-========================= */
-
-/**
- * Clear current dataset and results.
- */
-function clearDataset() {
-
-    dataInput.value = "";
-
-    errorMessage.textContent = "";
-
-    datasetCount.textContent = "";
-
-    hideResults();
-
-    dataInput.focus();
-}
-
-
-/* =========================
-   Render History
-========================= */
-
-/**
- * Render saved calculations.
- */
-function renderHistory() {
-
-    const history =
-        getHistory();
-
-
-    /* Empty state */
-
-    if (!history.length) {
-
-        historyList.innerHTML = `
-            <div class="empty-history">
-                No calculations yet.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    /* Generate history */
-
-    historyList.innerHTML =
-        history
-            .map(item => {
-
-                const date =
-                    new Date(
-                        item.createdAt
-                    );
-
-
-                const preview =
-                    item.values
-                        .slice(0, 8)
-                        .map(formatNumber)
-                        .join(", ");
-
-
-                return `
-                    <div class="history-item">
-
-                        <div class="history-info">
-
-                            <strong>
-                                ${preview}
-                                ${
-                                    item.values.length > 8
-                                        ? "..."
-                                        : ""
-                                }
-                            </strong>
-
-
-                            <span>
-                                ${item.type} •
-                                ${date.toLocaleString()}
-                            </span>
-
-                        </div>
-
-
-                        <button
-                            class="delete-history"
-                            data-id="${item.id}"
-                            type="button"
-                        >
-                            Delete
-                        </button>
-
-                    </div>
-                `;
-
-            })
-            .join("");
-
-
-    /* =========================
-       Delete Buttons
-    ========================== */
-
-    document
-        .querySelectorAll(
-            ".delete-history"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const id =
-                        Number(
-                            button.dataset.id
-                        );
-
-
-                    deleteHistory(id);
-
-
-                    renderHistory();
-                }
-            );
-
-        });
-}
-
-
-/* =========================
-   Clear History
-========================= */
-
-/**
- * Delete all saved calculations.
- */
-function handleClearHistory() {
-
-    const history =
-        getHistory();
-
-
-    if (!history.length) {
-
-        return;
-    }
-
-
-    clearHistory();
-
-    renderHistory();
-}
-
-
-/* =========================
-   Event Listeners
-========================= */
-
-
-/* Calculate */
-
-calculateBtn.addEventListener(
-    "click",
-    calculateDataset
-);
-
-
-/* Clear Dataset */
-
-clearBtn.addEventListener(
-    "click",
-    clearDataset
-);
-
-
-/* Clear History */
-
-clearHistoryBtn.addEventListener(
-    "click",
-    handleClearHistory
-);
-
-
-/* =========================
-   Ctrl + Enter
-========================= */
-
-dataInput.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.ctrlKey &&
-            event.key === "Enter"
-        ) {
-
-            calculateDataset();
-        }
-
-    }
-);
-
-
-/* =========================
-   Initialize Application
-========================= */
-
-renderHistory();
-
-
-
-/* =========================
-   Box Plot Elements
-========================= */
-
-const boxPlotSection =
-    document.getElementById("boxPlotSection");
-
-const boxPlot =
-    document.getElementById("boxPlot");
-
-const boxMinimum =
-    document.getElementById("boxMinimum");
-
-const boxQ1 =
-    document.getElementById("boxQ1");
-
-const boxMedian =
-    document.getElementById("boxMedian");
-
-const boxQ3 =
-    document.getElementById("boxQ3");
-
-const boxMaximum =
-    document.getElementById("boxMaximum");
-
-const boxIQR =
-    document.getElementById("boxIQR");
-
-
-    /* =========================
-   Box Plot
+   Render Box Plot
 ========================= */
 
 /**
@@ -1170,6 +755,14 @@ const boxIQR =
  */
 function renderBoxPlot(values) {
 
+    if (
+        !boxPlotSection ||
+        !boxPlot
+    ) {
+        return;
+    }
+
+
     if (!values.length) {
 
         boxPlot.innerHTML = "";
@@ -1183,7 +776,7 @@ function renderBoxPlot(values) {
 
 
     /* =========================
-       Calculate Values
+       Calculate Five Numbers
     ========================== */
 
     const sorted =
@@ -1193,22 +786,17 @@ function renderBoxPlot(values) {
     const minimum =
         sorted[0];
 
-
     const maximum =
         sorted[sorted.length - 1];
-
 
     const q1 =
         getQ1(values);
 
-
     const median =
         getMedianForBoxPlot(values);
 
-
     const q3 =
         getQ3(values);
-
 
     const iqr =
         q3 - q1;
@@ -1220,7 +808,6 @@ function renderBoxPlot(values) {
 
     const lowerBound =
         q1 - (1.5 * iqr);
-
 
     const upperBound =
         q3 + (1.5 * iqr);
@@ -1245,29 +832,24 @@ function renderBoxPlot(values) {
     boxMinimum.textContent =
         formatNumber(minimum);
 
-
     boxQ1.textContent =
         formatNumber(q1);
-
 
     boxMedian.textContent =
         formatNumber(median);
 
-
     boxQ3.textContent =
         formatNumber(q3);
 
-
     boxMaximum.textContent =
         formatNumber(maximum);
-
 
     boxIQR.textContent =
         formatNumber(iqr);
 
 
     /* =========================
-       Handle Constant Dataset
+       Constant Dataset
     ========================== */
 
     if (minimum === maximum) {
@@ -1301,25 +883,21 @@ function renderBoxPlot(values) {
     const range =
         maximum - minimum;
 
-
     const padding =
         range * 0.05;
-
 
     const plotMinimum =
         minimum - padding;
 
-
     const plotMaximum =
         maximum + padding;
-
 
     const plotRange =
         plotMaximum - plotMinimum;
 
 
     /* =========================
-       Convert Value → Position
+       Value → Position
     ========================== */
 
     function getPosition(value) {
@@ -1331,24 +909,65 @@ function renderBoxPlot(values) {
     }
 
 
+    const minimumPosition =
+        getPosition(minimum);
+
     const q1Position =
         getPosition(q1);
-
 
     const medianPosition =
         getPosition(median);
 
-
     const q3Position =
         getPosition(q3);
 
-
-    const minimumPosition =
-        getPosition(minimum);
-
-
     const maximumPosition =
         getPosition(maximum);
+
+
+    /* =========================
+       Box Width
+    ========================== */
+
+    const boxWidth =
+        q3Position - q1Position;
+
+
+    /*
+     * If Q1 and Q3 are identical,
+     * prevent the box from becoming
+     * visually invisible.
+     */
+
+    const safeBoxWidth =
+        Math.max(boxWidth, 0.8);
+
+
+    /* =========================
+       Median Position
+    ========================== */
+
+    let medianInsideBox = 50;
+
+
+    if (q3 !== q1) {
+
+        medianInsideBox =
+            (
+                (median - q1) /
+                (q3 - q1)
+            ) * 100;
+    }
+
+
+    medianInsideBox =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                medianInsideBox
+            )
+        );
 
 
     /* =========================
@@ -1362,11 +981,13 @@ function renderBoxPlot(values) {
                 const position =
                     getPosition(value);
 
+
                 return `
                     <div
                         class="box-outlier"
                         style="left: ${position}%"
                         title="Outlier: ${formatNumber(value)}"
+                        aria-label="Outlier ${formatNumber(value)}"
                     >
                         ●
                     </div>
@@ -1398,7 +1019,7 @@ function renderBoxPlot(values) {
             ></div>
 
 
-            <!-- Minimum Whisker -->
+            <!-- Minimum Cap -->
 
             <div
                 class="box-whisker-cap"
@@ -1408,7 +1029,7 @@ function renderBoxPlot(values) {
             ></div>
 
 
-            <!-- Maximum Whisker -->
+            <!-- Maximum Cap -->
 
             <div
                 class="box-whisker-cap"
@@ -1424,10 +1045,7 @@ function renderBoxPlot(values) {
                 class="box-plot-box"
                 style="
                     left: ${q1Position}%;
-                    width: ${
-                        q3Position -
-                        q1Position
-                    }%;
+                    width: ${safeBoxWidth}%;
                 "
             >
 
@@ -1436,18 +1054,7 @@ function renderBoxPlot(values) {
                 <div
                     class="box-median"
                     style="
-                        left: ${
-                            (
-                                (
-                                    median -
-                                    q1
-                                ) /
-                                (
-                                    q3 -
-                                    q1
-                                )
-                            ) * 100
-                        }%;
+                        left: ${medianInsideBox}%;
                     "
                 ></div>
 
@@ -1515,7 +1122,7 @@ function renderBoxPlot(values) {
 
 
     /* =========================
-       Show Section
+       Show Box Plot
     ========================== */
 
     boxPlotSection.classList.remove(
@@ -1524,32 +1131,361 @@ function renderBoxPlot(values) {
 }
 
 
-
 /* =========================
-   Box Plot Median
+   Show Results
 ========================= */
 
-function getMedianForBoxPlot(values) {
+function showResults() {
 
-    const sorted =
-        getSortedValues(values);
+    resultsSection.classList.remove(
+        "hidden"
+    );
 
-    const length =
-        sorted.length;
+    analysisSection.classList.remove(
+        "hidden"
+    );
+
+    summarySection.classList.remove(
+        "hidden"
+    );
+
+    outlierSection.classList.remove(
+        "hidden"
+    );
+
+    if (boxPlotSection) {
+
+        boxPlotSection.classList.remove(
+            "hidden"
+        );
+    }
+}
 
 
-    const middle =
-        Math.floor(length / 2);
+/* =========================
+   Hide Results
+========================= */
+
+function hideResults() {
+
+    resultsSection.classList.add(
+        "hidden"
+    );
+
+    analysisSection.classList.add(
+        "hidden"
+    );
+
+    summarySection.classList.add(
+        "hidden"
+    );
+
+    outlierSection.classList.add(
+        "hidden"
+    );
+
+    if (boxPlotSection) {
+
+        boxPlotSection.classList.add(
+            "hidden"
+        );
+    }
+}
 
 
-    if (length % 2 === 0) {
+/* =========================
+   Calculate Dataset
+========================= */
 
-        return (
-            sorted[middle - 1] +
-            sorted[middle]
-        ) / 2;
+function calculateDataset() {
+
+    /* Clear previous error */
+
+    errorMessage.textContent = "";
+
+
+    /* Parse dataset */
+
+    const values =
+        parseInput(dataInput.value);
+
+
+    /* Validate */
+
+    const error =
+        validateValues(values);
+
+
+    if (error) {
+
+        errorMessage.textContent =
+            error;
+
+        hideResults();
+
+        return;
     }
 
 
-    return sorted[middle];
+    /* Variance Type */
+
+    const type =
+        varianceType.value;
+
+
+    /* Calculate Statistics */
+
+    const results =
+        calculateStatistics(
+            values,
+            type
+        );
+
+
+    /* =========================
+       Display
+    ========================== */
+
+    displayResults(results);
+
+    displayAnalysis(values);
+
+    displaySummary(
+        values,
+        results
+    );
+
+    displayOutliers(values);
+
+    renderBoxPlot(values);
+
+
+    /* =========================
+       Show Sections
+    ========================== */
+
+    showResults();
+
+
+    /* =========================
+       Dataset Count
+    ========================== */
+
+    datasetCount.textContent =
+        `${values.length} value${
+            values.length !== 1
+                ? "s"
+                : ""
+        }`;
+
+
+    /* =========================
+       Save History
+    ========================== */
+
+    saveHistory(
+        values,
+        results,
+        type
+    );
+
+
+    /* Refresh History */
+
+    renderHistory();
 }
+
+
+/* =========================
+   Clear Dataset
+========================= */
+
+function clearDataset() {
+
+    dataInput.value = "";
+
+    errorMessage.textContent = "";
+
+    datasetCount.textContent = "";
+
+    hideResults();
+
+    dataInput.focus();
+}
+
+
+/* =========================
+   Render History
+========================= */
+
+function renderHistory() {
+
+    const history =
+        getHistory();
+
+
+    if (!history.length) {
+
+        historyList.innerHTML = `
+            <div class="empty-history">
+                No calculations yet.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    historyList.innerHTML =
+        history
+            .map(item => {
+
+                const date =
+                    new Date(
+                        item.createdAt
+                    );
+
+
+                const preview =
+                    item.values
+                        .slice(0, 8)
+                        .map(formatNumber)
+                        .join(", ");
+
+
+                return `
+                    <div class="history-item">
+
+                        <div class="history-info">
+
+                            <strong>
+                                ${preview}
+                                ${
+                                    item.values.length > 8
+                                        ? "..."
+                                        : ""
+                                }
+                            </strong>
+
+                            <span>
+                                ${item.type} •
+                                ${date.toLocaleString()}
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            class="delete-history"
+                            data-id="${item.id}"
+                            type="button"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+
+
+    /* =========================
+       Delete Buttons
+    ========================== */
+
+    document
+        .querySelectorAll(
+            ".delete-history"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        Number(
+                            button.dataset.id
+                        );
+
+
+                    deleteHistory(id);
+
+                    renderHistory();
+                }
+            );
+
+        });
+}
+
+
+/* =========================
+   Clear History
+========================= */
+
+function handleClearHistory() {
+
+    const history =
+        getHistory();
+
+
+    if (!history.length) {
+
+        return;
+    }
+
+
+    clearHistory();
+
+    renderHistory();
+}
+
+
+/* =========================
+   Event Listeners
+========================= */
+
+calculateBtn.addEventListener(
+    "click",
+    calculateDataset
+);
+
+
+clearBtn.addEventListener(
+    "click",
+    clearDataset
+);
+
+
+clearHistoryBtn.addEventListener(
+    "click",
+    handleClearHistory
+);
+
+
+/* =========================
+   Ctrl + Enter
+========================= */
+
+dataInput.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.ctrlKey &&
+            event.key === "Enter"
+        ) {
+
+            calculateDataset();
+        }
+
+    }
+);
+
+
+/* =========================
+   Initialize Application
+========================= */
+
+renderHistory();
