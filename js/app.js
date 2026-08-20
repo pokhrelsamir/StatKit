@@ -59,6 +59,9 @@ const zScoreSection =
 const outlierSection =
     document.getElementById("outlierSection");
 
+const boxPlotSection =
+    document.getElementById("boxPlotSection");
+
 const historyList =
     document.getElementById("historyList");
 
@@ -148,6 +151,26 @@ const summaryMaximum =
 
 
 /* =========================
+   Summary Scale
+========================= */
+
+const scaleMinimum =
+    document.getElementById("scaleMinimum");
+
+const scaleQ1 =
+    document.getElementById("scaleQ1");
+
+const scaleMedian =
+    document.getElementById("scaleMedian");
+
+const scaleQ3 =
+    document.getElementById("scaleQ3");
+
+const scaleMaximum =
+    document.getElementById("scaleMaximum");
+
+
+/* =========================
    Percentile Elements
 ========================= */
 
@@ -188,26 +211,6 @@ const zScoreTable =
 
 
 /* =========================
-   Summary Scale
-========================= */
-
-const scaleMinimum =
-    document.getElementById("scaleMinimum");
-
-const scaleQ1 =
-    document.getElementById("scaleQ1");
-
-const scaleMedian =
-    document.getElementById("scaleMedian");
-
-const scaleQ3 =
-    document.getElementById("scaleQ3");
-
-const scaleMaximum =
-    document.getElementById("scaleMaximum");
-
-
-/* =========================
    Outlier Elements
 ========================= */
 
@@ -230,9 +233,6 @@ const outlierStatusElement =
 /* =========================
    Box Plot Elements
 ========================= */
-
-const boxPlotSection =
-    document.getElementById("boxPlotSection");
 
 const boxPlot =
     document.getElementById("boxPlot");
@@ -261,7 +261,8 @@ const boxIQR =
 ========================= */
 
 /**
- * Convert user input into an array of numbers.
+ * Convert user input into an array
+ * of numbers.
  *
  * Supports:
  * - Commas
@@ -288,20 +289,16 @@ function parseInput(input) {
 function validateValues(values) {
 
     if (!values.length) {
-
         return "Please enter at least one number.";
     }
-
 
     if (
         values.some(
             value => !Number.isFinite(value)
         )
     ) {
-
         return "Please enter valid numbers only.";
     }
-
 
     return null;
 }
@@ -319,16 +316,12 @@ function validateValues(values) {
 function formatNumber(value) {
 
     if (typeof value !== "number") {
-
         return value;
     }
 
-
     if (!Number.isFinite(value)) {
-
         return "—";
     }
-
 
     return Number.isInteger(value)
         ? value.toString()
@@ -340,7 +333,7 @@ function formatNumber(value) {
 
 
 /* =========================
-   Display Results
+   Display Main Results
 ========================= */
 
 function displayResults(results) {
@@ -405,27 +398,13 @@ function displayAnalysis(values) {
         getIQR(values);
 
 
-    /* =========================
-       Sorted Data
-    ========================== */
-
     sortedDataElement.textContent =
         sorted
             .map(formatNumber)
             .join(", ");
 
-
-    /* =========================
-       Unique Values
-    ========================== */
-
     uniqueValuesElement.textContent =
         unique.length;
-
-
-    /* =========================
-       Quartiles
-    ========================== */
 
     q1Element.textContent =
         formatNumber(firstQuartile);
@@ -434,68 +413,60 @@ function displayAnalysis(values) {
         formatNumber(thirdQuartile);
 
     iqrElement.textContent =
-        formatNumber(
-            interquartileRange
-        );
-
-
-/* =========================
-   Frequency Distribution
-========================= */
-
-const frequencies =
-    getFrequencyDistribution(values);
-
-
-frequencyTable.innerHTML = `
-
-    <div class="frequency-line">
-
-        <div class="frequency-title">
-            Value
-        </div>
-
-        <div class="frequency-data">
-
-            ${frequencies
-                .map(item => `
-                    <span>
-                        ${formatNumber(item.value)}
-                    </span>
-                `)
-                .join("")}
-
-        </div>
-
-    </div>
-
-
-    <div class="frequency-line">
-
-        <div class="frequency-title">
-            Frequency
-        </div>
-
-        <div class="frequency-data">
-
-            ${frequencies
-                .map(item => `
-                    <span>
-                        ${item.frequency}
-                    </span>
-                `)
-                .join("")}
-
-        </div>
-
-    </div>
-
-`;
+        formatNumber(interquartileRange);
 
 
     /* =========================
-       Frequency Chart
+       Frequency Distribution
     ========================== */
+
+    const frequencies =
+        getFrequencyDistribution(values);
+
+    frequencyTable.innerHTML = `
+
+        <div class="frequency-line">
+
+            <div class="frequency-title">
+                Value
+            </div>
+
+            <div class="frequency-data">
+
+                ${frequencies
+                    .map(item => `
+                        <span>
+                            ${formatNumber(item.value)}
+                        </span>
+                    `)
+                    .join("")}
+
+            </div>
+
+        </div>
+
+
+        <div class="frequency-line">
+
+            <div class="frequency-title">
+                Frequency
+            </div>
+
+            <div class="frequency-data">
+
+                ${frequencies
+                    .map(item => `
+                        <span>
+                            ${item.frequency}
+                        </span>
+                    `)
+                    .join("")}
+
+            </div>
+
+        </div>
+
+    `;
 
     renderFrequencyChart(values);
 }
@@ -510,7 +481,6 @@ function renderFrequencyChart(values) {
     const frequencies =
         getFrequencyDistribution(values);
 
-
     if (!frequencies.length) {
 
         frequencyChart.innerHTML = "";
@@ -518,14 +488,12 @@ function renderFrequencyChart(values) {
         return;
     }
 
-
     const maxFrequency =
         Math.max(
             ...frequencies.map(
                 item => item.frequency
             )
         );
-
 
     frequencyChart.innerHTML =
         frequencies
@@ -538,7 +506,6 @@ function renderFrequencyChart(values) {
                             maxFrequency
                         ) * 100
                         : 0;
-
 
                 return `
                     <div class="chart-row">
@@ -577,7 +544,6 @@ function displaySummary(values, results) {
     const sorted =
         getSortedValues(values);
 
-
     const minimum =
         sorted[0];
 
@@ -593,10 +559,6 @@ function displaySummary(values, results) {
     const q3 =
         getQ3(values);
 
-
-    /* =========================
-       Summary Cards
-    ========================== */
 
     summaryMinimum.textContent =
         formatNumber(minimum);
@@ -614,10 +576,6 @@ function displaySummary(values, results) {
         formatNumber(maximum);
 
 
-    /* =========================
-       Scale Values
-    ========================== */
-
     scaleMinimum.textContent =
         formatNumber(minimum);
 
@@ -634,20 +592,12 @@ function displaySummary(values, results) {
         formatNumber(maximum);
 
 
-    /* =========================
-       Scale Data Attributes
-    ========================== */
-
     const points = [
 
         [scaleMinimum, minimum],
-
         [scaleQ1, q1],
-
         [scaleMedian, median],
-
         [scaleQ3, q3],
-
         [scaleMaximum, maximum]
 
     ];
@@ -674,41 +624,10 @@ function displaySummary(values, results) {
    Percentile Analysis
 ========================= */
 
-/**
- * Display selected percentiles.
- *
- * Uses the percentile interpolation
- * already implemented in statistics.js.
- */
 function displayPercentiles(values) {
 
-    if (
-        !p10Element &&
-        !p25Element &&
-        !p50Element &&
-        !p75Element &&
-        !p90Element &&
-        !p95Element
-    ) {
-        return;
-    }
-
-
-    const percentiles = {
-
-        p10: getPercentile(values, 0.10),
-
-        p25: getPercentile(values, 0.25),
-
-        p50: getPercentile(values, 0.50),
-
-        p75: getPercentile(values, 0.75),
-
-        p90: getPercentile(values, 0.90),
-
-        p95: getPercentile(values, 0.95)
-
-    };
+    const percentiles =
+        getPercentileSummary(values);
 
 
     if (p10Element) {
@@ -744,228 +663,76 @@ function displayPercentiles(values) {
 
 
 /* =========================
-   Z-Score Calculation
-========================= */
-
-/**
- * Calculate individual Z-scores.
- *
- * Z = (X - Mean) / Standard Deviation
- *
- * Uses the selected population/sample
- * standard deviation.
- */
-function calculateZScores(values, type) {
-
-    if (!values.length) {
-        return [];
-    }
-
-
-    const mean =
-        getMean(values);
-
-
-    const standardDeviation =
-        type === "sample"
-            ? getSampleStandardDeviation(values)
-            : getPopulationStandardDeviation(values);
-
-
-    /*
-     * If every value is identical,
-     * standard deviation is zero.
-     */
-    if (standardDeviation === 0) {
-
-        return values.map(
-            (value, index) => ({
-
-                index: index + 1,
-
-                value,
-
-                zScore: 0
-
-            })
-        );
-    }
-
-
-    return values.map(
-        (value, index) => ({
-
-            index: index + 1,
-
-            value,
-
-            zScore:
-                (value - mean) /
-                standardDeviation
-
-        })
-    );
-}
-
-
-/* =========================
-   Z-Score Interpretation
-========================= */
-
-/**
- * Provide a simple interpretation
- * for each Z-score.
- */
-function interpretZScore(zScore) {
-
-    const absoluteZScore =
-        Math.abs(zScore);
-
-
-    if (absoluteZScore < 1) {
-
-        return "Within 1 standard deviation";
-    }
-
-
-    if (absoluteZScore < 2) {
-
-        return "Within 2 standard deviations";
-    }
-
-
-    if (absoluteZScore < 3) {
-
-        return "Within 3 standard deviations";
-    }
-
-
-    return "Extreme value (3+ standard deviations)";
-}
-
-
-/* =========================
-   Display Z-Score Analysis
+   Z-Score Analysis
 ========================= */
 
 function displayZScores(values, type) {
 
-    if (
-        !lowestZScoreElement &&
-        !highestZScoreElement &&
-        !meanZScoreElement &&
-        !zScoreTable
-    ) {
-        return;
-    }
+    const zScoreData =
+        getZScoreData(
+            values,
+            type
+        );
 
-
-    const zScores =
-        calculateZScores(
+    const summary =
+        getZScoreSummary(
             values,
             type
         );
 
 
-    if (!zScores.length) {
-        return;
-    }
-
-
-    const numericZScores =
-        zScores.map(
-            item => item.zScore
-        );
-
-
-    const lowestZScore =
-        Math.min(...numericZScores);
-
-
-    const highestZScore =
-        Math.max(...numericZScores);
-
-
-    const meanZScore =
-        getMean(numericZScores);
-
-
-    /* =========================
-       Summary
-    ========================== */
-
     if (lowestZScoreElement) {
 
         lowestZScoreElement.textContent =
-            formatNumber(
-                lowestZScore
-            );
+            formatNumber(summary.lowest);
     }
 
 
     if (highestZScoreElement) {
 
         highestZScoreElement.textContent =
-            formatNumber(
-                highestZScore
-            );
+            formatNumber(summary.highest);
     }
 
 
     if (meanZScoreElement) {
 
         meanZScoreElement.textContent =
-            formatNumber(
-                meanZScore
-            );
+            formatNumber(summary.mean);
     }
 
 
-    /* =========================
-       Individual Z-Scores
-    ========================== */
-
-    if (zScoreTable) {
-
-        zScoreTable.innerHTML =
-            zScores
-                .map(item => {
-
-                    const interpretation =
-                        interpretZScore(
-                            item.zScore
-                        );
-
-
-                    return `
-                        <tr>
-
-                            <td>
-                                ${item.index}
-                            </td>
-
-                            <td>
-                                ${formatNumber(
-                                    item.value
-                                )}
-                            </td>
-
-                            <td>
-                                ${formatNumber(
-                                    item.zScore
-                                )}
-                            </td>
-
-                            <td>
-                                ${interpretation}
-                            </td>
-
-                        </tr>
-                    `;
-
-                })
-                .join("");
+    if (!zScoreTable) {
+        return;
     }
+
+
+    zScoreTable.innerHTML =
+        zScoreData
+            .map(item => `
+
+                <tr>
+
+                    <td>
+                        ${item.index}
+                    </td>
+
+                    <td>
+                        ${formatNumber(item.value)}
+                    </td>
+
+                    <td>
+                        ${formatNumber(item.zScore)}
+                    </td>
+
+                    <td>
+                        ${item.interpretation}
+                    </td>
+
+                </tr>
+
+            `)
+            .join("");
 }
 
 
@@ -973,15 +740,6 @@ function displayZScores(values, type) {
    Outlier Detection
 ========================= */
 
-/**
- * Detect outliers using the IQR method.
- *
- * IQR = Q3 - Q1
- *
- * Lower Bound = Q1 - 1.5 × IQR
- *
- * Upper Bound = Q3 + 1.5 × IQR
- */
 function displayOutliers(values) {
 
     const q1 =
@@ -991,15 +749,13 @@ function displayOutliers(values) {
         getQ3(values);
 
     const iqr =
-        q3 - q1;
-
+        getIQR(values);
 
     const lowerBound =
         q1 - (1.5 * iqr);
 
     const upperBound =
         q3 + (1.5 * iqr);
-
 
     const outliers =
         values.filter(
@@ -1009,48 +765,20 @@ function displayOutliers(values) {
         );
 
 
-    /* =========================
-       Display Bounds
-    ========================== */
-
     lowerBoundElement.textContent =
         formatNumber(lowerBound);
 
     upperBoundElement.textContent =
         formatNumber(upperBound);
 
-
-    /* =========================
-       Display Count
-    ========================== */
-
     outlierCountElement.textContent =
         outliers.length;
 
-
-    /* =========================
-       Display Values
-    ========================== */
 
     if (!outliers.length) {
 
         outlierValuesElement.textContent =
             "No outliers detected.";
-
-    } else {
-
-        outlierValuesElement.textContent =
-            outliers
-                .map(formatNumber)
-                .join(", ");
-    }
-
-
-    /* =========================
-       Status
-    ========================== */
-
-    if (!outliers.length) {
 
         outlierStatusElement.textContent =
             "✓ No outliers detected.";
@@ -1060,6 +788,11 @@ function displayOutliers(values) {
         );
 
     } else {
+
+        outlierValuesElement.textContent =
+            outliers
+                .map(formatNumber)
+                .join(", ");
 
         outlierStatusElement.textContent =
             `⚠ ${outliers.length} outlier${
@@ -1079,32 +812,9 @@ function displayOutliers(values) {
    Box Plot Median
 ========================= */
 
-/**
- * Calculate median specifically
- * for the Box Plot.
- */
 function getMedianForBoxPlot(values) {
 
-    const sorted =
-        getSortedValues(values);
-
-    const length =
-        sorted.length;
-
-    const middle =
-        Math.floor(length / 2);
-
-
-    if (length % 2 === 0) {
-
-        return (
-            sorted[middle - 1] +
-            sorted[middle]
-        ) / 2;
-    }
-
-
-    return sorted[middle];
+    return getMedian(values);
 }
 
 
@@ -1112,9 +822,6 @@ function getMedianForBoxPlot(values) {
    Render Box Plot
 ========================= */
 
-/**
- * Render a visual box plot.
- */
 function renderBoxPlot(values) {
 
     if (
@@ -1137,13 +844,8 @@ function renderBoxPlot(values) {
     }
 
 
-    /* =========================
-       Calculate Five Numbers
-    ========================== */
-
     const sorted =
         getSortedValues(values);
-
 
     const minimum =
         sorted[0];
@@ -1161,12 +863,8 @@ function renderBoxPlot(values) {
         getQ3(values);
 
     const iqr =
-        q3 - q1;
+        getIQR(values);
 
-
-    /* =========================
-       Outlier Bounds
-    ========================== */
 
     const lowerBound =
         q1 - (1.5 * iqr);
@@ -1175,10 +873,6 @@ function renderBoxPlot(values) {
         q3 + (1.5 * iqr);
 
 
-    /* =========================
-       Find Outliers
-    ========================== */
-
     const outliers =
         values.filter(
             value =>
@@ -1186,10 +880,6 @@ function renderBoxPlot(values) {
                 value > upperBound
         );
 
-
-    /* =========================
-       Display Values
-    ========================== */
 
     boxMinimum.textContent =
         formatNumber(minimum);
@@ -1217,6 +907,7 @@ function renderBoxPlot(values) {
     if (minimum === maximum) {
 
         boxPlot.innerHTML = `
+
             <div class="box-plot-constant">
 
                 <span class="box-plot-point">
@@ -1228,6 +919,7 @@ function renderBoxPlot(values) {
                 </span>
 
             </div>
+
         `;
 
         boxPlotSection.classList.remove(
@@ -1258,10 +950,6 @@ function renderBoxPlot(values) {
         plotMaximum - plotMinimum;
 
 
-    /* =========================
-       Value → Position
-    ========================== */
-
     function getPosition(value) {
 
         return (
@@ -1287,24 +975,14 @@ function renderBoxPlot(values) {
         getPosition(maximum);
 
 
-    /* =========================
-       Box Width
-    ========================== */
-
     const boxWidth =
         q3Position - q1Position;
-
 
     const safeBoxWidth =
         Math.max(boxWidth, 0.8);
 
 
-    /* =========================
-       Median Position
-    ========================== */
-
     let medianInsideBox = 50;
-
 
     if (q3 !== q1) {
 
@@ -1337,8 +1015,8 @@ function renderBoxPlot(values) {
                 const position =
                     getPosition(value);
 
-
                 return `
+
                     <div
                         class="box-outlier"
                         style="left: ${position}%"
@@ -1347,6 +1025,7 @@ function renderBoxPlot(values) {
                     >
                         ●
                     </div>
+
                 `;
 
             })
@@ -1475,45 +1154,24 @@ function renderBoxPlot(values) {
 
 function showResults() {
 
-    resultsSection.classList.remove(
-        "hidden"
-    );
+    resultsSection.classList.remove("hidden");
 
-    analysisSection.classList.remove(
-        "hidden"
-    );
+    analysisSection.classList.remove("hidden");
 
-    summarySection.classList.remove(
-        "hidden"
-    );
-
+    summarySection.classList.remove("hidden");
 
     if (percentileSection) {
-
-        percentileSection.classList.remove(
-            "hidden"
-        );
+        percentileSection.classList.remove("hidden");
     }
-
 
     if (zScoreSection) {
-
-        zScoreSection.classList.remove(
-            "hidden"
-        );
+        zScoreSection.classList.remove("hidden");
     }
 
-
-    outlierSection.classList.remove(
-        "hidden"
-    );
-
+    outlierSection.classList.remove("hidden");
 
     if (boxPlotSection) {
-
-        boxPlotSection.classList.remove(
-            "hidden"
-        );
+        boxPlotSection.classList.remove("hidden");
     }
 }
 
@@ -1524,45 +1182,24 @@ function showResults() {
 
 function hideResults() {
 
-    resultsSection.classList.add(
-        "hidden"
-    );
+    resultsSection.classList.add("hidden");
 
-    analysisSection.classList.add(
-        "hidden"
-    );
+    analysisSection.classList.add("hidden");
 
-    summarySection.classList.add(
-        "hidden"
-    );
-
+    summarySection.classList.add("hidden");
 
     if (percentileSection) {
-
-        percentileSection.classList.add(
-            "hidden"
-        );
+        percentileSection.classList.add("hidden");
     }
-
 
     if (zScoreSection) {
-
-        zScoreSection.classList.add(
-            "hidden"
-        );
+        zScoreSection.classList.add("hidden");
     }
 
-
-    outlierSection.classList.add(
-        "hidden"
-    );
-
+    outlierSection.classList.add("hidden");
 
     if (boxPlotSection) {
-
-        boxPlotSection.classList.add(
-            "hidden"
-        );
+        boxPlotSection.classList.add("hidden");
     }
 }
 
@@ -1573,18 +1210,14 @@ function hideResults() {
 
 function calculateDataset() {
 
-    /* Clear previous error */
-
     errorMessage.textContent = "";
 
 
-    /* Parse dataset */
-
     const values =
-        parseInput(dataInput.value);
+        parseInput(
+            dataInput.value
+        );
 
-
-    /* Validate */
 
     const error =
         validateValues(values);
@@ -1601,13 +1234,9 @@ function calculateDataset() {
     }
 
 
-    /* Variance Type */
-
     const type =
         varianceType.value;
 
-
-    /* Calculate Statistics */
 
     const results =
         calculateStatistics(
@@ -1615,10 +1244,6 @@ function calculateDataset() {
             type
         );
 
-
-    /* =========================
-       Display Existing Features
-    ========================== */
 
     displayResults(results);
 
@@ -1629,15 +1254,6 @@ function calculateDataset() {
         results
     );
 
-    displayOutliers(values);
-
-    renderBoxPlot(values);
-
-
-    /* =========================
-       New Features
-    ========================== */
-
     displayPercentiles(values);
 
     displayZScores(
@@ -1645,17 +1261,13 @@ function calculateDataset() {
         type
     );
 
+    displayOutliers(values);
 
-    /* =========================
-       Show Sections
-    ========================== */
+    renderBoxPlot(values);
+
 
     showResults();
 
-
-    /* =========================
-       Dataset Count
-    ========================== */
 
     datasetCount.textContent =
         `${values.length} value${
@@ -1665,20 +1277,12 @@ function calculateDataset() {
         }`;
 
 
-    /* =========================
-       Save History
-    ========================== */
-
     saveHistory(
         values,
         results,
         type
     );
 
-
-    /* =========================
-       Refresh History
-    ========================== */
 
     renderHistory();
 }
@@ -1715,9 +1319,11 @@ function renderHistory() {
     if (!history.length) {
 
         historyList.innerHTML = `
+
             <div class="empty-history">
                 No calculations yet.
             </div>
+
         `;
 
         return;
@@ -1742,6 +1348,7 @@ function renderHistory() {
 
 
                 return `
+
                     <div class="history-item">
 
                         <div class="history-info">
@@ -1772,20 +1379,15 @@ function renderHistory() {
                         </button>
 
                     </div>
+
                 `;
 
             })
             .join("");
 
 
-    /* =========================
-       Delete Buttons
-    ========================== */
-
     document
-        .querySelectorAll(
-            ".delete-history"
-        )
+        .querySelectorAll(".delete-history")
         .forEach(button => {
 
             button.addEventListener(
@@ -1796,7 +1398,6 @@ function renderHistory() {
                         Number(
                             button.dataset.id
                         );
-
 
                     deleteHistory(id);
 
@@ -1819,7 +1420,6 @@ function handleClearHistory() {
 
 
     if (!history.length) {
-
         return;
     }
 
