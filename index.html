@@ -812,3 +812,110 @@
 </body>
 
 </html>
+
+<!-- =========================
+     Outlier Detection
+========================== -->
+
+<section
+    id="outlierSection"
+    class="card hidden"
+>
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                Outlier Detection
+            </h2>
+
+            <p>
+                Detect unusual values using the IQR method.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Outlier Statistics -->
+
+    <div class="outlier-grid">
+
+
+        <!-- Lower Bound -->
+
+        <div class="outlier-card">
+
+            <span>
+                Lower Bound
+            </span>
+
+            <strong id="lowerBound">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- Upper Bound -->
+
+        <div class="outlier-card">
+
+            <span>
+                Upper Bound
+            </span>
+
+            <strong id="upperBound">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- Outlier Count -->
+
+        <div class="outlier-card">
+
+            <span>
+                Outlier Count
+            </span>
+
+            <strong id="outlierCount">
+                —
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- Outlier Values -->
+
+    <div class="outlier-values-wrapper">
+
+        <h3>
+            Detected Outliers
+        </h3>
+
+        <div
+            id="outlierValues"
+            class="outlier-values"
+        >
+            No outliers detected.
+        </div>
+
+    </div>
+
+
+    <!-- Status -->
+
+    <div
+        id="outlierStatus"
+        class="outlier-status"
+    >
+        No outliers detected.
+    </div>
+
+</section>
