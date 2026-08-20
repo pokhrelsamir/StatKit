@@ -2,7 +2,7 @@
  * StatKit
  * Statistical Calculation Engine
  *
- * Provides functions for calculating:
+ * Provides functions for:
  * - Count
  * - Sum
  * - Mean
@@ -11,7 +11,8 @@
  * - Minimum
  * - Maximum
  * - Range
- * - Variance
+ * - Population Variance
+ * - Sample Variance
  * - Standard Deviation
  * - Sorted Values
  * - Unique Values
@@ -21,7 +22,7 @@
  * - Frequency Distribution
  * - Z-Scores
  * - Z-Score Interpretation
- * - Percentile Summary
+ * - Z-Score Summary
  */
 
 
@@ -30,7 +31,7 @@
 ========================= */
 
 /**
- * Count values
+ * Count values.
  */
 function getCount(values) {
     return values.length;
@@ -38,9 +39,10 @@ function getCount(values) {
 
 
 /**
- * Calculate sum
+ * Calculate sum.
  */
 function getSum(values) {
+
     return values.reduce(
         (total, value) => total + value,
         0
@@ -49,11 +51,11 @@ function getSum(values) {
 
 
 /**
- * Calculate arithmetic mean
+ * Calculate arithmetic mean.
  */
 function getMean(values) {
 
-    if (values.length === 0) {
+    if (!values.length) {
         return 0;
     }
 
@@ -62,20 +64,18 @@ function getMean(values) {
 
 
 /**
- * Calculate median
+ * Calculate median.
  */
 function getMedian(values) {
 
-    if (values.length === 0) {
+    if (!values.length) {
         return 0;
     }
 
-    const sorted =
-        [...values].sort((a, b) => a - b);
+    const sorted = getSortedValues(values);
 
     const middle =
         Math.floor(sorted.length / 2);
-
 
     if (sorted.length % 2 === 0) {
 
@@ -85,77 +85,84 @@ function getMedian(values) {
         ) / 2;
     }
 
-
     return sorted[middle];
 }
 
 
 /**
- * Calculate mode
+ * Calculate mode.
  *
  * Returns all modes when multiple values
  * have the highest frequency.
  */
 function getMode(values) {
 
-    if (values.length === 0) {
+    if (!values.length) {
         return [];
     }
 
-
-    const frequency = {};
-
+    const frequency = new Map();
 
     values.forEach(value => {
 
-        frequency[value] =
-            (frequency[value] || 0) + 1;
+        frequency.set(
+            value,
+            (frequency.get(value) || 0) + 1
+        );
 
     });
 
-
     const maxFrequency =
-        Math.max(
-            ...Object.values(frequency)
-        );
-
+        Math.max(...frequency.values());
 
     if (maxFrequency === 1) {
         return [];
     }
 
-
-    return Object.keys(frequency)
+    return [...frequency.entries()]
         .filter(
-            value =>
-                frequency[value] === maxFrequency
+            ([, count]) =>
+                count === maxFrequency
         )
-        .map(Number);
+        .map(([value]) => value)
+        .sort((a, b) => a - b);
 }
 
 
 /**
- * Minimum value
+ * Minimum value.
  */
 function getMinimum(values) {
+
+    if (!values.length) {
+        return 0;
+    }
 
     return Math.min(...values);
 }
 
 
 /**
- * Maximum value
+ * Maximum value.
  */
 function getMaximum(values) {
+
+    if (!values.length) {
+        return 0;
+    }
 
     return Math.max(...values);
 }
 
 
 /**
- * Calculate range
+ * Calculate range.
  */
 function getRange(values) {
+
+    if (!values.length) {
+        return 0;
+    }
 
     return (
         getMaximum(values) -
@@ -169,18 +176,15 @@ function getRange(values) {
 ========================= */
 
 /**
- * Calculate population variance
+ * Calculate population variance.
  */
 function getPopulationVariance(values) {
 
-    if (values.length === 0) {
+    if (!values.length) {
         return 0;
     }
 
-
-    const mean =
-        getMean(values);
-
+    const mean = getMean(values);
 
     const squaredDifferences =
         values.map(
@@ -190,7 +194,6 @@ function getPopulationVariance(values) {
                     2
                 )
         );
-
 
     return (
         getSum(squaredDifferences) /
@@ -200,7 +203,7 @@ function getPopulationVariance(values) {
 
 
 /**
- * Calculate sample variance
+ * Calculate sample variance.
  */
 function getSampleVariance(values) {
 
@@ -208,10 +211,7 @@ function getSampleVariance(values) {
         return 0;
     }
 
-
-    const mean =
-        getMean(values);
-
+    const mean = getMean(values);
 
     const squaredDifferences =
         values.map(
@@ -221,7 +221,6 @@ function getSampleVariance(values) {
                     2
                 )
         );
-
 
     return (
         getSum(squaredDifferences) /
@@ -235,7 +234,7 @@ function getSampleVariance(values) {
 ========================= */
 
 /**
- * Calculate population standard deviation
+ * Population standard deviation.
  */
 function getPopulationStandardDeviation(values) {
 
@@ -246,7 +245,7 @@ function getPopulationStandardDeviation(values) {
 
 
 /**
- * Calculate sample standard deviation
+ * Sample standard deviation.
  */
 function getSampleStandardDeviation(values) {
 
@@ -261,7 +260,7 @@ function getSampleStandardDeviation(values) {
 ========================= */
 
 /**
- * Calculate complete statistics
+ * Calculate complete statistical results.
  */
 function calculateStatistics(
     values,
@@ -273,12 +272,10 @@ function calculateStatistics(
             ? getSampleVariance(values)
             : getPopulationVariance(values);
 
-
     const standardDeviation =
         type === "sample"
             ? getSampleStandardDeviation(values)
             : getPopulationStandardDeviation(values);
-
 
     return {
 
@@ -319,7 +316,8 @@ function calculateStatistics(
 ========================= */
 
 /**
- * Return sorted dataset
+ * Return sorted dataset without
+ * modifying the original array.
  */
 function getSortedValues(values) {
 
@@ -329,7 +327,7 @@ function getSortedValues(values) {
 
 
 /**
- * Return unique values
+ * Return sorted unique values.
  */
 function getUniqueValues(values) {
 
@@ -343,60 +341,47 @@ function getUniqueValues(values) {
 ========================= */
 
 /**
- * Calculate percentile
+ * Calculate percentile using
+ * linear interpolation.
  *
- * Uses linear interpolation.
- *
- * Example:
- * getPercentile(values, 0.25)
- * returns the 25th percentile.
- *
- * Percentile must be between:
- * 0 and 1.
+ * percentile must be between 0 and 1.
  */
 function getPercentile(
     values,
     percentile
 ) {
 
-    if (values.length === 0) {
+    if (!values.length) {
         return 0;
     }
 
-
     if (
+        !Number.isFinite(percentile) ||
         percentile < 0 ||
         percentile > 1
     ) {
         return 0;
     }
 
-
     const sorted =
         getSortedValues(values);
-
 
     const index =
         (sorted.length - 1) *
         percentile;
 
-
     const lower =
         Math.floor(index);
 
-
     const upper =
         Math.ceil(index);
-
 
     if (lower === upper) {
         return sorted[lower];
     }
 
-
     const weight =
         index - lower;
-
 
     return (
         sorted[lower] +
@@ -414,14 +399,6 @@ function getPercentile(
 
 /**
  * Calculate common percentile values.
- *
- * Returns:
- * - P10
- * - P25
- * - P50
- * - P75
- * - P90
- * - P95
  */
 function getPercentileSummary(values) {
 
@@ -454,7 +431,7 @@ function getPercentileSummary(values) {
 ========================= */
 
 /**
- * First quartile
+ * First quartile.
  */
 function getQ1(values) {
 
@@ -466,7 +443,7 @@ function getQ1(values) {
 
 
 /**
- * Third quartile
+ * Third quartile.
  */
 function getQ3(values) {
 
@@ -478,7 +455,7 @@ function getQ3(values) {
 
 
 /**
- * Interquartile range
+ * Interquartile range.
  */
 function getIQR(values) {
 
@@ -494,35 +471,29 @@ function getIQR(values) {
 ========================= */
 
 /**
- * Calculate frequency distribution
+ * Calculate frequency distribution.
  */
 function getFrequencyDistribution(values) {
 
-    const frequency = {};
-
+    const frequency = new Map();
 
     values.forEach(value => {
 
-        frequency[value] =
-            (frequency[value] || 0) + 1;
+        frequency.set(
+            value,
+            (frequency.get(value) || 0) + 1
+        );
 
     });
 
+    return [...frequency.entries()]
+        .map(([value, count]) => ({
 
-    return Object.entries(frequency)
+            value,
 
-        .map(
-            ([value, count]) => ({
+            frequency: count
 
-                value:
-                    Number(value),
-
-                frequency:
-                    count
-
-            })
-        )
-
+        }))
         .sort(
             (a, b) =>
                 a.value - b.value
@@ -535,13 +506,9 @@ function getFrequencyDistribution(values) {
 ========================= */
 
 /**
- * Calculate Z-score for a value.
- *
- * Formula:
+ * Calculate Z-score for one value.
  *
  * Z = (X - Mean) / Standard Deviation
- *
- * Uses the supplied standard deviation.
  */
 function getZScore(
     value,
@@ -554,24 +521,12 @@ function getZScore(
         !Number.isFinite(mean) ||
         !Number.isFinite(standardDeviation)
     ) {
-
         return 0;
     }
 
-
-    /*
-     * When every value in the dataset
-     * is identical, standard deviation
-     * becomes zero.
-     *
-     * In that case there is no meaningful
-     * standardized distance from the mean.
-     */
     if (standardDeviation === 0) {
-
         return 0;
     }
-
 
     return (
         (value - mean) /
@@ -586,44 +541,23 @@ function getZScore(
 
 /**
  * Interpret a Z-score.
- *
- * |Z| < 1
- * → Typical
- *
- * 1 ≤ |Z| < 2
- * → Slightly unusual
- *
- * 2 ≤ |Z| < 3
- * → Unusual
- *
- * |Z| ≥ 3
- * → Highly unusual
  */
-function getZScoreInterpretation(
-    zScore
-) {
+function getZScoreInterpretation(zScore) {
 
     const absoluteZ =
         Math.abs(zScore);
 
-
     if (absoluteZ < 1) {
-
         return "Typical";
     }
 
-
     if (absoluteZ < 2) {
-
         return "Slightly unusual";
     }
 
-
     if (absoluteZ < 3) {
-
         return "Unusual";
     }
-
 
     return "Highly unusual";
 }
@@ -636,14 +570,6 @@ function getZScoreInterpretation(
 /**
  * Calculate Z-scores for every
  * value in a dataset.
- *
- * Returns an array containing:
- *
- * {
- *     value,
- *     zScore,
- *     interpretation
- * }
  */
 function getZScoreData(
     values,
@@ -654,41 +580,42 @@ function getZScoreData(
         return [];
     }
 
-
     const mean =
         getMean(values);
-
 
     const standardDeviation =
         type === "sample"
             ? getSampleStandardDeviation(values)
             : getPopulationStandardDeviation(values);
 
+    return values.map(
+        (value, index) => {
 
-    return values.map(value => {
+            const zScore =
+                getZScore(
+                    value,
+                    mean,
+                    standardDeviation
+                );
 
-        const zScore =
-            getZScore(
+            return {
+
+                index:
+                    index + 1,
+
                 value,
-                mean,
-                standardDeviation
-            );
 
+                zScore,
 
-        return {
+                interpretation:
+                    getZScoreInterpretation(
+                        zScore
+                    )
 
-            value,
+            };
 
-            zScore,
-
-            interpretation:
-                getZScoreInterpretation(
-                    zScore
-                )
-
-        };
-
-    });
+        }
+    );
 }
 
 
@@ -698,7 +625,7 @@ function getZScoreData(
 
 /**
  * Calculate summary information
- * for the dataset Z-scores.
+ * for dataset Z-scores.
  */
 function getZScoreSummary(
     values,
@@ -710,7 +637,6 @@ function getZScoreSummary(
             values,
             type
         );
-
 
     if (!zScoreData.length) {
 
@@ -725,32 +651,21 @@ function getZScoreSummary(
         };
     }
 
-
     const scores =
         zScoreData.map(
             item => item.zScore
         );
 
-
-    const lowest =
-        Math.min(...scores);
-
-
-    const highest =
-        Math.max(...scores);
-
-
-    const mean =
-        getMean(scores);
-
-
     return {
 
-        lowest,
+        lowest:
+            Math.min(...scores),
 
-        highest,
+        highest:
+            Math.max(...scores),
 
-        mean
+        mean:
+            getMean(scores)
 
     };
 }
