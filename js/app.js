@@ -1145,3 +1145,375 @@ const boxMaximum =
 
 const boxIQR =
     document.getElementById("boxIQR");
+
+
+    /* =========================
+   Box Plot
+========================= */
+
+/**
+ * Render a visual box plot.
+ *
+ * Uses:
+ * - Minimum
+ * - Q1
+ * - Median
+ * - Q3
+ * - Maximum
+ *
+ * Outliers are displayed separately.
+ */
+function renderBoxPlot(values) {
+
+    if (!values.length) {
+
+        boxPlot.innerHTML = "";
+
+        boxPlotSection.classList.add(
+            "hidden"
+        );
+
+        return;
+    }
+
+
+    /* =========================
+       Calculate Values
+    ========================== */
+
+    const sorted =
+        getSortedValues(values);
+
+
+    const minimum =
+        sorted[0];
+
+
+    const maximum =
+        sorted[sorted.length - 1];
+
+
+    const q1 =
+        getQ1(values);
+
+
+    const median =
+        getMedianForBoxPlot(values);
+
+
+    const q3 =
+        getQ3(values);
+
+
+    const iqr =
+        q3 - q1;
+
+
+    /* =========================
+       Outlier Bounds
+    ========================== */
+
+    const lowerBound =
+        q1 - (1.5 * iqr);
+
+
+    const upperBound =
+        q3 + (1.5 * iqr);
+
+
+    /* =========================
+       Find Outliers
+    ========================== */
+
+    const outliers =
+        values.filter(
+            value =>
+                value < lowerBound ||
+                value > upperBound
+        );
+
+
+    /* =========================
+       Display Values
+    ========================== */
+
+    boxMinimum.textContent =
+        formatNumber(minimum);
+
+
+    boxQ1.textContent =
+        formatNumber(q1);
+
+
+    boxMedian.textContent =
+        formatNumber(median);
+
+
+    boxQ3.textContent =
+        formatNumber(q3);
+
+
+    boxMaximum.textContent =
+        formatNumber(maximum);
+
+
+    boxIQR.textContent =
+        formatNumber(iqr);
+
+
+    /* =========================
+       Handle Constant Dataset
+    ========================== */
+
+    if (minimum === maximum) {
+
+        boxPlot.innerHTML = `
+            <div class="box-plot-constant">
+
+                <span class="box-plot-point">
+                    ${formatNumber(minimum)}
+                </span>
+
+                <span>
+                    All values are identical.
+                </span>
+
+            </div>
+        `;
+
+        boxPlotSection.classList.remove(
+            "hidden"
+        );
+
+        return;
+    }
+
+
+    /* =========================
+       Plot Range
+    ========================== */
+
+    const range =
+        maximum - minimum;
+
+
+    const padding =
+        range * 0.05;
+
+
+    const plotMinimum =
+        minimum - padding;
+
+
+    const plotMaximum =
+        maximum + padding;
+
+
+    const plotRange =
+        plotMaximum - plotMinimum;
+
+
+    /* =========================
+       Convert Value → Position
+    ========================== */
+
+    function getPosition(value) {
+
+        return (
+            (value - plotMinimum) /
+            plotRange
+        ) * 100;
+    }
+
+
+    const q1Position =
+        getPosition(q1);
+
+
+    const medianPosition =
+        getPosition(median);
+
+
+    const q3Position =
+        getPosition(q3);
+
+
+    const minimumPosition =
+        getPosition(minimum);
+
+
+    const maximumPosition =
+        getPosition(maximum);
+
+
+    /* =========================
+       Outlier Markers
+    ========================== */
+
+    const outlierMarkup =
+        outliers
+            .map(value => {
+
+                const position =
+                    getPosition(value);
+
+                return `
+                    <div
+                        class="box-outlier"
+                        style="left: ${position}%"
+                        title="Outlier: ${formatNumber(value)}"
+                    >
+                        ●
+                    </div>
+                `;
+
+            })
+            .join("");
+
+
+    /* =========================
+       Render Plot
+    ========================== */
+
+    boxPlot.innerHTML = `
+
+        <div class="box-plot-axis">
+
+            <!-- Whisker -->
+
+            <div
+                class="box-whisker"
+                style="
+                    left: ${minimumPosition}%;
+                    width: ${
+                        maximumPosition -
+                        minimumPosition
+                    }%;
+                "
+            ></div>
+
+
+            <!-- Minimum Whisker -->
+
+            <div
+                class="box-whisker-cap"
+                style="
+                    left: ${minimumPosition}%;
+                "
+            ></div>
+
+
+            <!-- Maximum Whisker -->
+
+            <div
+                class="box-whisker-cap"
+                style="
+                    left: ${maximumPosition}%;
+                "
+            ></div>
+
+
+            <!-- Box -->
+
+            <div
+                class="box-plot-box"
+                style="
+                    left: ${q1Position}%;
+                    width: ${
+                        q3Position -
+                        q1Position
+                    }%;
+                "
+            >
+
+                <!-- Median -->
+
+                <div
+                    class="box-median"
+                    style="
+                        left: ${
+                            (
+                                (
+                                    median -
+                                    q1
+                                ) /
+                                (
+                                    q3 -
+                                    q1
+                                )
+                            ) * 100
+                        }%;
+                    "
+                ></div>
+
+            </div>
+
+
+            <!-- Outliers -->
+
+            ${outlierMarkup}
+
+        </div>
+
+
+        <!-- Axis Labels -->
+
+        <div class="box-plot-labels">
+
+            <span
+                style="
+                    left: ${minimumPosition}%;
+                "
+            >
+                ${formatNumber(minimum)}
+            </span>
+
+
+            <span
+                style="
+                    left: ${q1Position}%;
+                "
+            >
+                ${formatNumber(q1)}
+            </span>
+
+
+            <span
+                style="
+                    left: ${medianPosition}%;
+                "
+            >
+                ${formatNumber(median)}
+            </span>
+
+
+            <span
+                style="
+                    left: ${q3Position}%;
+                "
+            >
+                ${formatNumber(q3)}
+            </span>
+
+
+            <span
+                style="
+                    left: ${maximumPosition}%;
+                "
+            >
+                ${formatNumber(maximum)}
+            </span>
+
+        </div>
+
+    `;
+
+
+    /* =========================
+       Show Section
+    ========================== */
+
+    boxPlotSection.classList.remove(
+        "hidden"
+    );
+}
