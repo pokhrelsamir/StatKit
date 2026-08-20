@@ -642,13 +642,15 @@ function hideResults() {
         "hidden"
     );
 
-
     analysisSection.classList.add(
         "hidden"
     );
 
-
     summarySection.classList.add(
+        "hidden"
+    );
+
+    outlierSection.classList.add(
         "hidden"
     );
 }
