@@ -788,6 +788,10 @@ function hideResults() {
     outlierSection.classList.add(
         "hidden"
     );
+
+    boxPlotSection.classList.add(
+        "hidden"
+    );
 }
 
 
