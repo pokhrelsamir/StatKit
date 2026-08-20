@@ -726,6 +726,262 @@
 
         </section>
 
+        <!-- =========================
+     Percentile Analysis
+========================== -->
+
+<section
+    id="percentileSection"
+    class="card hidden"
+>
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                📊 Percentile Analysis
+            </h2>
+
+            <p>
+                Key percentile values describing
+                the distribution of your dataset.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="percentile-grid">
+
+        <!-- P10 -->
+
+        <div class="analysis-card">
+
+            <span>
+                P10
+            </span>
+
+            <strong id="p10">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- P25 -->
+
+        <div class="analysis-card">
+
+            <span>
+                P25
+            </span>
+
+            <strong id="p25">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- P50 -->
+
+        <div class="analysis-card">
+
+            <span>
+                P50
+            </span>
+
+            <strong id="p50">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- P75 -->
+
+        <div class="analysis-card">
+
+            <span>
+                P75
+            </span>
+
+            <strong id="p75">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- P90 -->
+
+        <div class="analysis-card">
+
+            <span>
+                P90
+            </span>
+
+            <strong id="p90">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- P95 -->
+
+        <div class="analysis-card">
+
+            <span>
+                P95
+            </span>
+
+            <strong id="p95">
+                —
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     Z-Score Analysis
+========================== -->
+
+<section
+    id="zScoreSection"
+    class="card hidden"
+>
+
+    <div class="section-title">
+
+        <div>
+
+            <h2>
+                🎯 Z-Score Analysis
+            </h2>
+
+            <p>
+                Measure how far each value is from
+                the dataset mean in standard deviations.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Z-Score Summary -->
+
+    <div class="zscore-grid">
+
+        <!-- Lowest -->
+
+        <div class="analysis-card">
+
+            <span>
+                Lowest Z-Score
+            </span>
+
+            <strong id="lowestZScore">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- Highest -->
+
+        <div class="analysis-card">
+
+            <span>
+                Highest Z-Score
+            </span>
+
+            <strong id="highestZScore">
+                —
+            </strong>
+
+        </div>
+
+
+        <!-- Mean -->
+
+        <div class="analysis-card">
+
+            <span>
+                Mean Z-Score
+            </span>
+
+            <strong id="meanZScore">
+                —
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         Individual Z-Scores
+    ========================== -->
+
+    <div class="frequency-wrapper">
+
+        <h3>
+            Individual Value Z-Scores
+        </h3>
+
+        <p>
+            Z-score interpretation based on
+            distance from the dataset mean.
+        </p>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th scope="col">
+                            #
+                        </th>
+
+                        <th scope="col">
+                            Value
+                        </th>
+
+                        <th scope="col">
+                            Z-Score
+                        </th>
+
+                        <th scope="col">
+                            Interpretation
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="zScoreTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
 
         <!-- =========================
              Outlier Detection
