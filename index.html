@@ -778,126 +778,140 @@
         </section>
 
 
-        <!-- =========================
-             Z-Score Analysis
-        ========================== -->
+       <!-- =========================
+     Z-Score Analysis
+========================== -->
 
-        <section
-            id="zScoreSection"
-            class="card hidden"
-        >
+<section
+    id="zScoreSection"
+    class="card hidden"
+>
 
-            <div class="section-title">
+    <div class="section-title">
 
-                <div>
+        <div>
 
-                    <h2>
-                        🎯 Z-Score Analysis
-                    </h2>
+            <h2>
+                🎯 Z-Score Analysis
+            </h2>
 
-                    <p>
-                        Measure how far each value is from
-                        the dataset mean in standard deviations.
-                    </p>
+            <p>
+                Measure how far each value is from
+                the dataset mean in standard deviations.
+            </p>
 
-                </div>
+        </div>
 
-            </div>
-
-
-            <div class="zscore-grid">
-
-                <div class="analysis-card">
-
-                    <span>
-                        Lowest Z-Score
-                    </span>
-
-                    <strong id="lowestZScore">
-                        —
-                    </strong>
-
-                </div>
+    </div>
 
 
-                <div class="analysis-card">
+    <!-- =========================
+         Z-Score Summary
+    ========================== -->
 
-                    <span>
-                        Highest Z-Score
-                    </span>
+    <div class="zscore-grid">
 
-                    <strong id="highestZScore">
-                        —
-                    </strong>
+        <div class="analysis-card">
 
-                </div>
+            <span>
+                Lowest Z-Score
+            </span>
 
+            <strong id="lowestZScore">
+                —
+            </strong>
 
-                <div class="analysis-card">
-
-                    <span>
-                        Mean Z-Score
-                    </span>
-
-                    <strong id="meanZScore">
-                        —
-                    </strong>
-
-                </div>
-
-            </div>
+        </div>
 
 
-            <div class="frequency-wrapper">
+        <div class="analysis-card">
 
-                <h3>
-                    Individual Value Z-Scores
-                </h3>
+            <span>
+                Highest Z-Score
+            </span>
 
-                <p>
-                    Z-score interpretation based on
-                    distance from the dataset mean.
-                </p>
+            <strong id="highestZScore">
+                —
+            </strong>
 
-
-                <div class="table-container">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th scope="col">
-                                    #
-                                </th>
-
-                                <th scope="col">
-                                    Value
-                                </th>
-
-                                <th scope="col">
-                                    Z-Score
-                                </th>
-
-                                <th scope="col">
-                                    Interpretation
-                                </th>
-
-                            </tr>
-
-                        </thead>
+        </div>
 
 
-                        <tbody id="zScoreTable"></tbody>
+        <div class="analysis-card">
 
-                    </table>
+            <span>
+                Mean Z-Score
+            </span>
 
-                </div>
+            <strong id="meanZScore">
+                —
+            </strong>
 
-            </div>
+        </div>
 
-        </section>
+    </div>
+
+
+    <!-- =========================
+         Individual Z-Scores
+    ========================== -->
+
+    <div class="frequency-wrapper">
+
+        <div class="table-section-header">
+
+            <h3>
+                Individual Value Z-Scores
+            </h3>
+
+            <p>
+                Z-score interpretation based on
+                distance from the dataset mean.
+            </p>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table class="zscore-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th scope="col">
+                            #
+                        </th>
+
+                        <th scope="col">
+                            Value
+                        </th>
+
+                        <th scope="col">
+                            Z-Score
+                        </th>
+
+                        <th scope="col">
+                            Interpretation
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="zScoreTable">
+                    <!-- Generated by app.js -->
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
 
 
         <!-- =========================

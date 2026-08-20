@@ -1814,3 +1814,160 @@ footer {
         animation-iteration-count: 1 !important;
     }
 }
+
+
+/* =========================
+   Z-Score Table
+========================= */
+
+.table-section-header {
+    margin-bottom: 1rem;
+}
+
+.table-section-header h3 {
+    margin: 0 0 0.35rem;
+}
+
+.table-section-header p {
+    margin: 0;
+    color: var(--text-muted, #6b7280);
+    font-size: 0.9rem;
+}
+
+
+/* =========================
+   Responsive Table Container
+========================= */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 12px;
+    background: var(--card-background, #ffffff);
+}
+
+
+/* =========================
+   Z-Score Table
+========================= */
+
+.zscore-table {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+
+/* =========================
+   Table Header
+========================= */
+
+.zscore-table thead {
+    background: #f8fafc;
+}
+
+.zscore-table th {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #374151;
+    white-space: nowrap;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+/* =========================
+   Table Body
+========================= */
+
+.zscore-table td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+    color: #374151;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+
+/* =========================
+   Column Alignment
+========================= */
+
+.zscore-table th:first-child,
+.zscore-table td:first-child {
+    width: 60px;
+    text-align: center;
+}
+
+.zscore-table th:nth-child(2),
+.zscore-table td:nth-child(2) {
+    width: 120px;
+}
+
+.zscore-table th:nth-child(3),
+.zscore-table td:nth-child(3) {
+    width: 140px;
+}
+
+.zscore-table th:last-child,
+.zscore-table td:last-child {
+    min-width: 260px;
+}
+
+
+/* =========================
+   Row Hover
+========================= */
+
+.zscore-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.zscore-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+
+/* Remove border from last row */
+
+.zscore-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================
+   Z-Score Number
+========================= */
+
+.zscore-table td:nth-child(3) {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 768px) {
+
+    .table-container {
+        border-radius: 10px;
+    }
+
+    .zscore-table {
+        min-width: 650px;
+    }
+
+    .zscore-table th,
+    .zscore-table td {
+        padding: 0.75rem 0.8rem;
+    }
+
+}
