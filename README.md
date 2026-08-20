@@ -6,11 +6,6 @@
 
 ---
 
-## 🌐 Live Demo
-
-**Live Demo:** [https://yourusername.github.io/StatKit/](https://yourusername.github.io/StatKit/)
-
----
 
 ## 📸 Screenshots
 
@@ -142,18 +137,10 @@ StatKit/
 ├── LICENSE
 ├── css/
 │   └── style.css
-├── js/
-│   ├── app.js
-│   ├── statistics.js
-│   └── storage.js
-└── screenshots/
-    ├── banner.png
-    ├── main-interface.png
-    ├── statistical-results.png
-    ├── dataset-analysis.png
-    ├── box-plot.png
-    ├── zscore-analysis.png
-    └── calculation-history.png
+└── js/
+    ├── app.js
+    ├── statistics.js
+    └── storage.js
 ```
 
 ---
@@ -162,7 +149,7 @@ StatKit/
 
 ```bash
 # Clone the repository
-git clone https://github.com/SamirPokhrel/StatKit.git
+git clone https://github.com/pokhrelsamir/StatKit.git
 
 # Navigate to the project
 cd StatKit
@@ -318,12 +305,28 @@ See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
-**Samir Pokhrel**  
-B.Sc. CSIT Student & Developer  
+<div align="center">
 
-GitHub: [SamirPokhrel](https://github.com/SamirPokhrel)
+### Samir Pokhrel
+
+**B.Sc. CSIT Student | Web Developer | Networking Enthusiast**
+
+Built using **HTML, CSS, and JavaScript**
+
+<br>
+
+<a href="https://github.com/pokhrelsamir">
+  <img src="https://img.shields.io/badge/GitHub-pokhrelsamir-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+</a>
+<a href="https://www.linkedin.com/in/samirpokhrel/">
+  <img src="https://img.shields.io/badge/LinkedIn-Samir%20Pokhrel-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+</a>
+
+</div>
+
+<br>
 
 ---
 
@@ -338,3 +341,15 @@ If you find StatKit useful:
 - 🤝 Contribute improvements
 
 Every contribution and star is appreciated!
+
+# 🌐 Live Demo
+
+Try the fully deployed SubnetX application:
+
+<div align="center">
+
+<a href="https://pokhrelsamir.github.io/StatKit/">
+  <img src="https://img.shields.io/badge/%F0%9F%9A%80%20Open%20StatKit-Live%20Demo-6366f1?style=for-the-badge" alt="Open StatKit Live Demo">
+</a>
+
+</div>
