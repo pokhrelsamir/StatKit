@@ -1517,3 +1517,34 @@ function renderBoxPlot(values) {
         "hidden"
     );
 }
+
+
+
+/* =========================
+   Box Plot Median
+========================= */
+
+function getMedianForBoxPlot(values) {
+
+    const sorted =
+        getSortedValues(values);
+
+    const length =
+        sorted.length;
+
+
+    const middle =
+        Math.floor(length / 2);
+
+
+    if (length % 2 === 0) {
+
+        return (
+            sorted[middle - 1] +
+            sorted[middle]
+        ) / 2;
+    }
+
+
+    return sorted[middle];
+}
