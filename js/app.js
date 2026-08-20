@@ -1115,3 +1115,33 @@ dataInput.addEventListener(
 ========================= */
 
 renderHistory();
+
+
+
+/* =========================
+   Box Plot Elements
+========================= */
+
+const boxPlotSection =
+    document.getElementById("boxPlotSection");
+
+const boxPlot =
+    document.getElementById("boxPlot");
+
+const boxMinimum =
+    document.getElementById("boxMinimum");
+
+const boxQ1 =
+    document.getElementById("boxQ1");
+
+const boxMedian =
+    document.getElementById("boxMedian");
+
+const boxQ3 =
+    document.getElementById("boxQ3");
+
+const boxMaximum =
+    document.getElementById("boxMaximum");
+
+const boxIQR =
+    document.getElementById("boxIQR");
