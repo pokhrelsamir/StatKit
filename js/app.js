@@ -439,19 +439,23 @@ function displayAnalysis(values) {
         );
 
 
-    /* =========================
-       Frequency Distribution
-    ========================== */
+/* =========================
+   Frequency Distribution
+========================= */
 
-    frequencyTable.innerHTML = `
+const frequencies =
+    getFrequencyDistribution(values);
 
-    <div class="frequency-row">
 
-        <div class="frequency-label">
+frequencyTable.innerHTML = `
+
+    <div class="frequency-line">
+
+        <div class="frequency-title">
             Value
         </div>
 
-        <div class="frequency-values">
+        <div class="frequency-data">
 
             ${frequencies
                 .map(item => `
@@ -466,13 +470,13 @@ function displayAnalysis(values) {
     </div>
 
 
-    <div class="frequency-row">
+    <div class="frequency-line">
 
-        <div class="frequency-label">
+        <div class="frequency-title">
             Frequency
         </div>
 
-        <div class="frequency-values">
+        <div class="frequency-data">
 
             ${frequencies
                 .map(item => `
