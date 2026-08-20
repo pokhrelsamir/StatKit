@@ -967,3 +967,27 @@ dataInput.addEventListener(
 ========================= */
 
 renderHistory();
+
+
+
+/* =========================
+   Outlier Detection
+========================= */
+
+const outlierSection =
+    document.getElementById("outlierSection");
+
+const lowerBoundElement =
+    document.getElementById("lowerBound");
+
+const upperBoundElement =
+    document.getElementById("upperBound");
+
+const outlierCountElement =
+    document.getElementById("outlierCount");
+
+const outlierValuesElement =
+    document.getElementById("outlierValues");
+
+const outlierStatusElement =
+    document.getElementById("outlierStatus");
