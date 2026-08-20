@@ -860,6 +860,7 @@ function calculateDataset() {
 
 
     displayOutliers(values);
+    renderBoxPlot(values);
 
 
     /* =========================
