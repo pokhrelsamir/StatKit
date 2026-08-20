@@ -330,17 +330,6 @@ Built using **HTML, CSS, and JavaScript**
 
 ---
 
-## ⭐ Support
-
-If you find StatKit useful:
-
-- ⭐ Star the repository
-- 🍴 Fork the project
-- 🐛 Report bugs
-- 💡 Suggest features
-- 🤝 Contribute improvements
-
-Every contribution and star is appreciated!
 
 # 🌐 Live Demo
 
@@ -353,3 +342,17 @@ Try the fully deployed SubnetX application:
 </a>
 
 </div>
+
+---
+
+## ⭐ Support
+
+If you find StatKit useful:
+
+- ⭐ Star the repository
+- 🍴 Fork the project
+- 🐛 Report bugs
+- 💡 Suggest features
+- 🤝 Contribute improvements
+
+Every contribution and star is appreciated!
