@@ -1,68 +1,204 @@
 /**
  * StatKit
  * Local Storage Manager
+ *
+ * Handles:
+ * - Saving calculation history
+ * - Loading calculation history
+ * - Deleting individual records
+ * - Clearing all history
+ *
+ * Data is stored locally in the browser.
  */
 
-const STORAGE_KEY = "statkit_history";
+
+/* =========================
+   Configuration
+========================= */
+
+const STORAGE_KEY =
+    "statkit_history";
+
+const MAX_HISTORY_ITEMS =
+    20;
+
+
+/* =========================
+   Get History
+========================= */
 
 /**
- * Get saved calculation history
+ * Get saved calculation history.
+ *
+ * Returns an empty array if:
+ * - No history exists
+ * - Stored data is invalid
+ * - LocalStorage access fails
  */
 function getHistory() {
-    try {
-        const history = localStorage.getItem(STORAGE_KEY);
 
-        return history ? JSON.parse(history) : [];
+    try {
+
+        const storedHistory =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
+
+
+        if (!storedHistory) {
+            return [];
+        }
+
+
+        const history =
+            JSON.parse(
+                storedHistory
+            );
+
+
+        return Array.isArray(history)
+            ? history
+            : [];
+
     } catch (error) {
-        console.error("Failed to load history:", error);
+
+        console.error(
+            "Failed to load StatKit history:",
+            error
+        );
+
         return [];
     }
 }
 
+
+/* =========================
+   Save History
+========================= */
+
 /**
- * Save a calculation
+ * Save a calculation to history.
+ *
+ * Keeps only the latest 20 calculations.
  */
-function saveHistory(values, results, type) {
-    const history = getHistory();
+function saveHistory(
+    values,
+    results,
+    type
+) {
 
-    const record = {
-        id: Date.now(),
-        values,
-        results,
-        type,
-        createdAt: new Date().toISOString()
-    };
+    try {
 
-    history.unshift(record);
+        const history =
+            getHistory();
 
-    // Keep latest 20 calculations
-    const limitedHistory = history.slice(0, 20);
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(limitedHistory)
-    );
+        const record = {
+
+            id:
+                Date.now(),
+
+            values:
+                [...values],
+
+            results,
+
+            type,
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        history.unshift(record);
+
+
+        const limitedHistory =
+            history.slice(
+                0,
+                MAX_HISTORY_ITEMS
+            );
+
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(
+                limitedHistory
+            )
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to save StatKit history:",
+            error
+        );
+    }
 }
 
+
+/* =========================
+   Delete History
+========================= */
+
 /**
- * Delete a calculation
+ * Delete a single history record.
  */
 function deleteHistory(id) {
-    const history = getHistory();
 
-    const updatedHistory = history.filter(
-        item => item.id !== id
-    );
+    try {
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(updatedHistory)
-    );
+        const history =
+            getHistory();
+
+
+        const updatedHistory =
+            history.filter(
+                item =>
+                    item.id !== id
+            );
+
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(
+                updatedHistory
+            )
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to delete StatKit history:",
+            error
+        );
+    }
 }
 
+
+/* =========================
+   Clear History
+========================= */
+
 /**
- * Clear all history
+ * Remove all saved calculation history.
  */
 function clearHistory() {
-    localStorage.removeItem(STORAGE_KEY);
+
+    try {
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Failed to clear StatKit history:",
+            error
+        );
+    }
 }
