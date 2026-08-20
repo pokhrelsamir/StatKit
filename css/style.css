@@ -5,7 +5,7 @@
 
 
 /* =========================================================
-   Global Reset
+   Reset
 ========================================================= */
 
 * {
@@ -15,30 +15,50 @@
 }
 
 
+/* =========================================================
+   Root Variables
+========================================================= */
+
 :root {
 
     --bg: #f5f7fb;
-
     --card: #ffffff;
 
     --text: #172033;
-
     --muted: #6b7280;
 
     --border: #e5e7eb;
+    --border-dark: #d1d5db;
 
     --primary: #4f46e5;
-
     --primary-dark: #4338ca;
+    --primary-light: #eef2ff;
 
     --danger: #dc2626;
-
-    --warning: #f59e0b;
+    --danger-light: #fef2f2;
 
     --success: #16a34a;
+    --success-light: #f0fdf4;
+
+    --warning: #ea580c;
+    --warning-light: #fff7ed;
 
     --radius: 16px;
 
+    --shadow-sm:
+        0 2px 8px rgba(23, 32, 51, 0.04);
+
+    --shadow-md:
+        0 8px 24px rgba(23, 32, 51, 0.07);
+}
+
+
+/* =========================================================
+   Base
+========================================================= */
+
+html {
+    scroll-behavior: smooth;
 }
 
 
@@ -58,8 +78,30 @@ body {
 
     line-height: 1.5;
 
+    min-height: 100vh;
 }
 
+
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+::selection {
+    background: rgba(79, 70, 229, 0.15);
+}
+
+
+/* =========================================================
+   Main Application
+========================================================= */
 
 .app {
 
@@ -68,7 +110,6 @@ body {
     margin: 0 auto;
 
     padding: 40px 0;
-
 }
 
 
@@ -79,7 +120,6 @@ body {
 .header {
 
     margin-bottom: 28px;
-
 }
 
 
@@ -90,14 +130,12 @@ body {
     align-items: center;
 
     gap: 16px;
-
 }
 
 
 .brand-icon {
 
     width: 54px;
-
     height: 54px;
 
     display: grid;
@@ -110,6 +148,8 @@ body {
 
     font-size: 25px;
 
+    box-shadow:
+        0 8px 18px rgba(79, 70, 229, 0.18);
 }
 
 
@@ -117,17 +157,19 @@ body {
 
     font-size: 32px;
 
-    letter-spacing: -0.8px;
+    line-height: 1.15;
 
+    letter-spacing: -0.8px;
 }
 
 
 .brand p {
 
+    margin-top: 3px;
+
     color: var(--muted);
 
     font-size: 14px;
-
 }
 
 
@@ -135,8 +177,7 @@ body {
    Cards
 ========================================================= */
 
-.card,
-.section-card {
+.card {
 
     background: var(--card);
 
@@ -148,6 +189,7 @@ body {
 
     margin-bottom: 24px;
 
+    box-shadow: var(--shadow-sm);
 }
 
 
@@ -163,7 +205,6 @@ body {
     gap: 20px;
 
     margin-bottom: 20px;
-
 }
 
 
@@ -172,37 +213,32 @@ body {
 
     font-size: 20px;
 
+    line-height: 1.3;
+
+    letter-spacing: -0.3px;
 }
 
 
 .section-title p,
 .section-header p {
 
+    margin-top: 4px;
+
     color: var(--muted);
 
     font-size: 14px;
-
 }
 
 
-/* =========================================================
-   Optional Section Label
-========================================================= */
+#datasetCount {
 
-.section-label {
+    color: var(--muted);
 
-    display: inline-block;
+    font-size: 13px;
 
-    margin-bottom: 6px;
+    font-weight: 600;
 
-    color: var(--primary);
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.08em;
-
+    white-space: nowrap;
 }
 
 
@@ -224,16 +260,32 @@ textarea {
 
     padding: 16px;
 
+    background: #ffffff;
+
+    color: var(--text);
+
     font: inherit;
 
     font-size: 15px;
 
+    line-height: 1.6;
+
     outline: none;
 
     transition:
-        border 0.2s,
-        box-shadow 0.2s;
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
 
+
+textarea::placeholder {
+    color: #9ca3af;
+}
+
+
+textarea:hover {
+    border-color: var(--border-dark);
 }
 
 
@@ -243,7 +295,6 @@ textarea:focus {
 
     box-shadow:
         0 0 0 3px rgba(79, 70, 229, 0.1);
-
 }
 
 
@@ -262,7 +313,6 @@ textarea:focus {
     gap: 20px;
 
     margin-top: 18px;
-
 }
 
 
@@ -273,7 +323,6 @@ textarea:focus {
     flex-direction: column;
 
     gap: 7px;
-
 }
 
 
@@ -282,7 +331,6 @@ textarea:focus {
     font-size: 13px;
 
     font-weight: 600;
-
 }
 
 
@@ -298,10 +346,22 @@ select {
 
     background: white;
 
+    color: var(--text);
+
     font: inherit;
 
     outline: none;
 
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+select:hover {
+    border-color: var(--border-dark);
 }
 
 
@@ -309,6 +369,8 @@ select:focus {
 
     border-color: var(--primary);
 
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 
@@ -321,7 +383,6 @@ select:focus {
     display: flex;
 
     gap: 10px;
-
 }
 
 
@@ -340,17 +401,21 @@ select:focus {
     cursor: pointer;
 
     transition:
-        transform 0.2s,
-        background 0.2s,
-        box-shadow 0.2s;
-
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 
 .btn:hover {
 
     transform: translateY(-1px);
+}
 
+
+.btn:active {
+
+    transform: translateY(0);
 }
 
 
@@ -359,7 +424,6 @@ select:focus {
     background: var(--primary);
 
     color: white;
-
 }
 
 
@@ -369,7 +433,6 @@ select:focus {
 
     box-shadow:
         0 5px 15px rgba(79, 70, 229, 0.2);
-
 }
 
 
@@ -378,14 +441,12 @@ select:focus {
     background: #eef0f4;
 
     color: var(--text);
-
 }
 
 
 .secondary:hover {
 
     background: #e4e7ec;
-
 }
 
 
@@ -395,12 +456,13 @@ select:focus {
 
 .error {
 
+    min-height: 20px;
+
     color: var(--danger);
 
     font-size: 14px;
 
     margin-top: 12px;
-
 }
 
 
@@ -409,9 +471,7 @@ select:focus {
 ========================================================= */
 
 .hidden {
-
     display: none !important;
-
 }
 
 
@@ -420,9 +480,7 @@ select:focus {
 ========================================================= */
 
 .results-section {
-
     margin-bottom: 24px;
-
 }
 
 
@@ -434,7 +492,6 @@ select:focus {
         repeat(5, minmax(0, 1fr));
 
     gap: 14px;
-
 }
 
 
@@ -456,10 +513,14 @@ select:focus {
 
     justify-content: space-between;
 
-    transition:
-        transform 0.2s,
-        box-shadow 0.2s;
+    gap: 12px;
 
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
 
@@ -467,9 +528,9 @@ select:focus {
 
     transform: translateY(-2px);
 
-    box-shadow:
-        0 8px 20px rgba(23, 32, 51, 0.06);
+    box-shadow: var(--shadow-md);
 
+    border-color: #dfe2e8;
 }
 
 
@@ -480,7 +541,6 @@ select:focus {
     font-size: 13px;
 
     font-weight: 600;
-
 }
 
 
@@ -488,8 +548,9 @@ select:focus {
 
     font-size: 24px;
 
-    overflow-wrap: anywhere;
+    line-height: 1.2;
 
+    overflow-wrap: anywhere;
 }
 
 
@@ -505,7 +566,6 @@ select:focus {
         repeat(5, minmax(0, 1fr));
 
     gap: 14px;
-
 }
 
 
@@ -521,6 +581,17 @@ select:focus {
 
     min-width: 0;
 
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.analysis-card:hover {
+
+    border-color: #dfe2e8;
+
+    background: #ffffff;
 }
 
 
@@ -535,7 +606,6 @@ select:focus {
     font-weight: 600;
 
     margin-bottom: 8px;
-
 }
 
 
@@ -547,6 +617,7 @@ select:focus {
 
     overflow-wrap: anywhere;
 
+    line-height: 1.45;
 }
 
 
@@ -557,7 +628,6 @@ select:focus {
 .frequency-wrapper {
 
     margin-top: 28px;
-
 }
 
 
@@ -566,7 +636,6 @@ select:focus {
     margin-bottom: 14px;
 
     font-size: 16px;
-
 }
 
 
@@ -577,7 +646,6 @@ select:focus {
     border: 1px solid var(--border);
 
     border-radius: 12px;
-
 }
 
 
@@ -587,6 +655,7 @@ table {
 
     border-collapse: collapse;
 
+    min-width: 360px;
 }
 
 
@@ -598,7 +667,6 @@ td {
     text-align: left;
 
     border-bottom: 1px solid var(--border);
-
 }
 
 
@@ -606,29 +674,35 @@ th {
 
     background: #f8fafc;
 
+    color: var(--text);
+
     font-size: 13px;
 
+    font-weight: 700;
 }
 
 
 td {
 
     font-size: 14px;
-
 }
 
 
 tr:last-child td {
 
     border-bottom: none;
+}
 
+
+tbody tr {
+
+    transition: background 0.15s ease;
 }
 
 
 tbody tr:hover {
 
     background: #fafafa;
-
 }
 
 
@@ -639,14 +713,12 @@ tbody tr:hover {
 .chart-wrapper {
 
     margin-top: 30px;
-
 }
 
 
 .chart-header {
 
     margin-bottom: 18px;
-
 }
 
 
@@ -655,7 +727,6 @@ tbody tr:hover {
     font-size: 16px;
 
     margin-bottom: 4px;
-
 }
 
 
@@ -664,7 +735,6 @@ tbody tr:hover {
     color: var(--muted);
 
     font-size: 13px;
-
 }
 
 
@@ -676,6 +746,7 @@ tbody tr:hover {
 
     gap: 12px;
 
+    overflow-x: auto;
 }
 
 
@@ -684,12 +755,13 @@ tbody tr:hover {
     display: grid;
 
     grid-template-columns:
-        70px 1fr 35px;
+        70px minmax(100px, 1fr) 35px;
 
     align-items: center;
 
     gap: 12px;
 
+    min-width: 300px;
 }
 
 
@@ -702,7 +774,6 @@ tbody tr:hover {
     text-align: right;
 
     overflow-wrap: anywhere;
-
 }
 
 
@@ -717,7 +788,6 @@ tbody tr:hover {
     border-radius: 7px;
 
     overflow: hidden;
-
 }
 
 
@@ -733,7 +803,6 @@ tbody tr:hover {
 
     transition:
         width 0.5s ease;
-
 }
 
 
@@ -742,7 +811,6 @@ tbody tr:hover {
     font-size: 13px;
 
     font-weight: 600;
-
 }
 
 
@@ -758,7 +826,6 @@ tbody tr:hover {
         repeat(5, minmax(0, 1fr));
 
     gap: 14px;
-
 }
 
 
@@ -774,6 +841,17 @@ tbody tr:hover {
 
     text-align: center;
 
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.summary-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-sm);
 }
 
 
@@ -788,7 +866,6 @@ tbody tr:hover {
     font-weight: 600;
 
     margin-bottom: 8px;
-
 }
 
 
@@ -799,7 +876,6 @@ tbody tr:hover {
     font-size: 22px;
 
     overflow-wrap: anywhere;
-
 }
 
 
@@ -814,7 +890,6 @@ tbody tr:hover {
     margin-top: 50px;
 
     padding: 0 10px 20px;
-
 }
 
 
@@ -833,7 +908,6 @@ tbody tr:hover {
     background: var(--border);
 
     border-radius: 10px;
-
 }
 
 
@@ -846,7 +920,6 @@ tbody tr:hover {
     justify-content: space-between;
 
     gap: 10px;
-
 }
 
 
@@ -861,7 +934,6 @@ tbody tr:hover {
     align-items: center;
 
     gap: 7px;
-
 }
 
 
@@ -887,7 +959,6 @@ tbody tr:hover {
     font-size: 0;
 
     z-index: 2;
-
 }
 
 
@@ -900,7 +971,6 @@ tbody tr:hover {
     font-weight: 600;
 
     white-space: nowrap;
-
 }
 
 
@@ -918,6 +988,7 @@ tbody tr:hover {
 
     font-weight: 700;
 
+    white-space: nowrap;
 }
 
 
@@ -933,7 +1004,6 @@ tbody tr:hover {
         repeat(3, minmax(0, 1fr));
 
     gap: 14px;
-
 }
 
 
@@ -955,6 +1025,7 @@ tbody tr:hover {
 
     justify-content: space-between;
 
+    gap: 12px;
 }
 
 
@@ -965,7 +1036,6 @@ tbody tr:hover {
     font-size: 13px;
 
     font-weight: 600;
-
 }
 
 
@@ -974,14 +1044,16 @@ tbody tr:hover {
     font-size: 24px;
 
     overflow-wrap: anywhere;
-
 }
 
+
+/* =========================================================
+   Outlier Values
+========================================================= */
 
 .outlier-values-wrapper {
 
     margin-top: 28px;
-
 }
 
 
@@ -990,7 +1062,6 @@ tbody tr:hover {
     font-size: 16px;
 
     margin-bottom: 14px;
-
 }
 
 
@@ -1008,8 +1079,13 @@ tbody tr:hover {
 
     overflow-wrap: anywhere;
 
+    line-height: 1.6;
 }
 
+
+/* =========================================================
+   Outlier Status
+========================================================= */
 
 .outlier-status {
 
@@ -1019,7 +1095,7 @@ tbody tr:hover {
 
     border-radius: 10px;
 
-    background: #f0fdf4;
+    background: var(--success-light);
 
     border: 1px solid #bbf7d0;
 
@@ -1028,18 +1104,16 @@ tbody tr:hover {
     font-size: 14px;
 
     font-weight: 600;
-
 }
 
 
 .outlier-status.has-outliers {
 
-    background: #fff7ed;
+    background: var(--warning-light);
 
     border-color: #fed7aa;
 
     color: #9a3412;
-
 }
 
 
@@ -1053,8 +1127,7 @@ tbody tr:hover {
 
     overflow-x: auto;
 
-    padding: 30px 10px 20px;
-
+    padding: 24px 8px 16px;
 }
 
 
@@ -1064,10 +1137,9 @@ tbody tr:hover {
 
     width: 100%;
 
-    min-width: 650px;
+    min-width: 600px;
 
-    min-height: 190px;
-
+    min-height: 170px;
 }
 
 
@@ -1077,16 +1149,13 @@ tbody tr:hover {
 
 .box-plot-axis {
 
-    position: absolute;
+    position: relative;
 
-    left: 0;
+    width: 100%;
 
-    right: 0;
+    height: 100px;
 
-    top: 70px;
-
-    height: 80px;
-
+    margin-top: 20px;
 }
 
 
@@ -1098,33 +1167,42 @@ tbody tr:hover {
 
     position: absolute;
 
-    top: 38px;
+    top: 50%;
 
-    height: 3px;
+    height: 4px;
+
+    transform: translateY(-50%);
 
     background: var(--primary);
 
-    border-radius: 5px;
+    border-radius: 999px;
 
+    z-index: 1;
 }
 
+
+/* =========================================================
+   Box Plot Whisker Caps
+========================================================= */
 
 .box-whisker-cap {
 
     position: absolute;
 
-    top: 23px;
+    top: 50%;
 
     width: 3px;
 
-    height: 33px;
+    height: 38px;
+
+    transform:
+        translate(-50%, -50%);
 
     background: var(--primary);
 
-    transform: translateX(-50%);
+    border-radius: 999px;
 
-    border-radius: 4px;
-
+    z-index: 2;
 }
 
 
@@ -1136,18 +1214,24 @@ tbody tr:hover {
 
     position: absolute;
 
-    top: 10px;
+    top: 50%;
 
-    height: 60px;
+    height: 58px;
 
-    background: rgba(79, 70, 229, 0.12);
+    transform: translateY(-50%);
+
+    background: var(--primary-light);
 
     border: 2px solid var(--primary);
 
-    border-radius: 10px;
+    border-radius: 8px;
 
     min-width: 8px;
 
+    z-index: 3;
+
+    box-shadow:
+        0 4px 12px rgba(79, 70, 229, 0.08);
 }
 
 
@@ -1163,14 +1247,15 @@ tbody tr:hover {
 
     bottom: -2px;
 
-    width: 4px;
-
-    background: var(--primary-dark);
-
-    border-radius: 5px;
+    width: 3px;
 
     transform: translateX(-50%);
 
+    background: var(--primary-dark);
+
+    border-radius: 999px;
+
+    z-index: 4;
 }
 
 
@@ -1182,9 +1267,10 @@ tbody tr:hover {
 
     position: absolute;
 
-    top: 27px;
+    top: 50%;
 
-    transform: translateX(-50%);
+    transform:
+        translate(-50%, -50%);
 
     color: var(--danger);
 
@@ -1192,10 +1278,12 @@ tbody tr:hover {
 
     line-height: 1;
 
+    cursor: help;
+
     z-index: 5;
 
-    cursor: default;
-
+    text-shadow:
+        0 1px 2px rgba(220, 38, 38, 0.15);
 }
 
 
@@ -1205,16 +1293,13 @@ tbody tr:hover {
 
 .box-plot-labels {
 
-    position: absolute;
+    position: relative;
 
-    left: 0;
+    height: 42px;
 
-    right: 0;
+    width: 100%;
 
-    bottom: 10px;
-
-    height: 30px;
-
+    margin-top: 2px;
 }
 
 
@@ -1222,26 +1307,33 @@ tbody tr:hover {
 
     position: absolute;
 
+    top: 0;
+
     transform: translateX(-50%);
 
     color: var(--muted);
 
-    font-size: 12px;
+    font-size: 11px;
 
-    font-weight: 600;
+    font-weight: 700;
 
     white-space: nowrap;
 
+    max-width: 100px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
 
 
 /* =========================================================
-   Constant Dataset
+   Constant Dataset Box Plot
 ========================================================= */
 
 .box-plot-constant {
 
-    min-height: 130px;
+    min-height: 110px;
 
     display: flex;
 
@@ -1251,36 +1343,26 @@ tbody tr:hover {
 
     justify-content: center;
 
-    gap: 12px;
+    gap: 14px;
 
     color: var(--muted);
 
     font-size: 14px;
-
 }
 
 
 .box-plot-point {
 
-    display: grid;
+    width: 18px;
 
-    place-items: center;
-
-    width: 48px;
-
-    height: 48px;
+    height: 18px;
 
     border-radius: 50%;
 
     background: var(--primary);
 
-    color: white;
-
-    font-weight: 700;
-
     box-shadow:
-        0 6px 16px rgba(79, 70, 229, 0.2);
-
+        0 0 0 5px var(--primary-light);
 }
 
 
@@ -1297,8 +1379,7 @@ tbody tr:hover {
 
     gap: 12px;
 
-    margin-top: 10px;
-
+    margin-top: 20px;
 }
 
 
@@ -1306,14 +1387,15 @@ tbody tr:hover {
 
     padding: 15px;
 
-    background: #fafafa;
-
     border: 1px solid var(--border);
 
-    border-radius: 12px;
+    border-radius: 11px;
+
+    background: #fafafa;
 
     text-align: center;
 
+    min-width: 0;
 }
 
 
@@ -1328,7 +1410,6 @@ tbody tr:hover {
     font-size: 12px;
 
     font-weight: 600;
-
 }
 
 
@@ -1339,12 +1420,11 @@ tbody tr:hover {
     font-size: 18px;
 
     overflow-wrap: anywhere;
-
 }
 
 
 /* =========================================================
-   Calculation History
+   History
 ========================================================= */
 
 .text-button {
@@ -1362,14 +1442,12 @@ tbody tr:hover {
     font-weight: 600;
 
     cursor: pointer;
-
 }
 
 
 .text-button:hover {
 
     text-decoration: underline;
-
 }
 
 
@@ -1386,14 +1464,12 @@ tbody tr:hover {
     padding: 16px 0;
 
     border-bottom: 1px solid var(--border);
-
 }
 
 
 .history-item:last-child {
 
     border-bottom: none;
-
 }
 
 
@@ -1406,7 +1482,6 @@ tbody tr:hover {
     gap: 4px;
 
     min-width: 0;
-
 }
 
 
@@ -1417,7 +1492,6 @@ tbody tr:hover {
     text-overflow: ellipsis;
 
     white-space: nowrap;
-
 }
 
 
@@ -1426,11 +1500,12 @@ tbody tr:hover {
     color: var(--muted);
 
     font-size: 12px;
-
 }
 
 
 .delete-history {
+
+    flex-shrink: 0;
 
     border: none;
 
@@ -1441,14 +1516,12 @@ tbody tr:hover {
     cursor: pointer;
 
     font-weight: 600;
-
 }
 
 
 .delete-history:hover {
 
     text-decoration: underline;
-
 }
 
 
@@ -1459,7 +1532,6 @@ tbody tr:hover {
     text-align: center;
 
     padding: 30px 10px;
-
 }
 
 
@@ -1476,22 +1548,6 @@ footer {
     font-size: 13px;
 
     padding: 10px 0 20px;
-
-}
-
-
-/* =========================================================
-   Focus Accessibility
-========================================================= */
-
-button:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-
-    outline: 3px solid rgba(79, 70, 229, 0.2);
-
-    outline-offset: 2px;
-
 }
 
 
@@ -1505,7 +1561,6 @@ textarea:focus-visible {
 
         grid-template-columns:
             repeat(3, minmax(0, 1fr));
-
     }
 
 
@@ -1513,7 +1568,6 @@ textarea:focus-visible {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
-
     }
 
 
@@ -1521,14 +1575,12 @@ textarea:focus-visible {
 
         grid-template-columns:
             repeat(3, minmax(0, 1fr));
-
     }
 
 
     .summary-card:last-child {
 
-        grid-column: auto;
-
+        grid-column: span 3;
     }
 
 
@@ -1536,9 +1588,7 @@ textarea:focus-visible {
 
         grid-template-columns:
             repeat(3, minmax(0, 1fr));
-
     }
-
 }
 
 
@@ -1548,41 +1598,42 @@ textarea:focus-visible {
 
 @media (max-width: 700px) {
 
-    .results-grid {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-    }
-
-
     .controls {
 
         align-items: stretch;
 
         flex-direction: column;
-
     }
 
 
     .actions {
 
         width: 100%;
-
     }
 
 
     .btn {
 
         flex: 1;
-
     }
 
 
     .outlier-grid {
 
         grid-template-columns: 1fr;
+    }
 
+
+    .summary-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .summary-card:last-child {
+
+        grid-column: span 2;
     }
 
 
@@ -1590,9 +1641,7 @@ textarea:focus-visible {
 
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
-
     }
-
 }
 
 
@@ -1607,22 +1656,32 @@ textarea:focus-visible {
         width: 94%;
 
         padding: 24px 0;
-
     }
 
 
-    .card,
-    .section-card {
+    .card {
 
         padding: 18px;
 
+        border-radius: 14px;
+    }
+
+
+    .brand {
+
+        gap: 12px;
     }
 
 
     .brand h1 {
 
         font-size: 27px;
+    }
 
+
+    .brand p {
+
+        font-size: 13px;
     }
 
 
@@ -1634,20 +1693,7 @@ textarea:focus-visible {
 
         font-size: 21px;
 
-    }
-
-
-    .results-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .analysis-grid {
-
-        grid-template-columns: 1fr;
-
+        border-radius: 12px;
     }
 
 
@@ -1658,58 +1704,31 @@ textarea:focus-visible {
 
         flex-direction: column;
 
-    }
-
-
-    .actions {
-
-        flex-direction: column;
-
-    }
-
-
-    .btn {
-
-        width: 100%;
-
-    }
-
-
-    select {
-
-        width: 100%;
-
-    }
-
-
-    .variance-control {
-
-        width: 100%;
-
-    }
-
-
-    .chart-row {
-
-        grid-template-columns:
-            55px 1fr 30px;
-
         gap: 8px;
-
     }
 
 
-    .chart-track {
+    .results-grid {
 
-        height: 24px;
+        grid-template-columns: 1fr;
+    }
 
+
+    .analysis-grid {
+
+        grid-template-columns: 1fr;
     }
 
 
     .summary-grid {
 
         grid-template-columns: 1fr;
+    }
 
+
+    .summary-card:last-child {
+
+        grid-column: auto;
     }
 
 
@@ -1720,7 +1739,45 @@ textarea:focus-visible {
         padding-top: 20px;
 
         min-width: 500px;
+    }
 
+
+    .actions {
+
+        flex-direction: column;
+    }
+
+
+    .btn {
+
+        width: 100%;
+    }
+
+
+    select {
+
+        width: 100%;
+    }
+
+
+    .variance-control {
+
+        width: 100%;
+    }
+
+
+    .chart-row {
+
+        grid-template-columns:
+            55px minmax(100px, 1fr) 30px;
+
+        gap: 8px;
+    }
+
+
+    .chart-track {
+
+        height: 24px;
     }
 
 
@@ -1729,34 +1786,33 @@ textarea:focus-visible {
         padding-left: 0;
 
         padding-right: 0;
-
     }
 
 
     .box-plot {
 
-        min-width: 600px;
-
+        min-width: 560px;
     }
 
 
     .box-plot-values {
 
         grid-template-columns: 1fr;
-
     }
 
 
     .history-item {
 
         align-items: flex-start;
-
-        flex-direction: column;
-
-        gap: 10px;
-
     }
 
+
+    .history-info strong {
+
+        white-space: normal;
+
+        overflow-wrap: anywhere;
+    }
 }
 
 
@@ -1766,407 +1822,19 @@ textarea:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
 
+    html {
+        scroll-behavior: auto;
+    }
+
+
     *,
     *::before,
     *::after {
-
-        scroll-behavior: auto !important;
 
         transition-duration: 0.01ms !important;
 
         animation-duration: 0.01ms !important;
 
         animation-iteration-count: 1 !important;
-
     }
-
-}
-
-
-/* =========================
-   Box Plot
-========================= */
-
-.box-plot-container {
-    margin-top: 28px;
-
-    padding: 30px 20px;
-
-    border: 1px solid var(--border);
-    border-radius: 14px;
-
-    background: #fafafa;
-
-    overflow-x: auto;
-}
-
-
-/* =========================
-   Box Plot Area
-========================= */
-
-.box-plot {
-    position: relative;
-
-    min-width: 650px;
-
-    padding: 50px 10px 70px;
-}
-
-
-/* =========================
-   Box Plot Axis
-========================= */
-
-.box-plot-axis {
-    position: relative;
-
-    width: 100%;
-
-    height: 80px;
-}
-
-
-/* =========================
-   Whisker
-========================= */
-
-.box-whisker {
-    position: absolute;
-
-    top: 50%;
-
-    height: 3px;
-
-    transform: translateY(-50%);
-
-    background: var(--primary);
-
-    border-radius: 10px;
-}
-
-
-/* =========================
-   Whisker Caps
-========================= */
-
-.box-whisker-cap {
-    position: absolute;
-
-    top: 50%;
-
-    width: 3px;
-    height: 34px;
-
-    transform:
-        translate(-50%, -50%);
-
-    background: var(--primary);
-
-    border-radius: 4px;
-}
-
-
-/* =========================
-   Box
-========================= */
-
-.box-plot-box {
-    position: absolute;
-
-    top: 50%;
-
-    height: 58px;
-
-    transform:
-        translateY(-50%);
-
-    min-width: 6px;
-
-    background:
-        rgba(79, 70, 229, 0.12);
-
-    border: 2px solid var(--primary);
-
-    border-radius: 8px;
-
-    box-shadow:
-        0 4px 12px
-        rgba(23, 32, 51, 0.06);
-}
-
-
-/* =========================
-   Median
-========================= */
-
-.box-median {
-    position: absolute;
-
-    top: -2px;
-
-    bottom: -2px;
-
-    width: 3px;
-
-    transform:
-        translateX(-50%);
-
-    background: var(--primary-dark);
-
-    border-radius: 4px;
-}
-
-
-/* =========================
-   Outliers
-========================= */
-
-.box-outlier {
-    position: absolute;
-
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    color: var(--danger);
-
-    font-size: 20px;
-
-    line-height: 1;
-
-    cursor: default;
-
-    z-index: 5;
-
-    transition:
-        transform 0.2s ease;
-}
-
-
-.box-outlier:hover {
-    transform:
-        translate(-50%, -50%)
-        scale(1.25);
-}
-
-
-/* =========================
-   Box Plot Labels
-========================= */
-
-.box-plot-labels {
-    position: absolute;
-
-    left: 10px;
-    right: 10px;
-
-    bottom: 0;
-
-    height: 45px;
-
-    min-width: 650px;
-}
-
-
-.box-plot-labels span {
-    position: absolute;
-
-    transform:
-        translateX(-50%);
-
-    color: var(--text);
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    white-space: nowrap;
-}
-
-
-.box-plot-labels span::before {
-    content: "";
-
-    position: absolute;
-
-    top: -14px;
-
-    left: 50%;
-
-    width: 1px;
-    height: 8px;
-
-    transform:
-        translateX(-50%);
-
-    background: var(--border);
-}
-
-
-/* =========================
-   Box Plot Values
-========================= */
-
-.box-plot-values {
-    display: grid;
-
-    grid-template-columns:
-        repeat(6, minmax(0, 1fr));
-
-    gap: 12px;
-
-    margin-top: 20px;
-}
-
-
-.box-value {
-    padding: 16px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 12px;
-
-    background: var(--card);
-
-    text-align: center;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-
-.box-value:hover {
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 7px 18px
-        rgba(23, 32, 51, 0.06);
-}
-
-
-.box-value span {
-    display: block;
-
-    color: var(--muted);
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    margin-bottom: 6px;
-}
-
-
-.box-value strong {
-    display: block;
-
-    font-size: 19px;
-
-    overflow-wrap: anywhere;
-}
-
-
-/* =========================
-   Constant Dataset
-========================= */
-
-.box-plot-constant {
-    min-height: 120px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 12px;
-
-    color: var(--muted);
-
-    font-size: 14px;
-}
-
-
-.box-plot-point {
-    width: 18px;
-    height: 18px;
-
-    display: block;
-
-    border-radius: 50%;
-
-    background: var(--primary);
-
-    box-shadow:
-        0 0 0 5px
-        rgba(79, 70, 229, 0.1);
-}
-
-
-/* =========================
-   Responsive — Tablet
-========================= */
-
-@media (max-width: 850px) {
-
-    .box-plot-values {
-        grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-    }
-
-}
-
-
-/* =========================
-   Responsive — Mobile
-========================= */
-
-@media (max-width: 600px) {
-
-    .box-plot-container {
-        padding: 20px 10px;
-    }
-
-
-    .box-plot {
-        min-width: 600px;
-
-        padding-top: 40px;
-    }
-
-
-    .box-plot-values {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-
-    .box-value {
-        padding: 14px;
-    }
-
-
-    .box-value strong {
-        font-size: 17px;
-    }
-
-}
-
-
-/* =========================
-   Very Small Screens
-========================= */
-
-@media (max-width: 400px) {
-
-    .box-plot-values {
-        grid-template-columns: 1fr;
-    }
-
 }
