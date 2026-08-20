@@ -894,3 +894,134 @@ footer {
     }
 
 }
+
+
+/* =========================
+   Outlier Detection
+========================= */
+
+.outlier-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+
+.outlier-card {
+
+    background: #fafafa;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    min-height: 110px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+}
+
+
+.outlier-card span {
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.outlier-card strong {
+
+    font-size: 24px;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================
+   Outlier Values
+========================= */
+
+.outlier-values-wrapper {
+
+    margin-top: 28px;
+}
+
+
+.outlier-values-wrapper h3 {
+
+    font-size: 16px;
+
+    margin-bottom: 14px;
+}
+
+
+.outlier-values {
+
+    padding: 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: #fafafa;
+
+    font-size: 15px;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================
+   Outlier Status
+========================= */
+
+.outlier-status {
+
+    margin-top: 18px;
+
+    padding: 14px 16px;
+
+    border-radius: 10px;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.outlier-status.has-outliers {
+
+    background: #fff7ed;
+
+    border-color: #fed7aa;
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 700px) {
+
+    .outlier-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+}
