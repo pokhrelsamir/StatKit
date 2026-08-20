@@ -1781,3 +1781,392 @@ textarea:focus-visible {
     }
 
 }
+
+
+/* =========================
+   Box Plot
+========================= */
+
+.box-plot-container {
+    margin-top: 28px;
+
+    padding: 30px 20px;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    background: #fafafa;
+
+    overflow-x: auto;
+}
+
+
+/* =========================
+   Box Plot Area
+========================= */
+
+.box-plot {
+    position: relative;
+
+    min-width: 650px;
+
+    padding: 50px 10px 70px;
+}
+
+
+/* =========================
+   Box Plot Axis
+========================= */
+
+.box-plot-axis {
+    position: relative;
+
+    width: 100%;
+
+    height: 80px;
+}
+
+
+/* =========================
+   Whisker
+========================= */
+
+.box-whisker {
+    position: absolute;
+
+    top: 50%;
+
+    height: 3px;
+
+    transform: translateY(-50%);
+
+    background: var(--primary);
+
+    border-radius: 10px;
+}
+
+
+/* =========================
+   Whisker Caps
+========================= */
+
+.box-whisker-cap {
+    position: absolute;
+
+    top: 50%;
+
+    width: 3px;
+    height: 34px;
+
+    transform:
+        translate(-50%, -50%);
+
+    background: var(--primary);
+
+    border-radius: 4px;
+}
+
+
+/* =========================
+   Box
+========================= */
+
+.box-plot-box {
+    position: absolute;
+
+    top: 50%;
+
+    height: 58px;
+
+    transform:
+        translateY(-50%);
+
+    min-width: 6px;
+
+    background:
+        rgba(79, 70, 229, 0.12);
+
+    border: 2px solid var(--primary);
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 4px 12px
+        rgba(23, 32, 51, 0.06);
+}
+
+
+/* =========================
+   Median
+========================= */
+
+.box-median {
+    position: absolute;
+
+    top: -2px;
+
+    bottom: -2px;
+
+    width: 3px;
+
+    transform:
+        translateX(-50%);
+
+    background: var(--primary-dark);
+
+    border-radius: 4px;
+}
+
+
+/* =========================
+   Outliers
+========================= */
+
+.box-outlier {
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: var(--danger);
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    cursor: default;
+
+    z-index: 5;
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.box-outlier:hover {
+    transform:
+        translate(-50%, -50%)
+        scale(1.25);
+}
+
+
+/* =========================
+   Box Plot Labels
+========================= */
+
+.box-plot-labels {
+    position: absolute;
+
+    left: 10px;
+    right: 10px;
+
+    bottom: 0;
+
+    height: 45px;
+
+    min-width: 650px;
+}
+
+
+.box-plot-labels span {
+    position: absolute;
+
+    transform:
+        translateX(-50%);
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.box-plot-labels span::before {
+    content: "";
+
+    position: absolute;
+
+    top: -14px;
+
+    left: 50%;
+
+    width: 1px;
+    height: 8px;
+
+    transform:
+        translateX(-50%);
+
+    background: var(--border);
+}
+
+
+/* =========================
+   Box Plot Values
+========================= */
+
+.box-plot-values {
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+
+.box-value {
+    padding: 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: var(--card);
+
+    text-align: center;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.box-value:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 7px 18px
+        rgba(23, 32, 51, 0.06);
+}
+
+
+.box-value span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    margin-bottom: 6px;
+}
+
+
+.box-value strong {
+    display: block;
+
+    font-size: 19px;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================
+   Constant Dataset
+========================= */
+
+.box-plot-constant {
+    min-height: 120px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+}
+
+
+.box-plot-point {
+    width: 18px;
+    height: 18px;
+
+    display: block;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    box-shadow:
+        0 0 0 5px
+        rgba(79, 70, 229, 0.1);
+}
+
+
+/* =========================
+   Responsive — Tablet
+========================= */
+
+@media (max-width: 850px) {
+
+    .box-plot-values {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================
+   Responsive — Mobile
+========================= */
+
+@media (max-width: 600px) {
+
+    .box-plot-container {
+        padding: 20px 10px;
+    }
+
+
+    .box-plot {
+        min-width: 600px;
+
+        padding-top: 40px;
+    }
+
+
+    .box-plot-values {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .box-value {
+        padding: 14px;
+    }
+
+
+    .box-value strong {
+        font-size: 17px;
+    }
+
+}
+
+
+/* =========================
+   Very Small Screens
+========================= */
+
+@media (max-width: 400px) {
+
+    .box-plot-values {
+        grid-template-columns: 1fr;
+    }
+
+}
