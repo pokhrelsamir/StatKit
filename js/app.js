@@ -10,6 +10,7 @@
  * - Frequency distribution
  * - Frequency chart
  * - Five-number summary
+ * - Outlier detection
  * - Calculation history
  * - UI interactions
  */
@@ -45,6 +46,9 @@ const analysisSection =
 
 const summarySection =
     document.getElementById("summarySection");
+
+const outlierSection =
+    document.getElementById("outlierSection");
 
 const historyList =
     document.getElementById("historyList");
@@ -152,6 +156,26 @@ const scaleQ3 =
 
 const scaleMaximum =
     document.getElementById("scaleMaximum");
+
+
+/* =========================
+   Outlier Elements
+========================= */
+
+const lowerBoundElement =
+    document.getElementById("lowerBound");
+
+const upperBoundElement =
+    document.getElementById("upperBound");
+
+const outlierCountElement =
+    document.getElementById("outlierCount");
+
+const outlierValuesElement =
+    document.getElementById("outlierValues");
+
+const outlierStatusElement =
+    document.getElementById("outlierStatus");
 
 
 /* =========================
@@ -492,9 +516,6 @@ function renderFrequencyChart(values) {
  * Median
  * Q3
  * Maximum
- *
- * The median is taken directly
- * from the calculated results.
  */
 function displaySummary(values, results) {
 
@@ -599,6 +620,120 @@ function displaySummary(values, results) {
 
         }
     );
+}
+
+
+/* =========================
+   Outlier Detection
+========================= */
+
+/**
+ * Detect outliers using the IQR method.
+ *
+ * IQR = Q3 - Q1
+ *
+ * Lower Bound = Q1 - 1.5 × IQR
+ *
+ * Upper Bound = Q3 + 1.5 × IQR
+ */
+function displayOutliers(values) {
+
+    const q1 =
+        getQ1(values);
+
+
+    const q3 =
+        getQ3(values);
+
+
+    const iqr =
+        q3 - q1;
+
+
+    const lowerBound =
+        q1 - (1.5 * iqr);
+
+
+    const upperBound =
+        q3 + (1.5 * iqr);
+
+
+    /* =========================
+       Find Outliers
+    ========================== */
+
+    const outliers =
+        values.filter(
+            value =>
+                value < lowerBound ||
+                value > upperBound
+        );
+
+
+    /* =========================
+       Display Bounds
+    ========================== */
+
+    lowerBoundElement.textContent =
+        formatNumber(lowerBound);
+
+
+    upperBoundElement.textContent =
+        formatNumber(upperBound);
+
+
+    /* =========================
+       Display Count
+    ========================== */
+
+    outlierCountElement.textContent =
+        outliers.length;
+
+
+    /* =========================
+       Display Values
+    ========================== */
+
+    if (!outliers.length) {
+
+        outlierValuesElement.textContent =
+            "No outliers detected.";
+
+    } else {
+
+        outlierValuesElement.textContent =
+            outliers
+                .map(formatNumber)
+                .join(", ");
+    }
+
+
+    /* =========================
+       Status
+    ========================== */
+
+    if (!outliers.length) {
+
+        outlierStatusElement.textContent =
+            "✓ No outliers detected.";
+
+        outlierStatusElement.classList.remove(
+            "has-outliers"
+        );
+
+    } else {
+
+        outlierStatusElement.textContent =
+            `⚠ ${outliers.length} outlier${
+                outliers.length !== 1
+                    ? "s"
+                    : ""
+            } detected.`;
+
+        outlierStatusElement.classList.add(
+            "has-outliers"
+        );
+    }
 }
 
 
@@ -709,12 +844,14 @@ function calculateDataset() {
 
 
     /* =========================
-       Display Everything
+       Display Results
     ========================== */
 
     displayResults(results);
 
+
     displayAnalysis(values);
+
 
     displaySummary(
         values,
@@ -722,7 +859,12 @@ function calculateDataset() {
     );
 
 
-    /* Show sections */
+    displayOutliers(values);
+
+
+    /* =========================
+       Show Sections
+    ========================== */
 
     showResults();
 
@@ -750,7 +892,9 @@ function calculateDataset() {
     );
 
 
-    /* Refresh history */
+    /* =========================
+       Refresh History
+    ========================== */
 
     renderHistory();
 }
@@ -971,157 +1115,3 @@ dataInput.addEventListener(
 ========================= */
 
 renderHistory();
-
-
-
-/* =========================
-   Outlier Detection
-========================= */
-
-const outlierSection =
-    document.getElementById("outlierSection");
-
-const lowerBoundElement =
-    document.getElementById("lowerBound");
-
-const upperBoundElement =
-    document.getElementById("upperBound");
-
-const outlierCountElement =
-    document.getElementById("outlierCount");
-
-const outlierValuesElement =
-    document.getElementById("outlierValues");
-
-const outlierStatusElement =
-    document.getElementById("outlierStatus");
-
-    /* =========================
-   Outlier Detection
-========================= */
-
-/**
- * Detect outliers using the IQR method.
- *
- * IQR = Q3 - Q1
- *
- * Lower Bound = Q1 - 1.5 × IQR
- *
- * Upper Bound = Q3 + 1.5 × IQR
- */
-function displayOutliers(values) {
-
-    const q1 =
-        getQ1(values);
-
-    const q3 =
-        getQ3(values);
-
-
-    const iqr =
-        q3 - q1;
-
-
-    const lowerBound =
-        q1 - (1.5 * iqr);
-
-
-    const upperBound =
-        q3 + (1.5 * iqr);
-
-
-    /* Find outliers */
-
-    const outliers =
-        values.filter(value =>
-            value < lowerBound ||
-            value > upperBound
-        );
-
-
-    /* =========================
-       Display Bounds
-    ========================== */
-
-    lowerBoundElement.textContent =
-        formatNumber(lowerBound);
-
-
-    upperBoundElement.textContent =
-        formatNumber(upperBound);
-
-
-    /* =========================
-       Display Count
-    ========================== */
-
-    outlierCountElement.textContent =
-        outliers.length;
-
-
-    /* =========================
-       Display Values
-    ========================== */
-
-    if (!outliers.length) {
-
-        outlierValuesElement.textContent =
-            "No outliers detected.";
-
-    } else {
-
-        outlierValuesElement.textContent =
-            outliers
-                .map(formatNumber)
-                .join(", ");
-    }
-
-
-    /* =========================
-       Status
-    ========================== */
-
-    if (!outliers.length) {
-
-        outlierStatusElement.textContent =
-            "✓ No outliers detected.";
-
-        outlierStatusElement.classList.remove(
-            "has-outliers"
-        );
-
-    } else {
-
-        outlierStatusElement.textContent =
-            `⚠ ${outliers.length} outlier${
-                outliers.length !== 1
-                    ? "s"
-                    : ""
-            } detected.`;
-
-        outlierStatusElement.classList.add(
-            "has-outliers"
-        );
-    }
-
-
-    /* Show section */
-
-    outlierSection.classList.remove(
-        "hidden"
-    );
-}
-
-
-displayResults(results);
-
-displayAnalysis(values);
-
-displaySummary(
-    values,
-    results
-);
-
-displayOutliers(values);
-
-showResults();
