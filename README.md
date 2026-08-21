@@ -2,7 +2,7 @@
 
 > A powerful, lightweight, browser-based statistical analysis toolkit for exploring numerical datasets with essential descriptive statistics, distribution analysis, percentiles, Z-scores, outlier detection, and visualizations.
 
-![StatKit Banner](screenshots/banner.png)
+![StatKit Banner](https://github.com/user-attachments/assets/8fb3d53e-96bf-4d5a-ba84-7ab91e0bd903)
 
 ---
 
