@@ -11,11 +11,11 @@
 
 | Main Interface | Statistical Results | Dataset Analysis |
 |:--------------:|:-------------------:|:----------------:|
-| ![Main Interface](screenshots/main-interface.png) | ![Statistical Results](screenshots/statistical-results.png) | ![Dataset Analysis](screenshots/dataset-analysis.png) |
+| ![Main Interface](https://github.com/user-attachments/assets/df91bdc5-71f2-476b-9d1a-73f513a22ac5) | ![Statistical Results](https://github.com/user-attachments/assets/5f78f5ba-7779-4240-8e66-1e3588d294a1) | ![Dataset Analysis](https://github.com/user-attachments/assets/92eb13b5-3161-4ef4-b431-6cf8224c310f) |
 
 | Box Plot | Z-Score Analysis | Calculation History |
 |:--------:|:----------------:|:-------------------:|
-| ![Box Plot](screenshots/box-plot.png) | ![Z-Score Analysis](screenshots/zscore-analysis.png) | ![Calculation History](screenshots/calculation-history.png) |
+| ![Box Plot](https://github.com/user-attachments/assets/83428b8a-fddd-44bd-8d39-f9453f1fe265) | ![Z-Score Analysis](https://github.com/user-attachments/assets/4a869cb1-3702-4dcf-b645-a807bfda5460) | ![Calculation History](https://github.com/user-attachments/assets/4cdaa582-e256-4cef-85ae-002df0173007) |
 
 ---
 
