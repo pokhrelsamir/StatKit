@@ -342,17 +342,3 @@ Try the fully deployed SubnetX application:
 </a>
 
 </div>
-
----
-
-## ⭐ Support
-
-If you find StatKit useful:
-
-- ⭐ Star the repository
-- 🍴 Fork the project
-- 🐛 Report bugs
-- 💡 Suggest features
-- 🤝 Contribute improvements
-
-Every contribution and star is appreciated!
